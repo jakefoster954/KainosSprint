@@ -96,6 +96,8 @@ INSERT INTO `BandLevel` VALUES (5, 'Consultant');
 INSERT INTO `BandLevel` VALUES (6, 'Manager');
 INSERT INTO `BandLevel` VALUES (7, 'Principal');
 INSERT INTO `BandLevel` VALUES (8, 'Leadership Community');
+INSERT INTO `BandLevel` VALUES (9, 'CTO');
+INSERT INTO `BandLevel` VALUES (10, 'CEO');
 
 INSERT INTO JobRole VALUES (1, 'AI Engineering Manager', 'Later', 'Later', 6, 1);
 INSERT INTO JobRole VALUES (2, 'Account Lead', 'Later', 'Later', 8, 3);
@@ -112,3 +114,4 @@ INSERT INTO JobRole VALUES (12, 'Commercial Consultant', 'Later', 'Later', 5, 43
 INSERT INTO JobRole VALUES (13, 'User Reseacher', 'Later', 'Later', 2, 46);
 INSERT INTO JobRole VALUES (14, 'BU COO', 'Later', 'Later', 8, 52);
 INSERT INTO JobRole VALUES (15, 'Cloud Migration Architect', 'Later', 'Later', 6, 53);
+INSERT INTO JobRole VALUES (16, 'CEO', 'Later', 'Later', 10,1);
