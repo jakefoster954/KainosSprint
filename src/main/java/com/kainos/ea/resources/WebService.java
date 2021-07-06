@@ -8,11 +8,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.kainos.ea.DBConnector;
+import com.kainos.ea.DTO;
 import freemarker.template.Template;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 @Path("/api")
@@ -29,9 +36,8 @@ public class WebService {
     @Path("/job")
     @Produces(MediaType.APPLICATION_JSON)
     //TEST job-role mock
-    public Job testJob() {
-        Job c = new Job(1, "Developer", "Guy/Lad writing code", 1_200_000);
-        return c;
+    public List<Job> testJob() throws ClassNotFoundException, IOException, SQLException {
+        return DTO.retriveJobsFromDB();
     }
 
     @GET
@@ -42,12 +48,34 @@ public class WebService {
         try {
             Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("helloWorld.ftl");
 
-            Job a = new Job(1, "Developer", "Guy/Lad writing code", 1_200_000);
-            Job b = new Job(2, "Engineer", "Guy/Lad writing code", 1_200_000);
-            Job c = new Job(3, "Tester", "Guy/Lad writing code", 1_200_000);
+            Job a = new Job();
+            Job b = new Job();
+            Job c = new Job();
 
             List<Job> jobs = Arrays.asList(
                     a, b, c);
+            Map<String, Object> root = new HashMap<String, Object>();
+            root.put("jobs", jobs);
+
+            Writer writer = new StringWriter();
+            temp.process(root, writer);
+            return Response.status(Response.Status.ACCEPTED).entity((writer.toString())).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(("Oops! Try again later")).build();
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.TEXT_HTML})
+    @Path("/job-roles")
+    public Response getJobRoles() {
+        try {
+            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles.ftl");
+
+            List<Job> jobs = DTO.retriveJobsFromDB();
+
             Map<String, Object> root = new HashMap<String, Object>();
             root.put("jobs", jobs);
 

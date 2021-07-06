@@ -10,7 +10,7 @@ public class DBConnector {
 
     private static Connection conn;
 
-    static Connection getConnection() throws IOException {
+    public static Connection getConnection() throws IOException {
 
         FileInputStream propsStream =
                 new FileInputStream("DbConnection.properties");

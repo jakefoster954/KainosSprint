@@ -12,18 +12,26 @@
 
 <div class="container">
     <table class="table">
-        <tr class="tableHeader">
+        <thead>
+        <tr>
             <td>ID</td>
             <td>Job Name</td>
-            <td>Job Spec</td>
+            <td>Job Specification</td>
+            <td>URL</td>
+            <td>Band Level ID</td>
         </tr>
+        </thead>
+        <tbody>
         <#foreach job in jobs>
         <tr class="tableBody">
             <td>${job.getJobID()}</td>
             <td>${job.getJobName()}</td>
             <td>${job.getJobSpec()}</td>
+            <td>${job.getJobUrl()}</td>
+            <td>${job.getBandLevelID()}</td>
         </tr>
         </#foreach>
+        </tbody>
     </table>
 </div>
 </body>

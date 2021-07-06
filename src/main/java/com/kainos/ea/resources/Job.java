@@ -1,34 +1,59 @@
 package com.kainos.ea.resources;
 
 public class Job {
-    public int id = 0;
-    public String jobname = "Job name";
-    public String description = "Job description";
-    public int salary = 00_00;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getJobname() {
-        return jobname;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
+    private int jobID = 0;
+    private String jobName = "Job name";
+    private String jobSpec = "Job Spec";
+    private String jobUrl = "Job URL";
+    private int bandLevelID = 0;
 
     public Job() {
     }
+    public Job(int jobID, String jobName, String jobSpec, String jobUrl, int bandLevelID) {
+        this.setJobID(jobID);
+        this.setJobName(jobName);
+        this.setJobSpec(jobSpec);
+        this.setJobUrl(jobUrl);
+        this.setBandLevelID(bandLevelID);
+    }
 
-    public Job(int id, String jobname, String description, int salary) {
-        this.id = id;
-        this.jobname = jobname;
-        this.description = description;
-        this.salary = salary;
+    public int getJobID() {
+        return jobID;
+    }
+
+    public void setJobID(int jobID) {
+        this.jobID = jobID;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getJobSpec() {
+        return jobSpec;
+    }
+
+    public void setJobSpec(String jobSpec) {
+        this.jobSpec = jobSpec;
+    }
+
+    public String getJobUrl() {
+        return jobUrl;
+    }
+
+    public void setJobUrl(String jobUrl) {
+        this.jobUrl = jobUrl;
+    }
+
+    public int getBandLevelID() {
+        return bandLevelID;
+    }
+
+    public void setBandLevelID(int bandLevelID) {
+        this.bandLevelID = bandLevelID;
     }
 }
