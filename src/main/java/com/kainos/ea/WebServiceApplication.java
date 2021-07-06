@@ -7,10 +7,16 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import java.sql.Connection;
+
 public class WebServiceApplication extends Application<WebServiceConfiguration> {
 
     public static void main(final String[] args) throws Exception {
         new WebServiceApplication().run(args);
+
+        Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Connection c = DBConnector.getConnection();
     }
 
     @Override
