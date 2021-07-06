@@ -19,9 +19,9 @@
         </tr>
         <#foreach job in jobs>
         <tr class="tableBody">
-            <td>${job.getJobID}</td>
-            <td>${job.getJobName}</td>
-            <td>${job.getJobSpec}</td>
+            <td>${job.getJobID()}</td>
+            <td>${job.getJobName()}</td>
+            <td>${job.getJobSpec()}</td>
         </tr>
         </#foreach>
     </table>
