@@ -72,7 +72,7 @@ public class WebService {
     @Path("/job-roles")
     public Response getJobRoles() {
         try {
-            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("helloWorld.ftl");
+            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles.ftl");
 
             List<Job> jobs = DTO.retriveJobsFromDB();
 

@@ -24,11 +24,11 @@
         <tbody>
         <#foreach job in jobs>
         <tr class="tableBody">
-            <td>${job.getJobID}</td>
-            <td>${job.getJobName}</td>
-            <td>${job.getJobSpec}</td>
-            <td>${job.getJobUrl}</td>
-            <td>${job.getBandLevelID}</td>
+            <td>${job.getJobID()}</td>
+            <td>${job.getJobName()}</td>
+            <td>${job.getJobSpec()}</td>
+            <td>${job.getJobUrl()}</td>
+            <td>${job.getBandLevelID()}</td>
         </tr>
         </#foreach>
         </tbody>
