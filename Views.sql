@@ -1,5 +1,5 @@
 CREATE VIEW ListJobRoles AS
-SELECT jobName AS 'Job Role' FROM JobRole ORDER BY bandLevelID DESC;
+SELECT jobName AS 'Job Role' FROM JobRole ORDER BY bandLevelID DESC, jobName;
 
 CREATE VIEW JobSpecification AS
 SELECT jobName AS 'Job Role', jobSpec AS 'Job Spec Summary', jobURL AS 'SharePoint Link' FROM JobRole;
