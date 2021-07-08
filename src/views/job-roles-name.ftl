@@ -18,14 +18,18 @@
             <th>Job Name</th>
             <th>Job Specification</th>
             <th>URL</th>
+            <th>Capability</th>
+            <th>Band Level</th>
         </tr>
         </thead>
         <tbody>
         <tr class="tableBody">
-            <td>${job.getJobID()}</td>
-            <td>${job.getJobName()}</td>
-            <td>${job.getJobSpec()}</td>
-            <td>${job.getJobUrl()}</td>
+            <td>${dto.getJobID()}</td>
+            <td>${dto.getJobName()}</td>
+            <td>${dto.getJobSpec()}</td>
+            <td>${dto.getJobUrl()}</td>
+            <td>${dto.getCapability()}</td>
+            <td>${dto.getBandLevel()}</td>
         </tr>
         </tbody>
     </table>
