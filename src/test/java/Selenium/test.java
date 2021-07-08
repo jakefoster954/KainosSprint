@@ -5,7 +5,7 @@ import Selenium.pages.JobRoles;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class test extends FunctionalTest{
+public class test extends FunctionalTest {
     @Test
     public void viewJobRole() {
         driver.get("http://localhost:8080/api/job-roles");
