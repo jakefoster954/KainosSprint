@@ -14,11 +14,11 @@
     <table class="table">
         <thead>
         <tr>
-            <td>ID</td>
-            <td>Job Name</td>
-            <td>Job Specification</td>
-            <td>URL</td>
-            <td>Band Level ID</td>
+            <th>ID</th>
+            <th>Job Name</th>
+            <th>Job Specification</th>
+            <th>URL</th>
+            <th>Band Level ID</th>
         </tr>
         </thead>
         <tbody>
