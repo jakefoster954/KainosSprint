@@ -13,9 +13,9 @@
 <div class="container">
     <table class="table">
         <tr class="tableHeader">
-            <td>ID</td>
-            <td>Job Name</td>
-            <td>Job Spec</td>
+            <th>ID</th>
+            <th>Job Name</th>
+            <th>Job Spec</th>
         </tr>
         <#foreach job in jobs>
         <tr class="tableBody">
