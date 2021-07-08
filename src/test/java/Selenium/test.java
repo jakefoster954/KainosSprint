@@ -3,7 +3,6 @@ package Selenium;
 import Selenium.pages.Job;
 import Selenium.pages.JobRoles;
 import org.junit.Test;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class test extends FunctionalTest{
