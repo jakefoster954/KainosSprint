@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TemplateConfigurationContext {
 
-    private static Configuration configuration = new Configuration(Configuration.VERSION_2_3_27);
+    private static final Configuration configuration = new Configuration(Configuration.VERSION_2_3_27);
 
     public static Configuration getConfiguration() {
         try {
