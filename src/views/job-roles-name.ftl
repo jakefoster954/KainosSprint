@@ -1,10 +1,10 @@
 <#include "/templates/baseLayout.ftl">
 
 <#macro pageContent>
-    <div class="row mt-3" style="display:flex; align-items:center;">
+    <div class="row mt-3 d-flex justify-content-center">
         <div class="card" style="width: 60rem;" id="jobCard">
             <div class="card-header text-center">
-                <h2>${job.getJobName()}</h2>
+                <h1 id=jobHeader">${job.getJobName()}</h1>
                 <h3>Capability - </h3>
                 <h3>Band Level - </h3>
             </div>
