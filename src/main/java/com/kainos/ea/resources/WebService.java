@@ -44,7 +44,7 @@ public class WebService {
     @Path("/helloWorld")
     public Response getHelloWorld() {
             List<Job> jobs = Arrays.asList(new Job());
-            return responseReuse("job-roles-name.ftl", jobs);
+            return responseReuse("helloWorld.ftl", jobs);
     }
     @GET
     @Timed
