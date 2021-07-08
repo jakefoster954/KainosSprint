@@ -20,7 +20,7 @@
         <tbody>
         <#foreach job in jobs>
         <tr class="tableBody">
-            <td>${job.getJobName()}</td>
+            <td><a href="/api/job-roles/${job.getJobNameAsURL()}">${job.getJobName()}</a></td>
         </tr>
         </#foreach>
         </tbody>

@@ -29,6 +29,10 @@ public class Job {
         return jobName;
     }
 
+    public String getJobNameAsURL() {
+        return jobName.replace(" ", "-");
+    }
+
     public void setJobName(String jobName) {
         this.jobName = jobName;
     }
