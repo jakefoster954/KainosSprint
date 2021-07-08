@@ -14,21 +14,13 @@
     <table class="table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Job Name</th>
-            <th>Job Specification</th>
-            <th>URL</th>
-            <th>Band Level ID</th>
         </tr>
         </thead>
         <tbody>
         <#foreach job in jobs>
         <tr class="tableBody">
-            <td>${job.getJobID()}</td>
             <td>${job.getJobName()}</td>
-            <td>${job.getJobSpec()}</td>
-            <td>${job.getJobUrl()}</td>
-            <td>${job.getBandLevelID()}</td>
         </tr>
         </#foreach>
         </tbody>
