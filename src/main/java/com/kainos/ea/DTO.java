@@ -17,7 +17,7 @@ public class DTO {
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.JobRole ORDER BY bandLevelID DESC;");
+                "SELECT * FROM KainosSprint.JobRole ORDER BY jobName;");
         List<Job> jobs = new ArrayList<Job>();
 
         while (rs.next())
