@@ -1,9 +1,5 @@
 <#include "/templates/baseLayout.ftl">
-</head>
-<body>
-<nav class="navbar navbar-light bg-primary">
-  <p class="navbar-brand">Kainos Sprint</h1>
-</nav>
+
 <#macro pageContent>
     <div class="row mt-3" style="display:flex; align-items:center;">
         <div class="card" style="width: 60rem;" id="jobCard">
