@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-        <#foreach job in jobs>
+        <#foreach job in dto>
         <tr class="tableBody">
             <td><a href="/api/job-roles/${job.getJobNameAsURL()}">${job.getJobName()}</a></td>
         </tr>

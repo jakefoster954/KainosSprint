@@ -17,7 +17,7 @@ public class DTO {
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.JobRole ORDER BY jobName;");
+                "SELECT * FROM KainosSprint.FullData;");
         List<Job> jobs = new ArrayList<Job>();
 
         while (rs.next())
@@ -26,7 +26,9 @@ public class DTO {
                     rs.getString("jobName"),
                     rs.getString("jobSpec"),
                     rs.getString("jobUrl"),
-                    rs.getInt("bandLevelID")));
+                    rs.getInt("bandLevelID"),
+                    rs.getString("capabilityName"),
+                    rs.getString("bandName")));
         }
         return jobs;
     }

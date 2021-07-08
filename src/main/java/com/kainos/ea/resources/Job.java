@@ -6,15 +6,19 @@ public class Job {
     private String jobSpec = "Job Spec";
     private String jobUrl = "Job URL";
     private int bandLevelID = 0;
+    private String capability = "Job Capability";
+    private String bandLevel = "Job Band Level";
 
     public Job() {
     }
-    public Job(int jobID, String jobName, String jobSpec, String jobUrl, int bandLevelID) {
+    public Job(int jobID, String jobName, String jobSpec, String jobUrl, int bandLevelID, String capability, String bandLevel) {
         this.setJobID(jobID);
         this.setJobName(jobName);
         this.setJobSpec(jobSpec);
         this.setJobUrl(jobUrl);
         this.setBandLevelID(bandLevelID);
+        this.setCapability(capability);
+        this.setBandLevel(bandLevel);
     }
 
     public int getJobID() {
@@ -60,4 +64,12 @@ public class Job {
     public void setBandLevelID(int bandLevelID) {
         this.bandLevelID = bandLevelID;
     }
+
+    public String getCapability() { return capability; }
+
+    public void setCapability(String capability) { this.capability = capability; }
+
+    public String getBandLevel() { return bandLevel; }
+
+    public void setBandLevel(String bandLevel) { this.bandLevel = bandLevel; }
 }

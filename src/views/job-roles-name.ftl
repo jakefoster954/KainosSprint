@@ -1,5 +1,4 @@
 <#include "/templates/baseLayout.ftl">
-
 <#macro pageContent>
     <div class="row mt-3" style="display:flex; align-items:center;">
         <div class="card" style="width: 60rem;" id="jobCard">
