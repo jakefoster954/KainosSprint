@@ -8,7 +8,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.kainos.ea.DBConnector;
 import com.kainos.ea.DTO;
 import freemarker.template.Template;
 
@@ -16,10 +15,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 
 @Path("/api")
@@ -97,9 +93,8 @@ public class WebService {
 
             Map<String, Object> root = new HashMap<String, Object>();
 
-            Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobName().replace(" ", "-")
-                    .equals(jobName)).findFirst().get();
-
+            Job job = DTO.retriveJobsFromDB().stream()
+                    .filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
 
             root.put("job", job);
 
