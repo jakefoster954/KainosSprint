@@ -11,12 +11,12 @@
                 <div class="jumbotron">
                     <h3 class="display-9">Job Specification Summary</h3>
                         <div class="jumbotron">
-                            <p class="card-text">${job.getJobSpec()}</p>
+                            <p class="card-text">${dto.getJobSpec()}</p>
                         </div>
                 </div>
             </div>
         <div class="card-body">
-            Find out more <a href="${job.getJobUrl()}" target="_blank" rel="noopener noreferrer">here</a>
+            Find out more <a href="${dto.getJobUrl()}" target="_blank" rel="noopener noreferrer">here</a>
         </div>
     </div>
 </div>
