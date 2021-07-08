@@ -2,7 +2,7 @@
 
 <#macro pageContent>
     <div class="row mt-3" style="display:flex; align-items:center;">
-        <div class="card"  style="width: 60rem;">
+        <div class="card" style="width: 60rem;" id="jobCard">
             <div class="card-header text-center">
                 <h2>${job.getJobName()}</h2>
                 <h3>Capability - </h3>
