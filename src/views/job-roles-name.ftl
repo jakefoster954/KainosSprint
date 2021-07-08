@@ -3,9 +3,9 @@
     <div class="row mt-3" style="display:flex; align-items:center;">
         <div class="card" style="width: 60rem;" id="jobCard">
             <div class="card-header text-center">
-                <h2>${job.getJobName()}</h2>
-                <h3>Capability - </h3>
-                <h3>Band Level - </h3>
+                <h2>${dto.getJobName()}</h2>
+                <h3>Capability - ${dto.getCapability()}</h3>
+                <h3>Band Level - ${dto.getBandLevel()}</h3>
             </div>
             <div class="card-body">
                 <div class="jumbotron">
