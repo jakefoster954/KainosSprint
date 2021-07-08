@@ -14,8 +14,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         assertTrue(job != null);
         assertTrue(job.getJobID() == jobID);
@@ -32,7 +33,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         int result = job.getJobID();
 
@@ -46,7 +49,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String result = job.getJobName();
 
@@ -60,7 +65,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String result = job.getJobNameAsURL();
 
@@ -74,7 +81,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String result = job.getJobNameAsURL();
 
@@ -88,7 +97,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String result = job.getJobSpec();
 
@@ -102,7 +113,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String result = job.getJobUrl();
 
@@ -116,7 +129,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         int result = job.getBandLevelID();
 
@@ -130,7 +145,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         int newJobId = 1;
         job.setJobID(newJobId);
@@ -145,7 +162,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String newJobName = "Test1 Name1";
         job.setJobName(newJobName);
@@ -160,7 +179,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String newJobSpec = "Test1 Spec1";
         job.setJobSpec(newJobSpec);
@@ -175,7 +196,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         String newJobUrl = "Test1 URL1";
         job.setJobUrl(newJobUrl);
@@ -190,7 +213,9 @@ public class JobTest {
         String jobSpec = "Test Spec";
         String jobUrl = "Test URL";
         int bandLevelID = 0;
-        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID);
+        String capability = "Test Capability";
+        String bandLevel = "Test Band Level";
+        Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
         int newBandLevelID = 1;
         job.setBandLevelID(newBandLevelID);

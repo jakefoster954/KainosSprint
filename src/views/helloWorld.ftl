@@ -7,7 +7,7 @@
             <th>Job Name</th>
             <th>Job Spec</th>
         </tr>
-        <#foreach job in jobs>
+        <#foreach job in dto>
         <tr class="tableBody">
             <td>${job.getJobID()}</td>
             <td>${job.getJobName()}</td>
