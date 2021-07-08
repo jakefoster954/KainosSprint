@@ -87,4 +87,23 @@ public class WebService {
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(("Oops! Try again later")).build();
     }
+    @GET
+    @Timed
+    @Produces({MediaType.TEXT_HTML})
+    @Path("/job-roles/{id}")
+    public Response getJobSpec(@PathParam("id") int id) {
+        try {
+            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles_id.ftl");
+
+            Map<String, Object> root = new HashMap<String, Object>();
+            root.put("job", DTO.retriveJobsFromDB().get(id));
+
+            Writer writer = new StringWriter();
+            temp.process(root, writer);
+            return Response.status(Response.Status.ACCEPTED).entity((writer.toString())).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(("Oops! Try again later")).build();
+    }
 }
