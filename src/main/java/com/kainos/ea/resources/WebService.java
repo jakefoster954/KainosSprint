@@ -93,11 +93,13 @@ public class WebService {
     @Path("/job-roles/{jobName}")
     public Response getJobSpec(@PathParam("jobName") String jobName) {
         try {
-            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles_id.ftl");
+            Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles-name.ftl");
 
             Map<String, Object> root = new HashMap<String, Object>();
 
-            Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobName().equals(jobName)).findFirst().get();
+            Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobName().replace(" ", "-")
+                    .equals(jobName)).findFirst().get();
+
 
             root.put("job", job);
 
