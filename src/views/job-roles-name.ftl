@@ -11,19 +11,22 @@
 </nav>
 
 <div class="container">
-<div class="row mt-3">
-    <div class="card col-8">
+<div class="row mt-3 style="display:flex; align-items:center;">
+    <div class="card"  style="width: 60rem;">
         <div class="card-header text-center">
             <h2>Job Role - ${job.getJobName()}</h2>
         </div>
         <div class="card-body">
-            <h3 class="card-title">Job Specification Summary</h3>
-            <div class="card-body">
-               <p>${job.getJobSpec()}</p>
-            </div>
+        <div class="jumbotron">
+          <div class="container">
+            <h3 class="display-9">Job Specification Summary</h3>
+            <p class="card-text">${job.getJobSpec()}</p>
+          </div>
+        </div>
+
         </div>
         <div class="card-body">
-            Find out more <a href='${job.getJobUrl()}'>here</a>
+            Find out more <a href="${job.getJobUrl()}" target="_blank" rel="noopener noreferrer">here</a>
         </div>
     </div>
 </div>
