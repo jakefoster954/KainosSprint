@@ -90,13 +90,16 @@ public class WebService {
     @GET
     @Timed
     @Produces({MediaType.TEXT_HTML})
-    @Path("/job-roles/{id}")
-    public Response getJobSpec(@PathParam("id") int id) {
+    @Path("/job-roles/{jobName}")
+    public Response getJobSpec(@PathParam("jobName") String jobName) {
         try {
             Template temp = TemplateConfigurationContext.getConfiguration().getTemplate("job-roles_id.ftl");
 
             Map<String, Object> root = new HashMap<String, Object>();
-            root.put("job", DTO.retriveJobsFromDB().get(id));
+
+            Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobName().equals(jobName)).findFirst().get();
+
+            root.put("job", job);
 
             Writer writer = new StringWriter();
             temp.process(root, writer);
