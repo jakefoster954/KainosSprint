@@ -2,6 +2,7 @@ package com.kainos.ea;
 
 import com.kainos.ea.resources.WebService;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.setup.Bootstrap;
@@ -27,6 +28,8 @@ public class WebServiceApplication extends Application<WebServiceConfiguration> 
             new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
             new EnvironmentVariableSubstitutor(false))
         );
+
+        bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/"));
     }
 
     @Override
