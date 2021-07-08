@@ -29,3 +29,5 @@ CREATE TABLE JobRole(
     FOREIGN KEY (bandLevelID) REFERENCES BandLevel (bandLevelID),
     FOREIGN KEY (jobFamilyID) REFERENCES JobFamily (jobFamilyID)
 );
+
+ALTER TABLE JobRole ADD UNIQUE (jobName);
