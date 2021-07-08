@@ -13,20 +13,20 @@
 <div class="container">
     <table class="table">
         <thead>
-            <tr>
-                <td>ID</td>
-                <td>Job Name</td>
-                <td>Job Specification</td>
-                <td>URL</td>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Job Name</th>
+            <th>Job Specification</th>
+            <th>URL</th>
+        </tr>
         </thead>
         <tbody>
-            <tr class="tableBody">
-                <td>${job.getJobID()}</td>
-                <td>${job.getJobName()}</td>
-                <td>${job.getJobSpec()}</td>
-                <td>${job.getJobUrl()}</td>
-            </tr>
+        <tr class="tableBody">
+            <td>${job.getJobID()}</td>
+            <td>${job.getJobName()}</td>
+            <td>${job.getJobSpec()}</td>
+            <td>${job.getJobUrl()}</td>
+        </tr>
         </tbody>
     </table>
 </div>
