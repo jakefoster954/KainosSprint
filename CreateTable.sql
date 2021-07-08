@@ -23,7 +23,7 @@ CREATE TABLE JobRole(
     jobID INT PRIMARY KEY AUTO_INCREMENT,
     jobName VARCHAR(50),
     jobSpec VARCHAR(300),
-    jobURL VARCHAR(150),
+    jobURL VARCHAR(300),
     bandLevelID INT,
     jobFamilyID INT,
     FOREIGN KEY (bandLevelID) REFERENCES BandLevel (bandLevelID),
@@ -31,3 +31,5 @@ CREATE TABLE JobRole(
 );
 
 ALTER TABLE JobRole ADD UNIQUE (jobName);
+ALTER TABLE JobRole MODIFY jobURL varchar(300);
+UPDATE JobRole SET jobURL ='https://kainossoftwareltd.sharepoint.com/people/Job%20Specifications/Artificial%20Intelligence/Job%20Profile%20-%20AI%20Engineering%20Manager%20(Manager).pdf' WHERE jobName = 'AI Engineering Manager';
