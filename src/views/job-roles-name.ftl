@@ -1,38 +1,29 @@
-<html>
-<head>
-    <title>Welcome!</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
-
+<#include "/templates/baseLayout.ftl">
 </head>
 <body>
 <nav class="navbar navbar-light bg-primary">
   <p class="navbar-brand">Kainos Sprint</h1>
 </nav>
-
-<div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Job Name</th>
-            <th>Job Specification</th>
-            <th>URL</th>
-            <th>Capability</th>
-            <th>Band Level</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="tableBody">
-            <td>${dto.getJobID()}</td>
-            <td>${dto.getJobName()}</td>
-            <td>${dto.getJobSpec()}</td>
-            <td>${dto.getJobUrl()}</td>
-            <td>${dto.getCapability()}</td>
-            <td>${dto.getBandLevel()}</td>
-        </tr>
-        </tbody>
-    </table>
+<#macro pageContent>
+    <div class="row mt-3" style="display:flex; align-items:center;">
+        <div class="card" style="width: 60rem;" id="jobCard">
+            <div class="card-header text-center">
+                <h2>${dto.getJobName()}</h2>
+                <h3>Capability - </h3>
+                <h3>Band Level - </h3>
+            </div>
+            <div class="card-body">
+                <div class="jumbotron">
+                    <h3 class="display-9">Job Specification Summary</h3>
+                        <div class="jumbotron">
+                            <p class="card-text">${dto.getJobSpec()}</p>
+                        </div>
+                </div>
+            </div>
+        <div class="card-body">
+            Find out more <a href="${dto.getJobUrl()}" target="_blank" rel="noopener noreferrer">here</a>
+        </div>
+    </div>
 </div>
-</body>
-</html>
+</#macro>
+
