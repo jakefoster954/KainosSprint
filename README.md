@@ -23,9 +23,9 @@ host=academy2020.cpc8rvmbbd9k.eu-west-2.rds.amazonaws.com
 For our middle layer we are using dropwizard.io to handle the get and post requests.
 
 The following routes are available for the application:
-* ....
-* ....
-* ....
+* /api/job-roles
+* /api/helloWorld
+* /api/job-roles/{jobName}
 
 ### Frontend
 
