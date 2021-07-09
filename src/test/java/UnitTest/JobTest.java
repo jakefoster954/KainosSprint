@@ -3,7 +3,8 @@ package UnitTest;
 import com.kainos.ea.resources.Job;
 import org.junit.Test;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 
 public class JobTest {
 
