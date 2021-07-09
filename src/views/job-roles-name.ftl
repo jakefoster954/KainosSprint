@@ -4,9 +4,9 @@
     <div class="row mt-3 d-flex justify-content-center">
         <div class="card" style="width: 60rem;" id="jobCard">
             <div class="card-header text-center">
-                <h1 id=jobHeader">${dto.getJobName()}</h1>
-                <h3>Capability - ${dto.getCapability()}</h3>
-                <h3>Band Level - ${dto.getBandLevel()}</h3>
+                <h1 id="jobHeader">${dto.getJobName()}</h1>
+                <h3 id="capabilityHeader">Capability - ${dto.getCapability()}</h3>
+                <h3 id="bandLevelHeader">Band Level - ${dto.getBandLevel()}</h3>
             </div>
             <div class="card-body">
                 <div class="jumbotron">
