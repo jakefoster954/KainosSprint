@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DTO {
+public abstract class DTO {
     public static List<Job> retriveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
         Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
         Connection c = DBConnector.getConnection();
