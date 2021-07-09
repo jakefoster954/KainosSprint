@@ -2,7 +2,7 @@
 
 <#macro pageContent>
     <div class="d-flex justify-content-center">
-    <table class="table table-striped table-bordered text-center w-50" id="jobTable">
+    <table class="table table-striped table-bordered text-center" style="width:70%;" id="jobTable">
         <thead>
         <tr>
             <th style="width: 60%;">Job Name</th>
