@@ -3,7 +3,8 @@ package UnitTest;
 import com.kainos.ea.resources.Job;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 
 public class JobTest {
 
@@ -18,12 +19,12 @@ public class JobTest {
         String bandLevel = "Test Band Level";
         Job job = new Job(jobID, jobName, jobSpec, jobUrl, bandLevelID, capability, bandLevel);
 
-        assertTrue(job != null);
-        assertTrue(job.getJobID() == jobID);
-        assertTrue(job.getJobName().equals(jobName));
-        assertTrue(job.getJobSpec().equals(jobSpec));
-        assertTrue(job.getJobUrl().equals(jobUrl));
-        assertTrue(job.getBandLevelID() == bandLevelID);
+        assertNotNull(job);
+        assertEquals(job.getJobID(), jobID);
+        assertEquals(job.getJobName(), jobName);
+        assertEquals(job.getJobSpec(), jobSpec);
+        assertEquals(job.getJobUrl(), jobUrl);
+        assertEquals(job.getBandLevelID(), bandLevelID);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class JobTest {
 
         int result = job.getJobID();
 
-        assertTrue(result == jobID);
+        assertEquals(result, jobID);
     }
 
     @Test
@@ -55,7 +56,7 @@ public class JobTest {
 
         String result = job.getJobName();
 
-        assertTrue(result.equals(jobName));
+        assertEquals(result, jobName);
     }
 
     @Test
@@ -71,7 +72,7 @@ public class JobTest {
 
         String result = job.getJobNameAsURL();
 
-        assertTrue(result.equals("Test-Name"));
+        assertEquals("Test-Name", result);
     }
 
     @Test
@@ -87,7 +88,7 @@ public class JobTest {
 
         String result = job.getJobNameAsURL();
 
-        assertTrue(result.equals("Test"));
+        assertEquals("Test", result);
     }
 
     @Test
@@ -103,7 +104,7 @@ public class JobTest {
 
         String result = job.getJobSpec();
 
-        assertTrue(result.equals(jobSpec));
+        assertEquals(result, jobSpec);
     }
 
     @Test
@@ -119,7 +120,7 @@ public class JobTest {
 
         String result = job.getJobUrl();
 
-        assertTrue(result.equals(jobUrl));
+        assertEquals(result, jobUrl);
     }
 
     @Test
@@ -135,7 +136,7 @@ public class JobTest {
 
         int result = job.getBandLevelID();
 
-        assertTrue(result == bandLevelID);
+        assertEquals(result, bandLevelID);
     }
 
     @Test
@@ -152,7 +153,7 @@ public class JobTest {
         int newJobId = 1;
         job.setJobID(newJobId);
 
-        assertTrue(job.getJobID() == newJobId);
+        assertEquals(job.getJobID(), newJobId);
     }
 
     @Test
@@ -169,7 +170,7 @@ public class JobTest {
         String newJobName = "Test1 Name1";
         job.setJobName(newJobName);
 
-        assertTrue(job.getJobName().equals(newJobName));
+        assertEquals(job.getJobName(), newJobName);
     }
 
     @Test
@@ -186,7 +187,7 @@ public class JobTest {
         String newJobSpec = "Test1 Spec1";
         job.setJobSpec(newJobSpec);
 
-        assertTrue(job.getJobSpec().equals(newJobSpec));
+        assertEquals(job.getJobSpec(), newJobSpec);
     }
 
     @Test
@@ -203,7 +204,7 @@ public class JobTest {
         String newJobUrl = "Test1 URL1";
         job.setJobUrl(newJobUrl);
 
-        assertTrue(job.getJobUrl().equals(newJobUrl));
+        assertEquals(job.getJobUrl(), newJobUrl);
     }
 
     @Test
@@ -220,6 +221,6 @@ public class JobTest {
         int newBandLevelID = 1;
         job.setBandLevelID(newBandLevelID);
 
-        assertTrue(job.getBandLevelID() == newBandLevelID);
+        assertEquals(job.getBandLevelID(), newBandLevelID);
     }
 }

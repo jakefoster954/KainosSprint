@@ -25,7 +25,7 @@ public class WebService {
         try {
             Template temp = TemplateConfigurationContext.getConfiguration().getTemplate(template);
 
-            Map<String, Object> root = new HashMap<String, Object>();
+            Map<String, Object> root = new HashMap<>();
 
             root.put("dto", dto);
 
