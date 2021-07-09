@@ -8,14 +8,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Job extends PageObject {
-    @FindBy(xpath = "/html/body/div/div/div/div[1]/h1") private WebElement jobRoleTitle;
+    @FindBy(id = "jobHeader") private WebElement jobRoleTitle;
+    @FindBy(id = "capabilityHeader") private WebElement capabilityName;
+    @FindBy(id = "bandLevelHeader") private WebElement bandLevelName;
 
     public Job(WebDriver driver) {
         super(driver);
     }
 
     public String getJobRoleTitle() {
-        //WebDriverWait wait = new WebDriverWait(driver, 5);
         return jobRoleTitle.getText();
+    }
+
+    public String getCapabilityName() {
+        return capabilityName.getText();
+    }
+
+    public String getBandLevelName() {
+        return bandLevelName.getText();
     }
 }
