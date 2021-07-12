@@ -3,7 +3,11 @@ package com.kainos.ea;
 import com.kainos.ea.resources.Job;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
