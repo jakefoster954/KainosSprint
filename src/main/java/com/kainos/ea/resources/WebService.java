@@ -2,20 +2,13 @@ package com.kainos.ea.resources;
 
 import com.codahale.metrics.annotation.Timed;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
-import freemarker.template.Template;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -50,10 +43,11 @@ public class WebService {
     }
 
     @POST
+    @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")
-    public Response.Status addJobRole() throws SQLException, IOException, ClassNotFoundException {
-        DTO.addJobToDB(new Job());
+    public Response.Status addJobRole(Job job) throws SQLException, IOException {
+        DTO.addJobToDB(job);
         return Response.Status.OK;
     }
 }

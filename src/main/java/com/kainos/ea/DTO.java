@@ -33,7 +33,8 @@ public abstract class DTO {
                     rs.getString("jobUrl"),
                     rs.getInt("bandLevelID"),
                     rs.getString("capabilityName"),
-                    rs.getString("bandName")));
+                    rs.getString("bandName"),
+                    rs.getInt("jobFamilyID")));
         }
         return jobs;
     }
@@ -42,18 +43,16 @@ public abstract class DTO {
 
         Statement st = c.createStatement();
 
-        String query = "INSERT INTO JobRole VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
+                "VALUES ( ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStmt = c.prepareStatement(query);
 
-        preparedStmt.setInt(1, job.getJobID());
-        preparedStmt.setString(2, job.getJobName());
-        preparedStmt.setString(3, job.getJobSpec());
-        preparedStmt.setString(4, job.getJobUrl());
-        preparedStmt.setInt(5, job.getBandLevelID());
-        //TODO: change to real FamilyID, when it's implemented
-        preparedStmt.setInt(6, 22);
-
+        preparedStmt.setString(1, job.getJobName());
+        preparedStmt.setString(2, job.getJobSpec());
+        preparedStmt.setString(3, job.getJobUrl());
+        preparedStmt.setInt(4, job.getBandLevelID());
+        preparedStmt.setInt(5, job.getJobFamilyID());
 
         preparedStmt.execute();
         return job;
