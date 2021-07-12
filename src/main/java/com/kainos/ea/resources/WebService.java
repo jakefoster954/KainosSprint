@@ -55,6 +55,7 @@ public class WebService {
     @Path("/capabilities")
     public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
         List<Capability> capabilities = DTO.retriveCapabilitiesFromDB();
+        System.out.println(capabilities);
         return capabilities;
     }
 

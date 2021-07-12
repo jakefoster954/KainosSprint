@@ -44,7 +44,7 @@ public abstract class DTO {
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.Capabilities;");
+                "SELECT * FROM KainosSprint.Capability;");
         List<Capability> capabilities = new ArrayList<Capability>();
 
         while (rs.next())
