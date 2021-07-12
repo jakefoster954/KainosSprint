@@ -15,7 +15,6 @@ public class Capability {
         this.leadName = leadName;
         this.leadMessage = leadMessage;
         this.leadPhoto = leadPhoto;
-
     }
 
     public int getCapabilityID() {
