@@ -50,7 +50,10 @@ public abstract class DTO {
         while (rs.next())
         {
             capabilities.add(new Capability(rs.getInt("capabilityID"),
-                    rs.getString("capabilityName")));
+                    rs.getString("capabilityName"),
+                    rs.getString("leadName"),
+                    rs.getString("leadMessage"),
+                    rs.getString("leadPhoto")));
         }
         return capabilities;
     }
