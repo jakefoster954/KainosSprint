@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class test extends FunctionalTest {
     @Test
     public void viewJobRole() {
-        driver.get("http://localhost:8080/api/job-roles");
+        driver.get("http://localhost:3000/job-roles");
         JobRoles jobRoles = new JobRoles(driver);
         String jobRoleTitle = jobRoles.getTestJobResult();
         jobRoles.clickTestJobResult();

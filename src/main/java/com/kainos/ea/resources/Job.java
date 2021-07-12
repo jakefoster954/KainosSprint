@@ -5,7 +5,7 @@ public class Job {
     private String jobName = "Job name";
     private String jobSpec = "Job Spec";
     private String jobUrl = "Job URL";
-    private int bandLevelID = 0;
+    private int bandLevelID = 10;
     private String capability = "Job Capability";
     private String bandLevel = "Job Band Level";
 
