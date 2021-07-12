@@ -49,6 +49,15 @@ public class WebService {
         return job;
     }
 
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/capabilities")
+    public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
+        List<Capability> capabilities = DTO.retriveCapabilitiesFromDB();
+        return capabilities;
+    }
+
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")

@@ -1,5 +1,6 @@
 package com.kainos.ea;
 
+import com.kainos.ea.resources.Capability;
 import com.kainos.ea.resources.Job;
 
 import java.io.IOException;
@@ -37,6 +38,24 @@ public abstract class DTO {
         }
         return jobs;
     }
+
+    public static List<Capability> retriveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(
+                "SELECT * FROM KainosSprint.Capabilities;");
+        List<Capability> capabilities = new ArrayList<Capability>();
+
+        while (rs.next())
+        {
+            capabilities.add(new Capability(rs.getInt("capabilityID"),
+                    rs.getString("capabilityName")));
+        }
+        return capabilities;
+    }
+
+
     public static Job addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
