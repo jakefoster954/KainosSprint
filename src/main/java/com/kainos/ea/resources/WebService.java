@@ -3,20 +3,18 @@ package com.kainos.ea.resources;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
-import freemarker.template.Template;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -28,8 +26,8 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/helloWorld")
     public List<Job> getHelloWorld() {
-        List<Job> jobs = Arrays.asList(new Job());
-        return jobs;
+            List<Job> jobs = Arrays.asList(new Job());
+            return jobs;
     }
 
     @GET
@@ -37,8 +35,8 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles")
     public List<Job> getJobRoles() throws SQLException, IOException, ClassNotFoundException {
-        List<Job> jobs = DTO.retriveJobsFromDB();
-        return jobs;
+            List<Job> jobs = DTO.retrieveJobsFromDB();
+            return jobs;
     }
 
     @GET
@@ -46,29 +44,55 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles/{jobName}")
     public Job getJobSpec(@PathParam("jobName") String jobName) throws SQLException, IOException, ClassNotFoundException {
-        Job job = DTO.retriveJobsFromDB().stream().filter(j -> j.getJobNameAsURL().equals(jobName)).findFirst().get();
+        Job job = DTO.retrieveJobsFromDB().stream().filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
         return job;
     }
 
-    @POST
+    @GET
+    @Timed
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/add-job")
-    public Response.Status addJobRole() throws SQLException, IOException, ClassNotFoundException {
-        DTO.addJobToDB(new Job());
+    @Path("/capabilities")
+    public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
+        List<Capability> capabilities = DTO.retrieveCapabilitiesFromDB();
+        System.out.println(capabilities);
+        return capabilities;
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/capabilities/{leadName}")
+    public Capability getLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println(leadName);
+        Capability capability = DTO.retrieveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
+        return capability;
+    }
+
+    @DELETE
+    @Timed
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/delete-job")
+    public Response.Status deleteJobRole(Job job) throws SQLException, IOException, ClassNotFoundException {
+        DTO.deleteJobFromDB(job);
         return Response.Status.OK;
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
+    @Path("/add-job")
+    public Response.Status addJobRole(Job job) throws SQLException, IOException {
+        DTO.addJobToDB(job);
+        return Response.Status.OK;
+    }
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/login")
-    public Response login(User user) throws SQLException, IOException, ClassNotFoundException {
-        List<User> users = DTO.loginUser(user);
-        if (users.isEmpty()) {
-            return Response.status(401).entity("{\"error\": \"User not found\"}").build();
-        } else {
-            User loggedInUser = users.get(0);
-            return Response.ok("{\"userType\": \"" + loggedInUser.getUserType() + "\"}").build();
-        }
+    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
+        DTO.loginUser(user);
+        return Response.Status.OK;
     }
 }
