@@ -9,41 +9,41 @@ public class Job {
     /**
      * The unique ID for the job.
      */
-    private int jobID = 0;
+    private int jobID;
 
     /**
      * The name of the job.
      */
-    private String jobName = "Job name";
+    private String jobName;
 
     /**
      * A short description of the job.
      */
-    private String jobSpec = "Job Spec";
+    private String jobSpec;
 
     /**
      * A URL that points to the official documentation for the job.
      */
-    private String jobUrl = "Job URL";
+    private String jobUrl;
     /**
      * The band level ID of the band level the job is in.
      */
-    private int bandLevelID = 10;
+    private int bandLevelID;
 
     /**
      * The name of the band level.
      */
-    private String bandLevelName = "Job Band Level";
+    private String bandLevelName;
 
     /**
      * The name of the job capability.
      */
-    private String capabilityName = "Job Capability";
+    private String capabilityName;
 
     /**
      * The ID of the job family.
      */
-    private int jobFamilyID = 1;
+    private int jobFamilyID;
 
     /**
      * Create a job with test data.

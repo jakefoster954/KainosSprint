@@ -12,6 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class WebService {
     }
 
     /**
+     @deprecated
      * Get a list of job roles from the database.
      * @return Full list of Job objects.
      * @throws SQLException Invalid SQL syntax
@@ -56,7 +59,7 @@ public class WebService {
     }
 
     /**
-     *
+     * @deprecated
      * @param jobName The job that has been selected.
      * @return All the information about the required job.
      * @throws SQLException Invalid SQL syntax
@@ -73,6 +76,7 @@ public class WebService {
     }
 
     /**
+     * @deprecated
      * Get a list of all the capabilities.
      * @return A list of all the capabilities
      * @throws SQLException Invalid SQL syntax
@@ -90,7 +94,7 @@ public class WebService {
     }
 
     /**
-     *
+     * @deprecated
      * @param leadName The name of the lead for the selected capability.
      * @return An object containing all the information on the capability lead.
      * @throws SQLException Invalid SQL syntax
@@ -105,6 +109,74 @@ public class WebService {
         System.out.println(leadName);
         Capability capability = DTO.retrieveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
         return capability;
+    }
+
+    // New endpoints
+
+    /**
+     * Get a list of all capability names in the Database.
+     * @return a String representing a list of JSON objects. Each object contains "name" as the key and the capability name as the value.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getCapabilities")
+    public String getCapabilityNames() throws SQLException, IOException {
+        JSONArray capabilities = DTO.getCapabilities();
+        return capabilities.toString();
+    }
+
+    /**
+     * Get a list of all band level names in the Database.
+     * @return a String representing a list of JSON objects. Each object contains "name" as the key and the band level name as the value.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getBandLevels")
+    public String getBandNames() throws SQLException, IOException {
+        JSONArray bandNames = DTO.getBandNames();
+        return bandNames.toString();
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getJobNames")
+    public String getJobNames() throws SQLException, IOException {
+        JSONArray jobNames = DTO.getJobNames();
+        return jobNames.toString();
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getJobData/{jobName}")
+    public String getJobData(@PathParam("jobName") String jobName) throws SQLException, IOException {
+        JSONObject jobData = DTO.getJobData(jobName);
+        return jobData.toString();
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getCapabilityLeads")
+    public String getCapabilityLeads() throws SQLException, IOException {
+        JSONArray capabilityLeads = DTO.getCapabilityLeads();
+        return capabilityLeads.toString();
+    }
+
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getCapabilityData/{leadName}")
+    public String getCapabilityLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException {
+        JSONObject capabilityLeadData = DTO.getCapabilityLeadData(leadName);
+        return capabilityLeadData.toString();
     }
 
     /**
