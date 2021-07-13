@@ -56,6 +56,7 @@ public abstract class DTO {
                     rs.getString("leadMessage"),
                     rs.getString("leadPhoto")));
         }
+
         return capabilities;
     }
 

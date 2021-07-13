@@ -61,6 +61,16 @@ public class WebService {
         return capabilities;
     }
 
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/capabilities/{leadName}")
+    public Capability getLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println(leadName);
+        Capability capability = DTO.retriveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
+        return capability;
+    }
+
     @DELETE
     @Timed
     @Consumes({MediaType.APPLICATION_JSON})
