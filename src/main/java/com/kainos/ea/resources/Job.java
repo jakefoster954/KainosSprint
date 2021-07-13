@@ -46,7 +46,7 @@ public class Job {
     private int jobFamilyID = 1;
 
     /**
-     * Crate a job with test data.
+     * Create a job with test data.
      */
     public Job() {
         jobID = 0;
@@ -148,7 +148,7 @@ public class Job {
     }
 
     /**
-     * Set the url where you can find out more .
+     * Set the url where you can find out more information about the job.
      * @param jobUrl A url pointing to the official documentation for this job.
      */
     public void setJobUrl(String jobUrl) {
@@ -196,14 +196,14 @@ public class Job {
     public void setBandLevelName(String bandLevelName) { this.bandLevelName = bandLevelName; }
 
     /**
-     * Get the ID of the job family
-     * @return The ID of the job family
+     * Get the ID of the job family.
+     * @return The ID of the job family.
      */
     public int getJobFamilyID() { return jobFamilyID; }
 
     /**
      * Set the ID that corresponds to the job family.
-     * @param jobFamilyID The ID of the job family
+     * @param jobFamilyID The ID of the job family.
      */
     public void setJobFamilyID(int jobFamilyID) { this.jobFamilyID = jobFamilyID; }
 
