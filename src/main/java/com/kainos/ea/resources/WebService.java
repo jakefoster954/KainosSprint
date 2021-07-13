@@ -2,6 +2,7 @@ package com.kainos.ea.resources;
 
 import com.codahale.metrics.annotation.Timed;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -64,6 +65,15 @@ public class WebService {
     @Path("/add-job")
     public Response.Status addJobRole() throws SQLException, IOException, ClassNotFoundException {
         DTO.addJobToDB(new Job());
+        return Response.Status.OK;
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/login")
+    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
+        DTO.loginUser(user);
         return Response.Status.OK;
     }
 }
