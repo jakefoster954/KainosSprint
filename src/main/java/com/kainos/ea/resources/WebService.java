@@ -18,9 +18,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Handles all api calls from our front end application.
+ */
 @Path("/api")
 public class WebService {
 
+    /**
+     * @deprecated Should only be used if database is unavailable.
+     * Get a fake list of job roles.
+     * Was created to aid those who couldn't connect to VPN.
+     * @return Full list of Jobs in the database.
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -30,6 +39,13 @@ public class WebService {
             return jobs;
     }
 
+    /**
+     * Get a list of job roles from the database.
+     * @return Full list of Job objects.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -39,6 +55,14 @@ public class WebService {
             return jobs;
     }
 
+    /**
+     *
+     * @param jobName The job that has been selected.
+     * @return All the information about the required job.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -48,6 +72,13 @@ public class WebService {
         return job;
     }
 
+    /**
+     * Get a list of all the capabilities.
+     * @return A list of all the capabilities
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -58,6 +89,14 @@ public class WebService {
         return capabilities;
     }
 
+    /**
+     *
+     * @param leadName The name of the lead for the selected capability.
+     * @return An object containing all the information on the capability lead.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -68,6 +107,14 @@ public class WebService {
         return capability;
     }
 
+    /**
+     * Delete a job from the database
+     * @param job The job you wish to delete
+     * @return Status 200. OK.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @DELETE
     @Timed
     @Consumes({MediaType.APPLICATION_JSON})
@@ -78,6 +125,13 @@ public class WebService {
         return Response.Status.OK;
     }
 
+    /**
+     *
+     * @param job An instance of the Job class containing all the data requested by the job class.
+     * @return Status 200. OK.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -86,7 +140,15 @@ public class WebService {
         DTO.addJobToDB(job);
         return Response.Status.OK;
     }
-    
+
+    /**
+     *
+     * @param user An object holding the username and a hash of the password.
+     * @return Status 200. OK if valid credentials. Status 401. Unauthorized otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * @throws ClassNotFoundException ???
+     */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
