@@ -3,6 +3,7 @@ package com.kainos.ea.resources;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -47,12 +48,40 @@ public class WebService {
         return job;
     }
 
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/capabilities")
+    public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
+        List<Capability> capabilities = DTO.retriveCapabilitiesFromDB();
+        System.out.println(capabilities);
+        return capabilities;
+    }
+
+    @DELETE
+    @Timed
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/delete-job")
+    public Response.Status deleteJobRole(Job job) throws SQLException, IOException, ClassNotFoundException {
+        DTO.deleteJobFromDB(job);
+        return Response.Status.OK;
+    }
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")
     public Response.Status addJobRole(Job job) throws SQLException, IOException {
         DTO.addJobToDB(job);
+    }
+    
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/login")
+    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
+        DTO.loginUser(user);
         return Response.Status.OK;
     }
 }
