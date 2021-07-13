@@ -20,7 +20,7 @@ public abstract class DTO {
     protected DTO() throws ClassNotFoundException {
     }
 
-    public static List<Job> retriveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Job> retrieveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
@@ -36,12 +36,13 @@ public abstract class DTO {
                     rs.getString("jobUrl"),
                     rs.getInt("bandLevelID"),
                     rs.getString("capabilityName"),
-                    rs.getString("bandName")));
+                    rs.getString("bandName"),
+                    rs.getInt("jobFamilyID")));
         }
         return jobs;
     }
 
-    public static List<Capability> retriveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Capability> retrieveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
@@ -58,6 +59,26 @@ public abstract class DTO {
         }
 
         return capabilities;
+    }
+
+    public static Job addJobToDB(Job job) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        Statement st = c.createStatement();
+
+        String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
+                "VALUES ( ?, ?, ?, ?, ?)";
+
+        PreparedStatement preparedStmt = c.prepareStatement(query);
+
+        preparedStmt.setString(1, job.getJobName());
+        preparedStmt.setString(2, job.getJobSpec());
+        preparedStmt.setString(3, job.getJobUrl());
+        preparedStmt.setInt(4, job.getBandLevelID());
+        preparedStmt.setInt(5, job.getJobFamilyID());
+
+        preparedStmt.execute();
+        return job;
     }
 
     public static void deleteJobFromDB (Job job) throws IOException, SQLException {

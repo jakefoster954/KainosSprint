@@ -5,19 +5,16 @@ import com.codahale.metrics.annotation.Timed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.POST;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
-import freemarker.template.Template;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -38,7 +35,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles")
     public List<Job> getJobRoles() throws SQLException, IOException, ClassNotFoundException {
-            List<Job> jobs = DTO.retriveJobsFromDB();
+            List<Job> jobs = DTO.retrieveJobsFromDB();
             return jobs;
     }
 
@@ -47,7 +44,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles/{jobName}")
     public Job getJobSpec(@PathParam("jobName") String jobName) throws SQLException, IOException, ClassNotFoundException {
-        Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
+        Job job = DTO.retrieveJobsFromDB().stream().filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
         return job;
     }
 
@@ -56,7 +53,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/capabilities")
     public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
-        List<Capability> capabilities = DTO.retriveCapabilitiesFromDB();
+        List<Capability> capabilities = DTO.retrieveCapabilitiesFromDB();
         System.out.println(capabilities);
         return capabilities;
     }
@@ -81,6 +78,15 @@ public class WebService {
         return Response.Status.OK;
     }
 
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/add-job")
+    public Response.Status addJobRole(Job job) throws SQLException, IOException {
+        DTO.addJobToDB(job);
+        return Response.Status.OK;
+    }
+    
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
