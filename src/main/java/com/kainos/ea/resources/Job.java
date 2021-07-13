@@ -8,7 +8,7 @@ public class Job {
     private int bandLevelID = 10;
     private String capability = "Job Capability";
     private String bandLevel = "Job Band Level";
-    public int jobFamilyID = 1;
+    private int jobFamilyID = 1;
 
     public Job() {
     }
