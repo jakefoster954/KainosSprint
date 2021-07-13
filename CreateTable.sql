@@ -58,3 +58,21 @@ ALTER TABLE Capability ADD UNIQUE (capabilityName);
 ALTER TABLE BandLevel ADD UNIQUE (bandName);
 ALTER TABLE JobFamily ADD CONSTRAINT familyCapability UNIQUE (familyName, capabilityID);
 ALTER TABLE JobRole ADD CONSTRAINT jobRoleUnique UNIQUE (jobName, bandLevelID, jobFamilyID);
+
+UPDATE Capability SET leadName ='Josh Kelso', leadPhoto = 'https://tinyurl.com/5bdwfj42', leadMessage = 'Howdy Partner' WHERE capabilityID = '1';
+UPDATE Capability SET leadName ='Andrew Barker', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '2';
+UPDATE Capability SET leadName ='Marcus Gormley', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '3';
+UPDATE Capability SET leadName ='Simon Toothill', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '4';
+UPDATE Capability SET leadName ='Michal Gorski', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '5';
+UPDATE Capability SET leadName ='Chris Burns', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '6';
+UPDATE Capability SET leadName ='Aislinn McBride', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '7';
+UPDATE Capability SET leadName ='Joe McGrath', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '8';
+UPDATE Capability SET leadName ='Dougie Johnson', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '9';
+UPDATE Capability SET leadName ='Aislinn McBride', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '10';
+UPDATE Capability SET leadName ='Andy Burnage', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '11';
+UPDATE Capability SET leadName ='Eimear Rooney', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '12';
+UPDATE Capability SET leadName ='Peter Gallagher', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '13';
+UPDATE Capability SET leadName ='Mack Magill', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '14';
+UPDATE Capability SET leadName ='Andrew Walker', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '15';
+
+ALTER TABLE Capability ADD leadPhoto VARCHAR(1000);
