@@ -11,21 +11,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class DTO {
     Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
 
-    protected DTO() throws ClassNotFoundException {
+    private DTO() throws ClassNotFoundException {
     }
 
-    public static List<Job> retrieveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Job> retrieveJobsFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.FullData;");
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.FullData;");
+        ResultSet rs = preparedStmt.executeQuery();
+
         List<Job> jobs = new ArrayList<Job>();
 
         while (rs.next())
@@ -42,7 +41,7 @@ public abstract class DTO {
         return jobs;
     }
 
-    public static List<Capability> retrieveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Capability> retrieveCapabilitiesFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
@@ -63,8 +62,6 @@ public abstract class DTO {
 
     public static Job addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
-
-        Statement st = c.createStatement();
 
         String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
                 "VALUES ( ?, ?, ?, ?, ?)";
@@ -93,7 +90,7 @@ public abstract class DTO {
         preparedStmt.execute();
     }
 
-    public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {
+    public static List<User> loginUser(User user) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement("SELECT * FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
@@ -112,5 +109,31 @@ public abstract class DTO {
         }
 
         return users;
+    }
+
+    public static Boolean editJobFromDB(Job job) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        String query = String.format("SELECT `jobName` FROM KainosSprint.JobRole WHERE `jobID` = %d ", job.getJobID());
+        PreparedStatement preparedStmt = c.prepareStatement(query);
+
+        ResultSet rs = preparedStmt.executeQuery();
+        if(!rs.next())
+            return false;
+
+        query = String.format("UPDATE `KainosSprint`.`JobRole` " +
+                "SET `jobName`= ?, `jobSpec`= ?, `jobURL` = ?, `bandLevelID` = ?, `jobFamilyID`= ? " +
+                "WHERE `jobID`= %d ", job.getJobID());
+
+        preparedStmt = c.prepareStatement(query);
+
+        preparedStmt.setString(1, job.getJobName());
+        preparedStmt.setString(2, job.getJobSpec());
+        preparedStmt.setString(3, job.getJobUrl());
+        preparedStmt.setInt(4, job.getBandLevelID());
+        preparedStmt.setInt(5, job.getJobFamilyID());
+
+        preparedStmt.execute();
+        return true;
     }
 }
