@@ -2,6 +2,7 @@ package com.kainos.ea;
 
 import com.kainos.ea.resources.Capability;
 import com.kainos.ea.resources.Job;
+import com.kainos.ea.resources.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class DTO {
@@ -67,5 +69,26 @@ public abstract class DTO {
         preparedStmt.setString(1, job.getJobName());
 
         preparedStmt.execute();
+    }
+
+    public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement st = c.prepareStatement("SELECT * FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
+        st.setString(1,user.getUserEmail());
+        st.setString(2,user.getUserPassword());
+
+        ResultSet rs = st.executeQuery();
+        List<User> users = new ArrayList<User>();
+
+        while (rs.next())
+        {
+            users.add(new User(rs.getInt("userID"),
+                    rs.getString("userEmail"),
+                    rs.getString("userPassword"),
+                    rs.getString("userType")));
+        }
+
+        return users;
     }
 }

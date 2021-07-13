@@ -70,4 +70,13 @@ public class WebService {
         DTO.deleteJobFromDB(job);
         return Response.Status.OK;
     }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/login")
+    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
+        DTO.loginUser(user);
+        return Response.Status.OK;
+    }
 }
