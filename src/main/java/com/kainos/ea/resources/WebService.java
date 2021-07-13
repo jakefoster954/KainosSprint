@@ -64,7 +64,7 @@ public class WebService {
     @Path("/capabilities/{leadName}")
     public Capability getLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException, ClassNotFoundException {
         System.out.println(leadName);
-        Capability capability = DTO.retriveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
+        Capability capability = DTO.retrieveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
         return capability;
     }
 
