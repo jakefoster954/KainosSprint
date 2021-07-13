@@ -111,12 +111,13 @@ public class WebService {
         return capability;
     }
 
-    // New endpoints
+    // NEW ENDPOINTS
 
     /**
      * Get a list of all capability names in the Database.
-     * @return a String representing a list of JSON objects. Each object contains "name" as the key and the capability name as the value.
-     * @throws SQLException Invalid SQL syntax
+     * @return A String representing a list of JSON objects.
+     * Each object contains "name" as the key and the capability name as the value.
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @GET
@@ -130,8 +131,9 @@ public class WebService {
 
     /**
      * Get a list of all band level names in the Database.
-     * @return a String representing a list of JSON objects. Each object contains "name" as the key and the band level name as the value.
-     * @throws SQLException Invalid SQL syntax
+     * Each object contains "name" as the key and the band level name as the value.
+     * @return A String representing a list of JSON objects.
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @GET
@@ -143,6 +145,14 @@ public class WebService {
         return bandNames.toString();
     }
 
+    /**
+     * Get the data required to display the <code>job-roles</code> table.
+     * Each JSON object returned will contain <code>jobName</code>,
+     * <code>capabilityName</code> and <code>bandName</code>.
+     * @return A String representing a list of JSON objects.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -152,6 +162,15 @@ public class WebService {
         return jobNames.toString();
     }
 
+    /**
+     * Get the data required to display a job info page.
+     * The json object will contain the <code>jobName</code>, <code>jobSpec</code>, <code>jobUrl</code>,
+     * <code>capabilityName</code> and <code>bandName</code>.
+     * @param jobName The name of the job you want data on.
+     * @return A String representing a json object that contains all the info about a specific job.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -161,6 +180,13 @@ public class WebService {
         return jobData.toString();
     }
 
+    /**
+     * Get the data required to display the <code>capabilities</code> table.
+     * Each JSON object returned will contain <code>capabilityName</code> and the <code>leadName</code>.
+     * @return a String representing a list of JSON objects.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -170,6 +196,16 @@ public class WebService {
         return capabilityLeads.toString();
     }
 
+    /**
+     * Get the data required to display a capability lead info page.
+     * The json object will contain the <code>capabilityName</code>, <code>leadName</code>,
+     * <code>leadMessage</code> and <code>leadPhoto</code>.
+     * The <code>leadPhoto</code> is stored as a url in the database.
+     * @param leadName The name of the capability lead you want data on.
+     * @return A String representing a json object that contains all the info about a specific job.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
@@ -198,7 +234,7 @@ public class WebService {
     }
 
     /**
-     *
+     * Add a job to the database.
      * @param job An instance of the Job class containing all the data requested by the job class.
      * @return Status 200. OK.
      * @throws SQLException Invalid SQL syntax
@@ -214,7 +250,8 @@ public class WebService {
     }
 
     /**
-     *
+     * Authenticate yourself to gain access to pages on the site.
+     * Access to pages is dependent on account permission level.
      * @param user An object holding the username and a hash of the password.
      * @return Status 200. OK if valid credentials. Status 401. Unauthorized otherwise.
      * @throws SQLException Invalid SQL syntax

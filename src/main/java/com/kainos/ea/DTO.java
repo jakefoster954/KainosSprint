@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class DTO {
     /**
@@ -24,7 +23,6 @@ public abstract class DTO {
 
     /**
      * Base constructor. Never used.
-     *
      * @throws ClassNotFoundException ???
      */
     private DTO() throws ClassNotFoundException {
@@ -34,18 +32,17 @@ public abstract class DTO {
      * @return A list of job objects.
      * @throws SQLException           Invalid SQL syntax
      * @throws IOException            Create connection to database.
-     * @throws ClassNotFoundException ???
      * @deprecated Should use smaller method calls instead.
      * Get all jobs from the data base.
      * Returns jobID, jobName, jobSpec, jobUrl, bandLevelID, bandName, jobFamilyID for all jobs in the database.
      */
-    public static List<Job> retrieveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Job> retrieveJobsFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
                 "SELECT * FROM KainosSprint.FullData;");
-        List<Job> jobs = new ArrayList<Job>();
+        List<Job> jobs = new ArrayList<>();
 
         while (rs.next()) {
             jobs.add(new Job(rs.getInt("jobID"),
@@ -64,18 +61,17 @@ public abstract class DTO {
      * @return A list of capability objects.
      * @throws SQLException           Invalid SQL syntax.
      * @throws IOException            Create connection to database.
-     * @throws ClassNotFoundException ???
      * @deprecated Should use smaller method calls instead.
      * Get all capabilities from the database.
      * Returns capabilityID, capabilityName, leadName, leadMessage, leadPhoto for all capabilities in the database.
      */
-    public static List<Capability> retrieveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Capability> retrieveCapabilitiesFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
                 "SELECT * FROM KainosSprint.Capability;");
-        List<Capability> capabilities = new ArrayList<Capability>();
+        List<Capability> capabilities = new ArrayList<>();
 
         while (rs.next()) {
             capabilities.add(new Capability(rs.getInt("capabilityID"),
@@ -91,7 +87,6 @@ public abstract class DTO {
     public static Job addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
 
         String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
                 "VALUES ( ?, ?, ?, ?, ?)";
@@ -120,7 +115,7 @@ public abstract class DTO {
         preparedStmt.execute();
     }
 
-    public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {
+    public static List<User> loginUser(User user) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
