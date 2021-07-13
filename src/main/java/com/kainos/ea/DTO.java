@@ -20,7 +20,7 @@ public abstract class DTO {
     protected DTO() throws ClassNotFoundException {
     }
 
-    public static List<Job> retriveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Job> retrieveJobsFromDB() throws ClassNotFoundException, IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
@@ -42,7 +42,7 @@ public abstract class DTO {
         return jobs;
     }
 
-    public static List<Capability> retriveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
+    public static List<Capability> retrieveCapabilitiesFromDB() throws ClassNotFoundException, IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
@@ -78,6 +78,18 @@ public abstract class DTO {
 
         preparedStmt.execute();
         return job;
+    }
+
+    public static void deleteJobFromDB (Job job) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        String query = "DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)";
+
+        PreparedStatement preparedStmt = c.prepareStatement(query);
+
+        preparedStmt.setString(1, job.getJobName());
+
+        preparedStmt.execute();
     }
 
     public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {
