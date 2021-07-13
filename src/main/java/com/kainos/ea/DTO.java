@@ -69,7 +69,7 @@ public abstract class DTO {
         st.setString(2,user.getUserPassword());
 
         ResultSet rs = st.executeQuery();
-        List<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<>();
 
         while (rs.next())
         {

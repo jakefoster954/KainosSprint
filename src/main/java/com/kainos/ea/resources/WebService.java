@@ -23,8 +23,8 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/helloWorld")
     public List<Job> getHelloWorld() {
-            List<Job> jobs = Arrays.asList(new Job());
-            return jobs;
+        List<Job> jobs = Arrays.asList(new Job());
+        return jobs;
     }
 
     @GET
@@ -32,8 +32,8 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles")
     public List<Job> getJobRoles() throws SQLException, IOException, ClassNotFoundException {
-            List<Job> jobs = DTO.retriveJobsFromDB();
-            return jobs;
+        List<Job> jobs = DTO.retriveJobsFromDB();
+        return jobs;
     }
 
     @GET
@@ -41,7 +41,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles/{jobName}")
     public Job getJobSpec(@PathParam("jobName") String jobName) throws SQLException, IOException, ClassNotFoundException {
-        Job job = DTO.retriveJobsFromDB().stream().filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
+        Job job = DTO.retriveJobsFromDB().stream().filter(j -> j.getJobNameAsURL().equals(jobName)).findFirst().get();
         return job;
     }
 
@@ -57,8 +57,13 @@ public class WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/login")
-    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
-        DTO.loginUser(user);
-        return Response.Status.OK;
+    public Response login(User user) throws SQLException, IOException, ClassNotFoundException {
+        List<User> users = DTO.loginUser(user);
+        if (users.isEmpty()) {
+            return Response.status(401).entity("{\"error\": \"User not found\"}").build();
+        } else {
+            User loggedInUser = users.get(0);
+            return Response.ok("{\"userType\": \"" + loggedInUser.getUserType() + "\"}").build();
+        }
     }
 }
