@@ -21,6 +21,7 @@ public abstract class DTO {
      */
     Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
 
+
     /**
      * Base constructor. Never used.
      * @throws ClassNotFoundException ???
@@ -39,9 +40,9 @@ public abstract class DTO {
     public static List<Job> retrieveJobsFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.FullData;");
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.FullData;");
+        ResultSet rs = preparedStmt.executeQuery();
+      
         List<Job> jobs = new ArrayList<>();
 
         while (rs.next()) {
@@ -86,7 +87,6 @@ public abstract class DTO {
 
     public static Job addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
-
 
         String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
                 "VALUES ( ?, ?, ?, ?, ?)";
@@ -305,5 +305,31 @@ public abstract class DTO {
             capabilityData.put("leadPhoto", rs.getString("leadPhoto"));
         }
         return capabilityData;
+    }
+
+    public static Boolean editJobFromDB(Job job) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        String query = String.format("SELECT `jobName` FROM KainosSprint.JobRole WHERE `jobID` = %d ", job.getJobID());
+        PreparedStatement preparedStmt = c.prepareStatement(query);
+
+        ResultSet rs = preparedStmt.executeQuery();
+        if(!rs.next())
+            return false;
+
+        query = String.format("UPDATE `KainosSprint`.`JobRole` " +
+                "SET `jobName`= ?, `jobSpec`= ?, `jobURL` = ?, `bandLevelID` = ?, `jobFamilyID`= ? " +
+                "WHERE `jobID`= %d ", job.getJobID());
+
+        preparedStmt = c.prepareStatement(query);
+
+        preparedStmt.setString(1, job.getJobName());
+        preparedStmt.setString(2, job.getJobSpec());
+        preparedStmt.setString(3, job.getJobUrl());
+        preparedStmt.setInt(4, job.getBandLevelID());
+        preparedStmt.setInt(5, job.getJobFamilyID());
+
+        preparedStmt.execute();
+        return true;
     }
 }
