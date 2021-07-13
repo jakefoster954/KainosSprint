@@ -86,6 +86,36 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.lazerycode.jmeter</groupId>
+        <artifactId>jmeter-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>configuration</id>
+            <goals>
+              <goal>configure</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jmeter-tests</id>
+            <goals>
+              <goal>jmeter</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>jmeter-check-results</id>
+            <goals>
+              <goal>results</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <testFilesIncluded>
+            <jMeterTestFile>jMeterTest.jmx</jMeterTestFile>
+          </testFilesIncluded>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -98,14 +128,6 @@
   </profiles>
   <reporting>
     <plugins>
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.1.2</version>
-        <configuration>
-          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.3.0</version>
