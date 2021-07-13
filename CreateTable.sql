@@ -33,7 +33,7 @@ CREATE TABLE JobRole(
 CREATE TABLE `User`(
     userID INT PRIMARY KEY AUTO_INCREMENT,
     userEmail VARCHAR(50),
-	userPassword VARCHAR(50),
+    userPassword VARCHAR(50),
     userType ENUM('ADMIN','EMPLOYEE')
 );
 

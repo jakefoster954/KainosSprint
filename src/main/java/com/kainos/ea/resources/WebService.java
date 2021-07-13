@@ -91,8 +91,13 @@ public class WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/login")
-    public Response.Status login(User user) throws SQLException, IOException, ClassNotFoundException {
-        DTO.loginUser(user);
-        return Response.Status.OK;
+    public Response login(User user) throws SQLException, IOException, ClassNotFoundException {
+        List<User> users = DTO.loginUser(user);
+        if (users.isEmpty()) {
+            return Response.status(401).entity("{\"error\": \"User not found\"}").build();
+        } else {
+            User loggedInUser = users.get(0);
+            return Response.ok("{\"userType\": \"" + loggedInUser.getUserType() + "\"}").build();
+        }
     }
 }
