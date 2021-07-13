@@ -80,4 +80,8 @@ fabric.properties
 # DS_Store
 .DS_Store
 
+# JMeter
 /jmeter.log
+
+# Javadocs
+src/javadocs
