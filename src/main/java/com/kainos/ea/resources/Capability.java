@@ -37,6 +37,10 @@ public class Capability {
         return leadName;
     }
 
+    public String getLeadNameAsURL() {
+        return leadName.replace(" ", "-");
+    }
+
     public void setLeadName(String leadName) {
         this.leadName = leadName;
     }
