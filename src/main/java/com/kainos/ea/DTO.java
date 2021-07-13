@@ -56,11 +56,6 @@ public abstract class DTO {
                     rs.getString("leadPhoto")));
         }
 
-        // Program doesn't handle NULL. This removes the null for the one field that currently has them
-        for (Capability capability: capabilities) {
-            capability.setLeadPhoto("");
-        }
-
         return capabilities;
     }
 
