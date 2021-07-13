@@ -49,8 +49,7 @@ public abstract class DTO {
                 "SELECT * FROM KainosSprint.Capability;");
         List<Capability> capabilities = new ArrayList<Capability>();
 
-        while (rs.next())
-        {
+        while (rs.next()) {
             capabilities.add(new Capability(rs.getInt("capabilityID"),
                     rs.getString("capabilityName"),
                     rs.getString("leadName"),
@@ -60,27 +59,16 @@ public abstract class DTO {
         return capabilities;
     }
 
-
-    public static Job addJobToDB(Job job) throws IOException, SQLException {
+    public static void deleteJobFromDB (Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-
-        String query = "INSERT INTO JobRole VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)";
 
         PreparedStatement preparedStmt = c.prepareStatement(query);
 
-        preparedStmt.setInt(1, job.getJobID());
-        preparedStmt.setString(2, job.getJobName());
-        preparedStmt.setString(3, job.getJobSpec());
-        preparedStmt.setString(4, job.getJobUrl());
-        preparedStmt.setInt(5, job.getBandLevelID());
-        //TODO: change to real FamilyID, when it's implemented
-        preparedStmt.setInt(6, 22);
-
+        preparedStmt.setString(1, job.getJobName());
 
         preparedStmt.execute();
-        return job;
     }
 
     public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {

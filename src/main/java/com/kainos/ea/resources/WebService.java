@@ -3,6 +3,7 @@ package com.kainos.ea.resources;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -60,11 +61,13 @@ public class WebService {
         return capabilities;
     }
 
-    @POST
+    @DELETE
+    @Timed
+    @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/add-job")
-    public Response.Status addJobRole() throws SQLException, IOException, ClassNotFoundException {
-        DTO.addJobToDB(new Job());
+    @Path("/delete-job")
+    public Response.Status deleteJobRole(Job job) throws SQLException, IOException, ClassNotFoundException {
+        DTO.deleteJobFromDB(job);
         return Response.Status.OK;
     }
 
