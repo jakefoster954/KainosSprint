@@ -30,8 +30,7 @@ CREATE TABLE JobRole(
     FOREIGN KEY (jobFamilyID) REFERENCES JobFamily (jobFamilyID)
 );
 
-CREATE TABLE `User`
-(
+CREATE TABLE `User`(
     userID INT PRIMARY KEY AUTO_INCREMENT,
     userEmail VARCHAR(50),
 	userPassword VARCHAR(50),
