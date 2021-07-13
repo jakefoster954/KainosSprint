@@ -2,6 +2,7 @@ package com.kainos.ea;
 
 import com.kainos.ea.resources.Capability;
 import com.kainos.ea.resources.Job;
+import com.kainos.ea.resources.User;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class DTO {
@@ -47,8 +49,7 @@ public abstract class DTO {
                 "SELECT * FROM KainosSprint.Capability;");
         List<Capability> capabilities = new ArrayList<Capability>();
 
-        while (rs.next())
-        {
+        while (rs.next()) {
             capabilities.add(new Capability(rs.getInt("capabilityID"),
                     rs.getString("capabilityName"),
                     rs.getString("leadName"),
@@ -59,26 +60,36 @@ public abstract class DTO {
         return capabilities;
     }
 
-
-    public static Job addJobToDB(Job job) throws IOException, SQLException {
+    public static void deleteJobFromDB (Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-
-        String query = "INSERT INTO JobRole VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)";
 
         PreparedStatement preparedStmt = c.prepareStatement(query);
 
-        preparedStmt.setInt(1, job.getJobID());
-        preparedStmt.setString(2, job.getJobName());
-        preparedStmt.setString(3, job.getJobSpec());
-        preparedStmt.setString(4, job.getJobUrl());
-        preparedStmt.setInt(5, job.getBandLevelID());
-        //TODO: change to real FamilyID, when it's implemented
-        preparedStmt.setInt(6, 22);
-
+        preparedStmt.setString(1, job.getJobName());
 
         preparedStmt.execute();
-        return job;
+    }
+
+    public static List<User> loginUser(User user) throws ClassNotFoundException, IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement st = c.prepareStatement("SELECT * FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
+        st.setString(1,user.getUserEmail());
+        st.setString(2,user.getUserPassword());
+
+        ResultSet rs = st.executeQuery();
+        List<User> users = new ArrayList<User>();
+
+        while (rs.next())
+        {
+            users.add(new User(rs.getInt("userID"),
+                    rs.getString("userEmail"),
+                    rs.getString("userPassword"),
+                    rs.getString("userType")));
+        }
+
+        return users;
     }
 }
