@@ -15,11 +15,14 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles all connections to the database.
+ */
 public abstract class DTO {
     /**
      * Ensures the JDBC driver is available.
      */
-    Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
+    private Class driver = Class.forName("com.mysql.cj.jdbc.Driver");
 
 
     /**
@@ -251,8 +254,8 @@ public abstract class DTO {
     }
 
     /**
-     * Get a list of json objects where each JSON object holds the <code>capabilityName</> and the <code>leadName</code>.
-     * The <code>capabilityName</> is the name of the capability and the <code>leadName</> is the leader of said capability.
+     * Get a list of json objects where each JSON object holds the <code>capabilityName</code> and the <code>leadName</code>.
+     * The <code>capabilityName</code> is the name of the capability and the <code>leadName</code> is the leader of said capability.
      * The length of the list is equivalent to the number of capabilities in the table.
      * Each capability only has one lead.
      * The <code>CapabilityName</code> is a unique field in the database.
