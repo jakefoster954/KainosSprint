@@ -209,7 +209,7 @@ public class WebService {
     @GET
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/getCapabilityData/{leadName}")
+    @Path("/getCapabilityLeadData/{leadName}")
     public String getCapabilityLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException {
         JSONObject capabilityLeadData = DTO.getCapabilityLeadData(leadName);
         return capabilityLeadData.toString();
