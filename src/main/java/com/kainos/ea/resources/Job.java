@@ -46,17 +46,23 @@ public class Job {
     private int jobFamilyID;
 
     /**
+     * The ID of the job family.
+     */
+    private String jobFamilyName;
+
+    /**
      * Create a job with test data.
      */
     public Job() {
         jobID = 0;
-        jobName = "Job name";
-        jobSpec = "Job Spec";
-        jobUrl = "Job URL";
-        bandLevelID = 10;
-        bandLevelName = "Job Band Level";
-        capabilityName = "Job Capability";
-        jobFamilyID = 1;
+        jobName = "Default job name";
+        jobSpec = "Default job Spec";
+        jobUrl = "Default job URL";
+        bandLevelID = 99;
+        bandLevelName = "Default job Band Level name";
+        capabilityName = "Default job Capability";
+        jobFamilyID = 11;
+        jobFamilyName = "Default job Job Family name";
     }
 
     /**
@@ -207,4 +213,15 @@ public class Job {
      */
     public void setJobFamilyID(int jobFamilyID) { this.jobFamilyID = jobFamilyID; }
 
+    /**
+     * Get the Name of the job family.
+     * @return The Name of the job family.
+     */
+    public String getJobFamilyName() { return jobFamilyName; }
+
+    /**
+     * Set the Name that corresponds to the job family.
+     * @param jobFamilyName The Name of the job family.
+     */
+    public void setJobFamilyName(String jobFamilyName) { this.jobFamilyName = jobFamilyName; }
 }

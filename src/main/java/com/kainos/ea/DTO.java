@@ -72,9 +72,9 @@ public abstract class DTO {
     public static List<Capability> retrieveCapabilitiesFromDB() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery(
-                "SELECT * FROM KainosSprint.Capability;");
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.Capability;");
+        ResultSet rs = preparedStmt.executeQuery();
+
         List<Capability> capabilities = new ArrayList<>();
 
         while (rs.next()) {
@@ -88,13 +88,21 @@ public abstract class DTO {
         return capabilities;
     }
 
-    public static Job addJobToDB(Job job) throws IOException, SQLException {
+    public static void addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        String query = "INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
-                "VALUES ( ?, ?, ?, ?, ?)";
+        PreparedStatement preparedStmt = c.prepareStatement(String.format("SELECT JobFamily.jobFamilyID, JobFamily.familyName, BandLevel.bandName, BandLevel.bandLevelID FROM JobRole, JobFamily, BandLevel " +
+                        "WHERE familyName = '%s' " +
+                        "AND bandName = '%s' ;", job.getJobFamilyName(), job.getBandLevelName()));
+        ResultSet rs = preparedStmt.executeQuery();
+        if (rs.next()) {
+            job.setJobFamilyID(rs.getInt("jobFamilyID"));
+            job.setBandLevelID(rs.getInt("bandLevelID"));
+        }
+        //return 404?
 
-        PreparedStatement preparedStmt = c.prepareStatement(query);
+        preparedStmt = c.prepareStatement("INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
+                "VALUES ( ?, ?, ?, ?, ?)");
 
         preparedStmt.setString(1, job.getJobName());
         preparedStmt.setString(2, job.getJobSpec());
@@ -103,7 +111,6 @@ public abstract class DTO {
         preparedStmt.setInt(5, job.getJobFamilyID());
 
         preparedStmt.execute();
-        return job;
     }
 
     public static void deleteJobFromDB(Job job) throws IOException, SQLException {
@@ -266,9 +273,8 @@ public abstract class DTO {
     public static JSONArray getCapabilityLeads() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery(
-                "SELECT capabilityName, leadName FROM KainosSprint.Capability;");
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName, leadName FROM KainosSprint.Capability;");
+        ResultSet rs = preparedStmt.executeQuery();
 
         JSONArray capabilities = new JSONArray();
         while (rs.next()) {
