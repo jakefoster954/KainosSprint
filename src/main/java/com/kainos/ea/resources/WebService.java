@@ -266,7 +266,7 @@ public class WebService {
     public Response login(User user) throws SQLException, IOException, ClassNotFoundException {
         List<User> users = DTO.loginUser(user);
         if (users.isEmpty()) {
-            return Response.status(401).entity("{\"error\": \"User not found\"}").build();
+            return Response.status(401).entity("{\"error\": \"Incorrect user email and/or password\"}").build();
         } else {
             User loggedInUser = users.get(0);
             return Response.ok("{\"userType\": \"" + loggedInUser.getUserType() + "\"}").build();
