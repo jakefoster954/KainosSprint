@@ -228,9 +228,9 @@ public class WebService {
     @Timed
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/delete-job")
-    public Response.Status deleteJobRole(Job job) throws SQLException, IOException, ClassNotFoundException {
-        DTO.deleteJobFromDB(job);
+    @Path("/delete-job/{jobRoleName}")
+    public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName) throws SQLException, IOException, ClassNotFoundException {
+        DTO.deleteJobFromDB(jobRoleName);
         return Response.Status.OK;
     }
 
