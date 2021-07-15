@@ -91,15 +91,17 @@ public abstract class DTO {
     public static void addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement preparedStmt = c.prepareStatement(String.format("SELECT JobFamily.jobFamilyID, JobFamily.familyName, BandLevel.bandName, BandLevel.bandLevelID FROM JobRole, JobFamily, BandLevel " +
-                        "WHERE familyName = '%s' " +
-                        "AND bandName = '%s' ;", job.getJobFamilyName(), job.getBandLevelName()));
+        PreparedStatement preparedStmt = c.prepareStatement(
+          String.format("SELECT capabilityName, jobFamilyID FROM FullData WHERE capabilityName = '%s' ", job.getCapabilityName()));
         ResultSet rs = preparedStmt.executeQuery();
-        if (rs.next()) {
+        if (rs.next())
             job.setJobFamilyID(rs.getInt("jobFamilyID"));
+
+        preparedStmt = c.prepareStatement(
+                String.format("SELECT bandLevelID, bandName FROM FullData WHERE bandName = '%s' ;", job.getBandLevelName()));
+        rs = preparedStmt.executeQuery();
+        if (rs.next())
             job.setBandLevelID(rs.getInt("bandLevelID"));
-        }
-        //return 404?
 
         preparedStmt = c.prepareStatement("INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
                 "VALUES ( ?, ?, ?, ?, ?)");
