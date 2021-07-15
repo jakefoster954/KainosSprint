@@ -115,14 +115,14 @@ public abstract class DTO {
         preparedStmt.execute();
     }
 
-    public static void deleteJobFromDB(Job job) throws IOException, SQLException {
+    public static void deleteJobFromDB(String jobRoleName) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         String query = "DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)";
 
         PreparedStatement preparedStmt = c.prepareStatement(query);
 
-        preparedStmt.setString(1, job.getJobName());
+        preparedStmt.setString(1, jobRoleName);
 
         preparedStmt.execute();
     }
