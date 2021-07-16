@@ -26,6 +26,18 @@ The following routes are available for the application:
 * /api/job-roles
 * /api/helloWorld
 * /api/job-roles/{jobName}
+* /api/capabilities
+* /api/capabilities/{leadName}
+* /api/getCapabilities
+* /api/getBandLevels
+* /api/getJobNames
+* /api/getJobData/{jobName}
+* /api/getCapabilityLeads
+* /api/getCapabilityLeadData/{leadName}
+* /api/delete-job/{jobRoleName}
+* /api/add-job
+* /api/login
+* /api/edit-job
 
 ### Frontend
 
