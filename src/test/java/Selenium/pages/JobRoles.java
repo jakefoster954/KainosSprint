@@ -17,6 +17,7 @@ public class JobRoles extends PageObject {
     @FindBy(id = "bandLevel") private WebElement bandNameInput;
     //TODO: Remove dodgey xpath
     @FindBy(xpath = "/html/body/div/main/div/div/div[2]/div/div[2]/form/button") private WebElement submit;
+    @FindBy(linkText = "Logout") private WebElement logout;
 
     public JobRoles(WebDriver driver) {
         super(driver);
@@ -40,6 +41,10 @@ public class JobRoles extends PageObject {
 
     public void setJobURL(String jobURL){
         jobURLInput.sendKeys(jobURL);
+    }
+
+    public void clickLogout(){
+        logout.click();
     }
 
     public void setCapability(String capability){

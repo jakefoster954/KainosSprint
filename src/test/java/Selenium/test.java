@@ -85,6 +85,7 @@ public class test extends FunctionalTest {
         job.clickDelete();
         expectedException.expect(TimeoutException.class);
         jobRoles.clickSpecificJob(jobName);
+        jobRoles.clickLogout();
     }
 
     @Test
@@ -110,6 +111,7 @@ public class test extends FunctionalTest {
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageLink), errorMessageLink);
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageCapabiity), errorMessageCapabiity);
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageBandLevel), errorMessageBandLevel);
+        jobRoles.clickLogout();
     }
 
     @Test
@@ -129,6 +131,7 @@ public class test extends FunctionalTest {
         jobRoles.clickSubmit();
 
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageName), errorMessageName);
+        jobRoles.clickLogout();
     }
 
 }
