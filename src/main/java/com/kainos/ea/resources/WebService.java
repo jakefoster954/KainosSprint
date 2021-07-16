@@ -218,26 +218,24 @@ public class WebService {
 
     /**
      * Delete a job from the database
-     * @param job The job you wish to delete
-     * @return Status 200. OK.
+     * @param jobRoleName The job you wish to delete
+     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
-     * @throws ClassNotFoundException ???
      */
     @DELETE
     @Timed
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/delete-job/{jobRoleName}")
-    public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName) throws SQLException, IOException, ClassNotFoundException {
-        DTO.deleteJobFromDB(jobRoleName);
-        return Response.Status.OK;
+    public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName) throws SQLException, IOException {
+        return DTO.deleteJobFromDB(jobRoleName);
     }
 
     /**
      * Add a job to the database.
      * @param job An instance of the Job class containing all the data requested by the job class.
-     * @return Status 200. OK.
+     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      */
@@ -246,8 +244,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")
     public Response.Status addJobRole(Job job) throws SQLException, IOException {
-        DTO.addJobToDB(job);
-        return Response.Status.OK;
+        return(DTO.addJobToDB(job));
     }
 
     /**
@@ -257,29 +254,30 @@ public class WebService {
      * @return Status 200. OK if valid credentials. Status 401. Unauthorized otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
-     * @throws ClassNotFoundException ???
      */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/login")
-    public Response login(User user) throws SQLException, IOException, ClassNotFoundException {
-        List<User> users = DTO.loginUser(user);
-        if (users.isEmpty()) {
+    public Response login(User user) throws SQLException, IOException {
+        User loggedUser = DTO.loginUser(user);
+        if (loggedUser==null)
             return Response.status(401).entity("{\"error\": \"Incorrect user email and/or password\"}").build();
-        } else {
-            User loggedInUser = users.get(0);
-            return Response.ok("{\"userType\": \"" + loggedInUser.getUserType() + "\"}").build();
-        }
+        return Response.ok("{\"userType\": \"" + loggedUser.getUserType() + "\"}").build();
     }
 
+    /**
+     * Edit a job from database
+     * @param job The job you wish to edit.
+     * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/edit-job")
     public Response.Status editJobRole(Job job) throws SQLException, IOException {
-        if(DTO.editJobFromDB(job))
-            return Response.Status.OK;
-        return Response.Status.NOT_FOUND;
+        return DTO.editJobFromDB(job);
     }
 }
