@@ -13,19 +13,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * Handles all api calls from our front end application.
  */
 @Path("/api")
 public class WebService {
+    private static final Logger logger = LogManager.getLogger(WebService.class);
 
     /**
      * @deprecated Should only be used if database is unavailable.
@@ -38,6 +43,12 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/helloWorld")
     public List<Job> getHelloWorld() {
+            logger.debug("debug");
+            logger.trace("trace");
+            logger.info("info");
+            logger.warn("warn");
+            logger.error("error");
+            logger.fatal("fatal");
             List<Job> jobs = Arrays.asList(new Job());
             return jobs;
     }

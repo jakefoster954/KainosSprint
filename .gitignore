@@ -85,3 +85,6 @@ fabric.properties
 
 # Javadocs
 src/javadocs
+
+# Logfiles
+log/*.log
