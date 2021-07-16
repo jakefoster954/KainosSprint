@@ -16,6 +16,6 @@ Configuration:
       level: ALL
       AppenderRef:
         - ref: Console_Appender
-          level: ALL
+          level: debug
         - ref: File_Appender
           level: ERROR
