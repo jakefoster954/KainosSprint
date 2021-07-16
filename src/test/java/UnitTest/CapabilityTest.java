@@ -6,7 +6,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
-public class LeadTest {
+public class CapabilityTest {
     @Test
     public void constructor_ValidArguments_ObjectCreated() {
         int capabilityID = 0;
