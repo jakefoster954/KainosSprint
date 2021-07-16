@@ -244,8 +244,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")
     public Response.Status addJobRole(Job job) throws SQLException, IOException {
-        DTO.addJobToDB(job);
-        return Response.Status.OK;
+        return(DTO.addJobToDB(job));
     }
 
     /**
