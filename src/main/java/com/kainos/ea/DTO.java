@@ -6,6 +6,7 @@ import com.kainos.ea.resources.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -88,20 +89,22 @@ public abstract class DTO {
         return capabilities;
     }
 
-    public static void addJobToDB(Job job) throws IOException, SQLException {
+    public static Response.Status addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement preparedStmt = c.prepareStatement(
-          String.format("SELECT capabilityName, jobFamilyID FROM FullData WHERE capabilityName = '%s' ", job.getCapabilityName()));
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName, jobFamilyID " +
+                "FROM FullData WHERE capabilityName = ? ");
+        preparedStmt.setString(1, job.getCapabilityName());
         ResultSet rs = preparedStmt.executeQuery();
-        if (rs.next())
+        if (rs.next()){
             job.setJobFamilyID(rs.getInt("jobFamilyID"));
-
-        preparedStmt = c.prepareStatement(
-                String.format("SELECT bandLevelID, bandName FROM FullData WHERE bandName = '%s' ;", job.getBandLevelName()));
-        rs = preparedStmt.executeQuery();
+            preparedStmt = c.prepareStatement("SELECT bandLevelID, bandName FROM FullData WHERE bandName = ? ;");
+            preparedStmt.setString(1, job.getBandLevelName());
+            rs = preparedStmt.executeQuery();}
         if (rs.next())
             job.setBandLevelID(rs.getInt("bandLevelID"));
+        else
+            return Response.Status.INTERNAL_SERVER_ERROR;
 
         preparedStmt = c.prepareStatement("INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
                 "VALUES ( ?, ?, ?, ?, ?)");
@@ -111,20 +114,24 @@ public abstract class DTO {
         preparedStmt.setString(3, job.getJobUrl());
         preparedStmt.setInt(4, job.getBandLevelID());
         preparedStmt.setInt(5, job.getJobFamilyID());
-
         preparedStmt.execute();
+
+        return Response.Status.OK;
     }
 
-    public static void deleteJobFromDB(String jobRoleName) throws IOException, SQLException {
+    public static Response.Status deleteJobFromDB(String jobRoleName) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        String query = "DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)";
-
-        PreparedStatement preparedStmt = c.prepareStatement(query);
-
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT `jobName` FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)");
         preparedStmt.setString(1, jobRoleName);
+        ResultSet rs = preparedStmt.executeQuery();
+        if (!rs.next())
+            return Response.Status.INTERNAL_SERVER_ERROR;
 
+        preparedStmt = c.prepareStatement("DELETE FROM `KainosSprint`.`JobRole` WHERE (`jobName` = ?)");
+        preparedStmt.setString(1, jobRoleName);
         preparedStmt.execute();
+        return Response.Status.OK;
     }
 
     public static List<User> loginUser(User user) throws IOException, SQLException {
@@ -318,29 +325,28 @@ public abstract class DTO {
         return capabilityData;
     }
 
-    public static Boolean editJobFromDB(Job job) throws IOException, SQLException {
+    public static Response.Status editJobFromDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        String query = String.format("SELECT `jobName` FROM KainosSprint.JobRole WHERE `jobID` = %d ", job.getJobID());
-        PreparedStatement preparedStmt = c.prepareStatement(query);
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT `jobName` FROM KainosSprint.JobRole WHERE `jobID` = ? ");
+        preparedStmt.setInt(1, job.getJobID());
 
         ResultSet rs = preparedStmt.executeQuery();
         if(!rs.next())
-            return false;
+            return Response.Status.INTERNAL_SERVER_ERROR;
 
-        query = String.format("UPDATE `KainosSprint`.`JobRole` " +
+        preparedStmt = c.prepareStatement("UPDATE `KainosSprint`.`JobRole` " +
                 "SET `jobName`= ?, `jobSpec`= ?, `jobURL` = ?, `bandLevelID` = ?, `jobFamilyID`= ? " +
-                "WHERE `jobID`= %d ", job.getJobID());
-
-        preparedStmt = c.prepareStatement(query);
+                "WHERE `jobID`= ? ");
 
         preparedStmt.setString(1, job.getJobName());
         preparedStmt.setString(2, job.getJobSpec());
         preparedStmt.setString(3, job.getJobUrl());
         preparedStmt.setInt(4, job.getBandLevelID());
         preparedStmt.setInt(5, job.getJobFamilyID());
-
+        preparedStmt.setInt(6, job.getJobID());
         preparedStmt.execute();
-        return true;
+
+        return Response.Status.OK;
     }
 }
