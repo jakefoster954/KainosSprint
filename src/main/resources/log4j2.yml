@@ -1,0 +1,21 @@
+Configuration:
+  status: warn
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%-5level [%d{DEFAULT}] %logger{36} [%t] - %msg%n"
+    File:
+      name: File_Appender
+      fileName: log/output.log
+      PatternLayout:
+        Pattern: "%-5level [%d{DEFAULT}] %logger{36} [%t] - %msg%n"
+  Loggers:
+    Root:
+      level: ALL
+      AppenderRef:
+        - ref: Console_Appender
+          level: DEBUG
+        - ref: File_Appender
+          level: ERROR
