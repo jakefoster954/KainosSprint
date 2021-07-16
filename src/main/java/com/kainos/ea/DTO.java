@@ -89,6 +89,15 @@ public abstract class DTO {
         return capabilities;
     }
 
+    /**
+     * Add a job to the database.
+     * @param job An instance of the Job class containing all the data requested by the job class.
+     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * Get JobName, JobSpec, JobUrl, CapabilityName and BandLevelName from frontend.
+     * Translates CapabilityName to jobFamilyID and BandLevelName to bandLevelID and sends them to database.
+     */
     public static Response.Status addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
@@ -119,6 +128,14 @@ public abstract class DTO {
         return Response.Status.OK;
     }
 
+    /**
+     * Delete a job from the database.
+     * @param jobRoleName The name of the job you want to delete.
+     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * Get jobRoleName from path and deletes the corresponding record from database.
+     */
     public static Response.Status deleteJobFromDB(String jobRoleName) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
@@ -134,7 +151,14 @@ public abstract class DTO {
         return Response.Status.OK;
     }
 
-    public static List<User> loginUser(User user) throws IOException, SQLException {
+    /**
+     * Get the user with valid credentials from database.
+     * @param user An object holding the username and a hash of the password.
+     * @return Corresponding user if valid credentials. Null otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    public static User loginUser(User user) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
@@ -143,15 +167,16 @@ public abstract class DTO {
         st.setString(2, user.getUserPassword());
 
         ResultSet rs = st.executeQuery();
-        List<User> users = new ArrayList<>();
 
-        while (rs.next()) {
-            users.add(new User(rs.getInt("userID"),
-                    rs.getString("userEmail"),
-                    rs.getString("userPassword"),
-                    rs.getString("userType")));
+        if(rs.next()) {
+            user.setUserID(rs.getInt("userID"));
+            user.setUserEmail(rs.getString("userEmail"));
+            user.setUserPassword(rs.getString("userPassword"));
+            user.setUserType(rs.getString("userType"));
         }
-        return users;
+        else
+            return null;
+        return  user;
     }
 
     // NEW ENDPOINTS
@@ -325,6 +350,14 @@ public abstract class DTO {
         return capabilityData;
     }
 
+    /**
+     * Edit a job in database.
+     * @param job An instance of the Job class containing all the data requested by the job class.
+     * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
+     * @throws IOException  Create connection to database.
+     * @throws SQLException Invalid SQL syntax.
+     * Searches database for JobRole with jobID passed from frontend. If found- edits the JobRole with passed data.
+     */
     public static Response.Status editJobFromDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
