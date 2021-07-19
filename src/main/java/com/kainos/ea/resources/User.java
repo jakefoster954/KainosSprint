@@ -20,7 +20,7 @@ public class User {
         long cookieMaxAge = 3600000;
         String randomStr = RandomStringUtils.randomAlphanumeric(27);
         long timestamp = System.currentTimeMillis() + cookieMaxAge;
-        this.userSessionKey = userType.substring(0,4) + randomStr + timestamp;
+        return userType.substring(0,4) + randomStr + timestamp;
     }
 
     public String getUserEmail() {
