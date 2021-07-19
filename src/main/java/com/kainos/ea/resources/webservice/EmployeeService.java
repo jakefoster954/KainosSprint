@@ -1,37 +1,29 @@
-package com.kainos.ea.resources;
+package com.kainos.ea.resources.webservice;
 
 import com.codahale.metrics.annotation.Timed;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.kainos.ea.resources.Capability;
+import com.kainos.ea.resources.Job;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * Handles all api calls from our front end application.
  */
-@Path("/api")
-public class WebService {
-    private static final Logger logger = LogManager.getLogger(WebService.class);
-
+@Path("/api/employee")
+public class EmployeeService implements WebService {
     /**
      * @deprecated Should only be used if database is unavailable.
      * Get a fake list of job roles.
@@ -43,6 +35,9 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/helloWorld")
     public List<Job> getHelloWorld() {
+            logger.info("getHelloWorld endpoint reached");
+
+            // testing log levels
             logger.debug("debug");
             logger.trace("trace");
             logger.info("info");
@@ -137,6 +132,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilities")
     public String getCapabilityNames() throws SQLException, IOException {
+        logger.info("getCapabilityNames endpoint reached");
         JSONArray capabilities = DTO.getCapabilities();
         return capabilities.toString();
     }
@@ -153,6 +149,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getBandLevels")
     public String getBandNames() throws SQLException, IOException {
+        logger.info("getBandNames endpoint reached");
         JSONArray bandNames = DTO.getBandNames();
         return bandNames.toString();
     }
@@ -170,6 +167,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getJobNames")
     public String getJobNames() throws SQLException, IOException {
+        logger.info("getJobNames endpoint reached");
         JSONArray jobNames = DTO.getJobNames();
         return jobNames.toString();
     }
@@ -188,6 +186,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getJobData/{jobName}")
     public String getJobData(@PathParam("jobName") String jobName) throws SQLException, IOException {
+        logger.info(String.format("getJobData endpoint reached. '%s' requested", jobName));
         JSONObject jobData = DTO.getJobData(jobName);
         return jobData.toString();
     }
@@ -204,6 +203,7 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilityLeads")
     public String getCapabilityLeads() throws SQLException, IOException {
+        logger.info("getCapabilityLeads endpoint reached");
         JSONArray capabilityLeads = DTO.getCapabilityLeads();
         return capabilityLeads.toString();
     }
@@ -223,72 +223,8 @@ public class WebService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilityLeadData/{leadName}")
     public String getCapabilityLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException {
+        logger.info(String.format("getJobData endpoint reached. '%s' requested", leadName));
         JSONObject capabilityLeadData = DTO.getCapabilityLeadData(leadName);
         return capabilityLeadData.toString();
-    }
-
-    /**
-     * Delete a job from the database
-     * @param jobRoleName The job you wish to delete
-     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
-     * @throws IOException Create connection to database.
-     */
-    @DELETE
-    @Timed
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/delete-job/{jobRoleName}")
-    public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName) throws SQLException, IOException {
-        return DTO.deleteJobFromDB(jobRoleName);
-    }
-
-    /**
-     * Add a job to the database.
-     * @param job An instance of the Job class containing all the data requested by the job class.
-     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
-     * @throws IOException Create connection to database.
-     */
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/add-job")
-    public Response.Status addJobRole(Job job) throws SQLException, IOException {
-        return(DTO.addJobToDB(job));
-    }
-
-    /**
-     * Authenticate yourself to gain access to pages on the site.
-     * Access to pages is dependent on account permission level.
-     * @param user An object holding the username and a hash of the password.
-     * @return Status 200. OK if valid credentials. Status 401. Unauthorized otherwise.
-     * @throws SQLException Invalid SQL syntax
-     * @throws IOException Create connection to database.
-     */
-    @POST
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/login")
-    public Response login(User user) throws SQLException, IOException {
-        User loggedUser = DTO.loginUser(user);
-        if (loggedUser==null)
-            return Response.status(401).entity("{\"error\": \"Incorrect user email and/or password\"}").build();
-        return Response.ok("{\"userType\": \"" + loggedUser.getUserType() + "\"}").build();
-    }
-
-    /**
-     * Edit a job from database
-     * @param job The job you wish to edit.
-     * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
-     * @throws IOException Create connection to database.
-     */
-    @PUT
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/edit-job")
-    public Response.Status editJobRole(Job job) throws SQLException, IOException {
-        return DTO.editJobFromDB(job);
     }
 }
