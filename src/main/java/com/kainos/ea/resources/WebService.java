@@ -291,4 +291,21 @@ public class WebService {
     public Response.Status editJobRole(Job job) throws SQLException, IOException {
         return DTO.editJobFromDB(job);
     }
+
+    /**
+     * Delete a capability from the database.
+     * Gets capabilityName from path and deletes the corresponding record from database.
+     * @param capabilityName The capability you wish to delete
+     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @DELETE
+    @Timed
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/delete-job/{capabilityName}")
+    public Response.Status deleteCapability(@PathParam("capabilityName") String capabilityName) throws SQLException, IOException {
+        return DTO.deleteCapabilityFromDB(capabilityName);
+    }
 }

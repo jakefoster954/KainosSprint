@@ -130,11 +130,11 @@ public abstract class DTO {
 
     /**
      * Delete a job from the database.
+     * Gets jobRoleName from path and deletes the corresponding record from database.
      * @param jobRoleName The name of the job you want to delete.
      * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
-     * Get jobRoleName from path and deletes the corresponding record from database.
      */
     public static Response.Status deleteJobFromDB(String jobRoleName) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
@@ -380,6 +380,29 @@ public abstract class DTO {
         preparedStmt.setInt(6, job.getJobID());
         preparedStmt.execute();
 
+        return Response.Status.OK;
+    }
+
+    /**
+     * Delete a capability from the database.
+     * Gets capabilityName from path and deletes the corresponding record from database.
+     * @param capabilityName The name of the capability you want to delete.
+     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    public static Response.Status deleteCapabilityFromDB(String capabilityName) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName FROM Capability WHERE capabilityName = ?");
+        preparedStmt.setString(1, capabilityName);
+        ResultSet rs = preparedStmt.executeQuery();
+        if (!rs.next())
+            return Response.Status.INTERNAL_SERVER_ERROR;
+
+        preparedStmt = c.prepareStatement("DELETE FROM Capability WHERE capabilityName = ?");
+        preparedStmt.setString(1, capabilityName);
+        preparedStmt.execute();
         return Response.Status.OK;
     }
 }
