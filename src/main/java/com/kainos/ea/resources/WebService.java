@@ -65,7 +65,7 @@ public class WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles")
-    public List<Job> getJobRoles() throws SQLException, IOException, ClassNotFoundException {
+    public List<Job> getJobRoles() throws SQLException, IOException {
             List<Job> jobs = DTO.retrieveJobsFromDB();
             return jobs;
     }
@@ -82,7 +82,7 @@ public class WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/job-roles/{jobName}")
-    public Job getJobSpec(@PathParam("jobName") String jobName) throws SQLException, IOException, ClassNotFoundException {
+    public Job getJobSpec(@PathParam("jobName") String jobName) throws SQLException, IOException {
         Job job = DTO.retrieveJobsFromDB().stream().filter(j-> j.getJobNameAsURL().equals(jobName)).findFirst().get();
         return job;
     }
@@ -99,7 +99,7 @@ public class WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/capabilities")
-    public List<Capability> getCapabilities() throws SQLException, IOException, ClassNotFoundException {
+    public List<Capability> getCapabilities() throws SQLException, IOException {
         List<Capability> capabilities = DTO.retrieveCapabilitiesFromDB();
         System.out.println(capabilities);
         return capabilities;
@@ -117,7 +117,7 @@ public class WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/capabilities/{leadName}")
-    public Capability getLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException, ClassNotFoundException {
+    public Capability getLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException {
         System.out.println(leadName);
         Capability capability = DTO.retrieveCapabilitiesFromDB().stream().filter(c-> c.getLeadNameAsURL().equals(leadName)).findFirst().get();
         return capability;
@@ -283,6 +283,7 @@ public class WebService {
      * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
+     * @deprecated This will not probably be implemented in fronted till the end of project
      */
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
@@ -290,5 +291,20 @@ public class WebService {
     @Path("/edit-job")
     public Response.Status editJobRole(Job job) throws SQLException, IOException {
         return DTO.editJobFromDB(job);
+    }
+
+    /**
+     * Add a capability to the database.
+     * @param capability An instance of the Capability class containing all the data requested by the capability class.
+     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/add-capability")
+    public Response.Status addCapability(Capability capability) throws SQLException, IOException {
+        return(DTO.addCapabilityToDB(capability));
     }
 }

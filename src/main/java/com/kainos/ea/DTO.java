@@ -356,6 +356,7 @@ public abstract class DTO {
      * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
      * @throws IOException  Create connection to database.
      * @throws SQLException Invalid SQL syntax.
+     * @deprecated This will not probably be implemented in fronted till the end of project
      * Searches database for JobRole with jobID passed from frontend. If found- edits the JobRole with passed data.
      */
     public static Response.Status editJobFromDB(Job job) throws IOException, SQLException {
@@ -378,6 +379,37 @@ public abstract class DTO {
         preparedStmt.setInt(4, job.getBandLevelID());
         preparedStmt.setInt(5, job.getJobFamilyID());
         preparedStmt.setInt(6, job.getJobID());
+        preparedStmt.execute();
+
+        return Response.Status.OK;
+    }
+
+    /**
+     * Add a capability to the database.
+     * @param capability An instance of the Capability class containing all the data requested by the capability class.
+     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     * Get CapabilityName from frontend and checks if it already exists.
+     * Get CapabilityName, leadName, leadMessage and leadPhoto from frontend and sends them to database.
+     */
+    public static Response.Status addCapabilityToDB(Capability capability) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName FROM Capability " +
+                "WHERE capabilityName = ? ");
+        preparedStmt.setString(1, capability.getCapabilityName());
+        ResultSet rs = preparedStmt.executeQuery();
+        if (!rs.next())
+            return Response.Status.INTERNAL_SERVER_ERROR;
+
+        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadName`, `leadMessage`, `leadPhoto`)" +
+                "VALUES ( ?, ?, ?, ?)");
+
+        preparedStmt.setString(1, capability.getCapabilityName());
+        preparedStmt.setString(2, capability.getLeadName());
+        preparedStmt.setString(3, capability.getLeadMessage());
+        preparedStmt.setString(4, capability.getLeadPhoto());
         preparedStmt.execute();
 
         return Response.Status.OK;
