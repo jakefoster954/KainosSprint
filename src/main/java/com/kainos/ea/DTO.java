@@ -158,11 +158,11 @@ public abstract class DTO {
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      */
-    public static User loginUser(User user) throws IOException, SQLException {
+    public static String loginUser(User user) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
-                "SELECT * FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
+                "SELECT user.id FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
         st.setString(1, user.getUserEmail());
         st.setString(2, user.getUserPassword());
 
@@ -173,10 +173,20 @@ public abstract class DTO {
             user.setUserEmail(rs.getString("userEmail"));
             user.setUserPassword(rs.getString("userPassword"));
             user.setUserType(rs.getString("userType"));
+
+            //Generate session key
+            user.generateSessionKey();
+
+            //Set session key
+            st = c.prepareStatement(
+                    "UPDATE User SET userSessionKey = ? where userID = ?;");
+            st.setString(1, user.getUserSessionKey());
+            st.setInt(2, user.getUserID());
+            st.execute();
+
+            return user.getUserSessionKey();
         }
-        else
-            return null;
-        return  user;
+        return null;
     }
 
     // NEW ENDPOINTS
