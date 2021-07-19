@@ -98,7 +98,7 @@ public class AdminService implements WebService {
     @Timed
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/delete-job/{capabilityName}")
+    @Path("/delete-capability/{capabilityName}")
     public Response.Status deleteCapability(@PathParam("capabilityName") String capabilityName) throws SQLException, IOException {
         return DTO.deleteCapabilityFromDB(capabilityName);
     }
