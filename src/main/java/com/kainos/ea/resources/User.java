@@ -23,7 +23,7 @@ public class User {
     public void generateSessionKey() {
         String randomStr = RandomStringUtils.randomAlphanumeric(27);
         long timestamp = System.currentTimeMillis() + 3600000;
-        this.userSessionKey = this.userType + randomStr + timestamp;
+        this.userSessionKey = this.userType.substring(0,4) + randomStr + timestamp;
     }
 
     public int getUserID() {

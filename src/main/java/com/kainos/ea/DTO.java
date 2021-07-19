@@ -162,7 +162,7 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
-                "SELECT user.id FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
+                "SELECT * FROM KainosSprint.User WHERE userEmail=? AND userPassword=?;");
         st.setString(1, user.getUserEmail());
         st.setString(2, user.getUserPassword());
 
@@ -176,7 +176,7 @@ public abstract class DTO {
 
             //Generate session key
             user.generateSessionKey();
-
+            System.out.println(user.getUserSessionKey() + " - " + user.getUserSessionKey().length());
             //Set session key
             st = c.prepareStatement(
                     "UPDATE User SET userSessionKey = ? where userID = ?;");
