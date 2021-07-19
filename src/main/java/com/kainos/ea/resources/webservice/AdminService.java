@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.kainos.ea.DTO;
+import com.kainos.ea.resources.Capability;
 import com.kainos.ea.resources.Job;
 
 import javax.ws.rs.core.Response;
@@ -59,6 +60,7 @@ public class AdminService implements WebService {
      * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
+     * @deprecated This will not probably be implemented in fronted till the end of project
      */
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
@@ -67,5 +69,37 @@ public class AdminService implements WebService {
     public Response.Status editJobRole(Job job) throws SQLException, IOException {
         logger.info("edit-job endpoint reached");
         return DTO.editJobFromDB(job);
+    }
+
+    /**
+     * Add a capability to the database.
+     * @param capability An instance of the Capability class containing all the data requested by the capability class.
+     * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/add-capability")
+    public Response.Status addCapability(Capability capability) throws SQLException, IOException {
+        return(DTO.addCapabilityToDB(capability));
+    }
+
+    /**
+     * Delete a capability from the database.
+     * Gets capabilityName from path and deletes the corresponding record from database.
+     * @param capabilityName The capability you wish to delete
+     * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
+     * @throws SQLException Invalid SQL syntax
+     * @throws IOException Create connection to database.
+     */
+    @DELETE
+    @Timed
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/delete-capability/{capabilityName}")
+    public Response.Status deleteCapability(@PathParam("capabilityName") String capabilityName) throws SQLException, IOException {
+        return DTO.deleteCapabilityFromDB(capabilityName);
     }
 }
