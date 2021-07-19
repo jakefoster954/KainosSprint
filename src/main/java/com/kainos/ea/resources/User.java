@@ -5,33 +5,22 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.util.Date;
 
 public class User {
-    private int userID = 0;
     private String userEmail;
     private String userPassword;
-    private String userType = "N/A";
     private String userSessionKey;
 
     public User(){}
 
-    public User(int userID, String userEmail, String userPassword, String userType) {
-        this.userID = userID;
+    public User(String userEmail, String userPassword) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userType = userType;
     }
 
-    public void generateSessionKey() {
+    public String generateSessionKey(String userType) {
+        long cookieMaxAge = 3600000;
         String randomStr = RandomStringUtils.randomAlphanumeric(27);
-        long timestamp = System.currentTimeMillis() + 3600000;
-        this.userSessionKey = this.userType.substring(0,4) + randomStr + timestamp;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
+        long timestamp = System.currentTimeMillis() + cookieMaxAge;
+        this.userSessionKey = userType.substring(0,4) + randomStr + timestamp;
     }
 
     public String getUserEmail() {
@@ -48,14 +37,6 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     public String getUserSessionKey() {

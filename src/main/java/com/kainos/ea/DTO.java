@@ -169,22 +169,18 @@ public abstract class DTO {
         ResultSet rs = st.executeQuery();
 
         if(rs.next()) {
-            user.setUserID(rs.getInt("userID"));
-            user.setUserEmail(rs.getString("userEmail"));
-            user.setUserPassword(rs.getString("userPassword"));
-            user.setUserType(rs.getString("userType"));
-
             //Generate session key
-            user.generateSessionKey();
-            System.out.println(user.getUserSessionKey() + " - " + user.getUserSessionKey().length());
-            //Set session key
+            String sessionKey = user.generateSessionKey(rs.getString("userType"));
+            int userID = rs.getInt("UserID");
+
+            //Store session key
             st = c.prepareStatement(
                     "UPDATE User SET userSessionKey = ? where userID = ?;");
-            st.setString(1, user.getUserSessionKey());
-            st.setInt(2, user.getUserID());
+            st.setString(1, sessionKey);
+            st.setInt(2, userID);
             st.execute();
 
-            return user.getUserSessionKey();
+            return sessionKey;
         }
         return null;
     }
