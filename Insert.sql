@@ -115,3 +115,5 @@ INSERT INTO JobRole VALUES (13, 'User Reseacher', 'Later', 'Later', 2, 46);
 INSERT INTO JobRole VALUES (14, 'BU COO', 'Later', 'Later', 8, 52);
 INSERT INTO JobRole VALUES (15, 'Cloud Migration Architect', 'Later', 'Later', 6, 53);
 INSERT INTO JobRole VALUES (17, 'Test', 'Later', 'Later', 22,1);
+
+INSERT INTO User VALUES (3, 'employee@kainos.com', '7626b9cc0a536ce36ae8aa85fa278492a5053994c3857a1a1e71a96565ce5a9dee3ee421629c215d7cefb293ae4fd69a6adbdd00bd5f1ef6d89fcd5de8b9b3f1','EMPLOYEE');

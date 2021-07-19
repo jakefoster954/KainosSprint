@@ -37,6 +37,19 @@ CREATE TABLE `User`(
     userType ENUM('ADMIN','EMPLOYEE')
 );
 
+CREATE TABLE Training(
+    trainingID INT PRIMARY KEY AUTO_INCREMENT,
+    trainingName VARCHAR(200),
+    trainingLink VARCHAR(300)
+);
+CREATE TABLE `BandLevel-Training`(
+    bandLevelID INT,
+    trainingID INT,
+    FOREIGN KEY (bandLevelID) REFERENCES BandLevel (bandLevelID),
+    FOREIGN KEY (trainingID) REFERENCES Training (trainingID)
+);
+
+
 
 ALTER TABLE JobRole ADD UNIQUE (jobName);
 ALTER TABLE JobRole MODIFY jobURL varchar(300);
