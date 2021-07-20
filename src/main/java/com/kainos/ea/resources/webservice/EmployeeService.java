@@ -155,6 +155,23 @@ public class EmployeeService implements WebService {
     }
 
     /**
+     * Get a list of all capability lead names in the Database.
+     * Each object contains "name" as the key and the capability lead name as the value.
+     * @return A String representing a list of JSON objects.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getCapabilityLeadNames")
+    public String getCapabilityLeadNames() throws SQLException, IOException {
+        logger.info("getCapabilityLeadNames endpoint reached");
+        JSONArray capabilityLeadNames = DTO.getCapabilityLeadNames();
+        return capabilityLeadNames.toString();
+    }
+
+    /**
      * Get the data required to display the <code>job-roles</code> table.
      * Each JSON object returned will contain <code>jobName</code>,
      * <code>capabilityName</code> and <code>bandName</code>.
