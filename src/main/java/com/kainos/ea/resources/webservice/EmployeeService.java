@@ -2,11 +2,10 @@ package com.kainos.ea.resources.webservice;
 
 import com.codahale.metrics.annotation.Timed;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.servlet.http.Cookie;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.kainos.ea.DTO;
 import com.kainos.ea.resources.Capability;
@@ -23,7 +22,9 @@ import java.util.List;
  * Handles all api calls from our front end application.
  */
 @Path("/api/employee")
-public class EmployeeService implements WebService2 {
+public class EmployeeService extends WebService {
+    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
+
     /**
      * @deprecated Should only be used if database is unavailable.
      * Get a fake list of job roles.
@@ -131,7 +132,13 @@ public class EmployeeService implements WebService2 {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilities")
-    public String getCapabilityNames() throws SQLException, IOException {
+    public String getCapabilityNames(@CookieParam("sessionKey") Cookie sessionCookie) throws SQLException, IOException {
+        if (sessionCookie == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build().toString();
+        } else if (!isSessionKeyValid(sessionCookie.getValue(), permissionLevels)){
+            return Response.status(Response.Status.FORBIDDEN).build().toString();
+        }
+
         logger.info("getCapabilityNames endpoint reached");
         JSONArray capabilities = DTO.getCapabilities();
         return capabilities.toString();

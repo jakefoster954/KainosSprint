@@ -15,9 +15,11 @@ import com.kainos.ea.resources.User;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 @Path("/api/login")
-public class LoginService implements WebService2 {
+public class LoginService extends WebService {
     /**
      * Authenticate yourself to gain access to pages on the site.
      * Access to pages is dependent on account permission level.

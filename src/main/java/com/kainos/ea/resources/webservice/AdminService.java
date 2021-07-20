@@ -18,9 +18,13 @@ import com.kainos.ea.resources.Job;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 @Path("/api/admin")
-public class AdminService implements WebService2 {
+public class AdminService extends WebService {
+    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.ADMIN);
+
     /**
      * Delete a job from the database
      * @param jobRoleName The job you wish to delete
@@ -34,6 +38,8 @@ public class AdminService implements WebService2 {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/delete-job/{jobRoleName}")
     public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName) throws SQLException, IOException {
+
+
         logger.info("delete-job endpoint reached");
         return DTO.deleteJobFromDB(jobRoleName);
     }
