@@ -271,12 +271,7 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery(
-                        "SELECT jobName, capabilityName, bandName " +
-                        "FROM (((JobRole " +
-                        "INNER JOIN JobFamily ON JobFamily.jobFamilyID = JobRole.jobFamilyID) " +
-                        "INNER JOIN Capability ON Capability.capabilityID = JobFamily.capabilityID) " +
-                        "INNER JOIN BandLevel ON BandLevel.bandLevelID = JobRole.bandLevelID);");
+        ResultSet rs = st.executeQuery("SELECT * FROM KainosSprint.JobNamesView;");
 
         JSONArray jobRolesTable = new JSONArray();
         while (rs.next()) {
@@ -302,13 +297,7 @@ public abstract class DTO {
     public static JSONObject getJobData(String jobName) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement st = c.prepareStatement(
-                "SELECT jobName, jobSpec, jobUrl, capabilityName, bandName " +
-                        "FROM (((JobRole " +
-                        "INNER JOIN JobFamily ON JobFamily.jobFamilyID = JobRole.jobFamilyID) " +
-                        "INNER JOIN Capability ON Capability.capabilityID = JobFamily.capabilityID) " +
-                        "INNER JOIN BandLevel ON BandLevel.bandLevelID = JobRole.bandLevelID) " +
-                        "WHERE jobName = ?;");
+        PreparedStatement st = c.prepareStatement("SELECT * FROM KainosSprint.FullJobDataView WHERE jobName = ?;");
         st.setString(1, jobName);
         ResultSet rs = st.executeQuery();
 
@@ -336,7 +325,7 @@ public abstract class DTO {
     public static JSONArray getCapabilityLeads() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName, leadName FROM KainosSprint.Capability;");
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.CapabilitiesView;");
         ResultSet rs = preparedStmt.executeQuery();
 
         JSONArray capabilities = new JSONArray();
@@ -363,9 +352,7 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
-                "SELECT capabilityName, leadName, leadMessage, leadPhoto " +
-                        "FROM Capability " +
-                        "WHERE leadName = ?;");
+                "SELECT * FROM KainosSprint.FullCapabilityDataView WHERE leadName = ?;");
         st.setString(1, leadName);
         ResultSet rs = st.executeQuery();
 
@@ -477,7 +464,6 @@ public abstract class DTO {
         preparedStmt.execute();
         return Response.Status.OK;
     }
-
 
     public static boolean getSessionKeyFromDB(String sessionKey) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
