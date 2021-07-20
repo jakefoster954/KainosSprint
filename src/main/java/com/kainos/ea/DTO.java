@@ -441,6 +441,17 @@ public abstract class DTO {
         preparedStmt.setString(4, capability.getLeadPhoto());
         preparedStmt.execute();
 
+        if(!capability.getCapabilityJobFamilyName().isEmpty()) {
+            preparedStmt = c.prepareStatement("SELECT capabilityID FROM Capability WHERE capabilityName = ? ");
+            preparedStmt.setString(1, capability.getCapabilityName());
+            rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                preparedStmt = c.prepareStatement("INSERT INTO JobFamily (`familyName`, `capabilityID`) VALUES ( ?, ?)");
+                preparedStmt.setString(1, capability.getCapabilityJobFamilyName());
+                preparedStmt.setString(2, rs.getString("capabilityID"));
+                preparedStmt.execute();
+            }
+        }
         return Response.Status.OK;
     }
 
