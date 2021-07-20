@@ -32,13 +32,13 @@ public class AdminService extends WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/delete-job/{jobRoleName}")
-    public Response.Status deleteJobRole(@PathParam("jobRoleName") String jobRoleName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+    public Response deleteJobRole(@PathParam("jobRoleName") String jobRoleName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
         // Validate session cookie
         Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
-        if (response != Response.Status.OK) return response;
+        if (response != Response.Status.OK) return Response.status(response).build();
 
         logger.info("delete-job endpoint reached");
-        return DTO.deleteJobFromDB(jobRoleName);
+        return Response.status(DTO.deleteJobFromDB(jobRoleName)).build();
     }
 
     /**
@@ -53,13 +53,13 @@ public class AdminService extends WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-job")
-    public Response.Status addJobRole(Job job, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+    public Response addJobRole(Job job, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
         // Validate session cookie
         Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
-        if (response != Response.Status.OK) return response;
+        if (response != Response.Status.OK) return Response.status(response).build();
 
         logger.info(String.format("add-job endpoint reached. Job name is %s", job.getJobName()));
-        return (DTO.addJobToDB(job));
+        return Response.status(DTO.addJobToDB(job)).build();
     }
 
     /**
@@ -96,12 +96,12 @@ public class AdminService extends WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/add-capability")
-    public Response.Status addCapability(Capability capability, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+    public Response addCapability(Capability capability, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
         // Validate session cookie
         Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
-        if (response != Response.Status.OK) return response;
+        if (response != Response.Status.OK) return Response.status(response).build();
 
-        return (DTO.addCapabilityToDB(capability));
+        return Response.status(DTO.addCapabilityToDB(capability)).build();
     }
 
     /**
@@ -118,11 +118,11 @@ public class AdminService extends WebService {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/delete-capability/{capabilityName}")
-    public Response.Status deleteCapability(@PathParam("capabilityName") String capabilityName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+    public Response deleteCapability(@PathParam("capabilityName") String capabilityName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
         // Validate session cookie
         Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
-        if (response != Response.Status.OK) return response;
+        if (response != Response.Status.OK) return Response.status(response).build();
 
-        return DTO.deleteCapabilityFromDB(capabilityName);
+        return Response.status(DTO.deleteCapabilityFromDB(capabilityName)).build();
     }
 }

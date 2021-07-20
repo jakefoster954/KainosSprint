@@ -12,12 +12,13 @@ import java.util.List;
 public abstract class WebService {
     protected Logger logger = LogManager.getLogger(WebService.class);
 
-    public Response isSessionCookieValid(String sessionCookieValue, List<PermissionLevel> permissionLevels) throws SQLException, IOException {
+    protected Response.Status isSessionCookieValid(String sessionCookieValue, List<PermissionLevel> permissionLevels) throws SQLException, IOException {
         if (sessionCookieValue == null) {
             return Response.Status.UNAUTHORIZED;
         } else if (!isSessionKeyValid(sessionCookieValue, permissionLevels)) {
             return Response.Status.FORBIDDEN;
         }
+        return Response.Status.OK;
     }
 
     private boolean isSessionKeyValid(String sessionKey, List<PermissionLevel> permissionLevels) throws SQLException, IOException {
