@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Path("/api/login")
-public class LoginService implements WebService {
+public class LoginService implements WebService2 {
     /**
      * Authenticate yourself to gain access to pages on the site.
      * Access to pages is dependent on account permission level.

@@ -1,10 +1,21 @@
 package com.kainos.ea.resources.webservice;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.kainos.ea.DTO;
 
-public interface WebService {
-    Logger logger = LogManager.getLogger(WebService.class);
+import java.io.IOException;
+import java.sql.SQLException;
 
-    //String validate();
+public abstract class WebService {
+    protected PermissionLevel permissionLevel;
+
+    public void validateSessionKey(String sessionKey) throws SQLException, IOException {
+        if(!DTO.getSessionKeyFromDB(sessionKey)){
+            return;
+        }
+
+
+        if(!){
+
+        }
+    }
 }

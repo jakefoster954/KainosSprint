@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Path("/api/admin")
-public class AdminService implements WebService {
+public class AdminService implements WebService2 {
     /**
      * Delete a job from the database
      * @param jobRoleName The job you wish to delete

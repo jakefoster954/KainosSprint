@@ -23,7 +23,7 @@ import java.util.List;
  * Handles all api calls from our front end application.
  */
 @Path("/api/employee")
-public class EmployeeService implements WebService {
+public class EmployeeService implements WebService2 {
     /**
      * @deprecated Should only be used if database is unavailable.
      * Get a fake list of job roles.

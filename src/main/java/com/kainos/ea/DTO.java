@@ -466,4 +466,15 @@ public abstract class DTO {
         preparedStmt.execute();
         return Response.Status.OK;
     }
+
+
+    public static boolean getSessionKeyFromDB(String sessionKey) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT userSessionKey FROM User WHERE userSessionKey = ?");
+        preparedStmt.setString(1, sessionKey);
+        ResultSet rs = preparedStmt.executeQuery();
+
+        return rs.next();
+    }
 }
