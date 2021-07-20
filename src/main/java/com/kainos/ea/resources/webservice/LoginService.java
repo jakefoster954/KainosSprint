@@ -45,6 +45,7 @@ public class LoginService implements WebService {
         // Set the session key in a cookie and return 200
         logger.info(String.format("User type is %s", sessionKey.substring(0,4)));
         Cookie cookie = new Cookie("sessionKey", sessionKey);
+        cookie.setMaxAge(3600);  // 1hr in seconds
         response.addCookie(cookie);
         return Response.ok().build();
     }
