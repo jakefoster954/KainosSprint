@@ -21,8 +21,11 @@ public class LoginService implements WebService {
     /**
      * Authenticate yourself to gain access to pages on the site.
      * Access to pages is dependent on account permission level.
+     * If a valid username password pair is provided, the session key will be provided to log in.
+     * This session key can be used to log into endpoints that have the required permissions.
      * @param user An object holding the username and a hash of the password.
-     * @return Status 200. OK if valid credentials. Status 401. Unauthorized otherwise.
+     * @return Status 200. OK if valid credentials and a cookie under the key "Session key".
+     * @return Status 401. Unauthorized otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      */

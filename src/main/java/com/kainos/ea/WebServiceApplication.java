@@ -59,5 +59,4 @@ public class WebServiceApplication extends Application<WebServiceConfiguration> 
         // TODO: implement application
         getName();
     }
-
 }
