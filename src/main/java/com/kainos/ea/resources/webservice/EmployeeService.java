@@ -2,11 +2,10 @@ package com.kainos.ea.resources.webservice;
 
 import com.codahale.metrics.annotation.Timed;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.servlet.http.Cookie;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.kainos.ea.DTO;
 import com.kainos.ea.resources.Capability;
@@ -23,7 +22,9 @@ import java.util.List;
  * Handles all api calls from our front end application.
  */
 @Path("/api/employee")
-public class EmployeeService implements WebService {
+public class EmployeeService extends WebService {
+    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
+
     /**
      * @deprecated Should only be used if database is unavailable.
      * Get a fake list of job roles.
@@ -131,10 +132,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilities")
-    public String getCapabilityNames() throws SQLException, IOException {
+    public Response getCapabilityNames(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info("getCapabilityNames endpoint reached");
         JSONArray capabilities = DTO.getCapabilities();
-        return capabilities.toString();
+        return Response.ok(capabilities.toString()).build();
     }
 
     /**
@@ -148,10 +153,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getBandLevels")
-    public String getBandNames() throws SQLException, IOException {
+    public Response getBandNames(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info("getBandNames endpoint reached");
         JSONArray bandNames = DTO.getBandNames();
-        return bandNames.toString();
+        return Response.ok(bandNames.toString()).build();
     }
 
     /**
@@ -165,10 +174,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilityLeadNames")
-    public String getCapabilityLeadNames() throws SQLException, IOException {
+    public Response getCapabilityLeadNames(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info("getCapabilityLeadNames endpoint reached");
         JSONArray capabilityLeadNames = DTO.getCapabilityLeadNames();
-        return capabilityLeadNames.toString();
+        return Response.ok(capabilityLeadNames.toString()).build();
     }
 
     /**
@@ -183,10 +196,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getJobNames")
-    public String getJobNames() throws SQLException, IOException {
+    public Response getJobNames(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info("getJobNames endpoint reached");
         JSONArray jobNames = DTO.getJobNames();
-        return jobNames.toString();
+        return Response.ok(jobNames.toString()).build();
     }
 
     /**
@@ -202,10 +219,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getJobData/{jobName}")
-    public String getJobData(@PathParam("jobName") String jobName) throws SQLException, IOException {
+    public Response getJobData(@PathParam("jobName") String jobName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info(String.format("getJobData endpoint reached. '%s' requested", jobName));
         JSONObject jobData = DTO.getJobData(jobName);
-        return jobData.toString();
+        return Response.ok(jobData.toString()).build();
     }
 
     /**
@@ -219,10 +240,14 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilityLeads")
-    public String getCapabilityLeads() throws SQLException, IOException {
+    public Response getCapabilityLeads(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info("getCapabilityLeads endpoint reached");
         JSONArray capabilityLeads = DTO.getCapabilityLeads();
-        return capabilityLeads.toString();
+        return Response.ok(capabilityLeads.toString()).build();
     }
 
     /**
@@ -239,9 +264,13 @@ public class EmployeeService implements WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilityLeadData/{leadName}")
-    public String getCapabilityLeadData(@PathParam("leadName") String leadName) throws SQLException, IOException {
+    public Response getCapabilityLeadData(@PathParam("leadName") String leadName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
         logger.info(String.format("getJobData endpoint reached. '%s' requested", leadName));
         JSONObject capabilityLeadData = DTO.getCapabilityLeadData(leadName);
-        return capabilityLeadData.toString();
+        return Response.ok(capabilityLeadData.toString()).build();
     }
 }

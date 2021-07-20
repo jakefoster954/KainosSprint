@@ -1,26 +1,26 @@
 package com.kainos.ea.resources;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.util.Date;
+
 public class User {
-    private int userID = 0;
     private String userEmail;
     private String userPassword;
-    private String userType = "N/A";
+    private String userSessionKey;
 
     public User(){}
 
-    public User(int userID, String userEmail, String userPassword, String userType) {
-        this.userID = userID;
+    public User(String userEmail, String userPassword) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        this.userType = userType;
     }
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public String generateSessionKey(String userType) {
+        long cookieMaxAge = 3600000;
+        String randomStr = RandomStringUtils.randomAlphanumeric(27);
+        long timestamp = System.currentTimeMillis() + cookieMaxAge;
+        return userType.substring(0,4) + randomStr + timestamp;
     }
 
     public String getUserEmail() {
@@ -39,11 +39,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getUserSessionKey() {
+        return userSessionKey;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUserSessionKey(String userSessionKey) {
+        this.userSessionKey = userSessionKey;
     }
 }

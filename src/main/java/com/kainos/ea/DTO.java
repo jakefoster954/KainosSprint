@@ -158,7 +158,7 @@ public abstract class DTO {
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      */
-    public static User loginUser(User user) throws IOException, SQLException {
+    public static String loginUser(User user) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
@@ -169,14 +169,20 @@ public abstract class DTO {
         ResultSet rs = st.executeQuery();
 
         if(rs.next()) {
-            user.setUserID(rs.getInt("userID"));
-            user.setUserEmail(rs.getString("userEmail"));
-            user.setUserPassword(rs.getString("userPassword"));
-            user.setUserType(rs.getString("userType"));
+            //Generate session key
+            String sessionKey = user.generateSessionKey(rs.getString("userType"));
+            int userID = rs.getInt("UserID");
+
+            //Store session key
+            st = c.prepareStatement(
+                    "UPDATE User SET userSessionKey = ? where userID = ?;");
+            st.setString(1, sessionKey);
+            st.setInt(2, userID);
+            st.execute();
+
+            return sessionKey;
         }
-        else
-            return null;
-        return  user;
+        return null;
     }
 
     // NEW ENDPOINTS
@@ -459,5 +465,16 @@ public abstract class DTO {
         preparedStmt.setString(1, capabilityName);
         preparedStmt.execute();
         return Response.Status.OK;
+    }
+
+
+    public static boolean getSessionKeyFromDB(String sessionKey) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT userSessionKey FROM User WHERE userSessionKey = ?");
+        preparedStmt.setString(1, sessionKey);
+        ResultSet rs = preparedStmt.executeQuery();
+
+        return rs.next();
     }
 }
