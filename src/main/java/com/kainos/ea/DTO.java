@@ -423,10 +423,10 @@ public abstract class DTO {
                 "WHERE capabilityName = ? ");
         preparedStmt.setString(1, capability.getCapabilityName());
         ResultSet rs = preparedStmt.executeQuery();
-        if (!rs.next())
+        if (rs.next())
             return Response.Status.INTERNAL_SERVER_ERROR;
 
-        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadName`, `leadMessage`, `leadPhoto`)" +
+        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadName`, `leadMessage`, `leadPhoto`) " +
                 "VALUES ( ?, ?, ?, ?)");
 
         preparedStmt.setString(1, capability.getCapabilityName());
