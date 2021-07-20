@@ -6,6 +6,7 @@ public class Capability {
     private String leadName;
     private String leadMessage;
     private String leadPhoto;
+    private String capabilityJobFamilyName;
 
     public Capability() {}
 
@@ -15,6 +16,14 @@ public class Capability {
         this.leadName = leadName;
         this.leadMessage = leadMessage;
         this.leadPhoto = leadPhoto;
+    }
+    public Capability(int capabilityID, String capabilityName, String leadName, String leadMessage, String leadPhoto, String capabilityJobFamilyName) {
+        this.capabilityID = capabilityID;
+        this.capabilityName = capabilityName;
+        this.leadName = leadName;
+        this.leadMessage = leadMessage;
+        this.leadPhoto = leadPhoto;
+        this.capabilityJobFamilyName = capabilityJobFamilyName;
     }
 
     public int getCapabilityID() {
@@ -60,4 +69,13 @@ public class Capability {
     public void setLeadPhoto(String leadPhoto) {
         this.leadPhoto = leadPhoto;
     }
+
+    public String getCapabilityJobFamilyName() {
+        return capabilityJobFamilyName;
+    }
+
+    public void setCapabilityJobFamilyName(String capabilityJobFamilyName) {
+        this.capabilityJobFamilyName = capabilityJobFamilyName;
+    }
+
 }
