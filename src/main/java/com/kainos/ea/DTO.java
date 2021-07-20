@@ -230,6 +230,29 @@ public abstract class DTO {
     }
 
     /**
+     * Get a list of json objects where each JSON object holds "name" as the key and the capability lead name as the value.
+     * The length of the list is equivalent to the number of capability leads in the table.
+     * @return A JSONArray of JSONObjects that hold all the capability lead names.
+     * @throws IOException  Create connection to database.
+     * @throws SQLException Invalid SQL syntax.
+     */
+    public static JSONArray getCapabilityLeadNames() throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(
+                "SELECT leadName FROM KainosSprint.Capability;");
+
+        JSONArray capabilityLeadNames = new JSONArray();
+        while (rs.next()) {
+            JSONObject row = new JSONObject();
+            row.put("name", rs.getString("leadName"));
+            capabilityLeadNames.put(row);
+        }
+        return capabilityLeadNames;
+    }
+
+    /**
      * Get a list of json objects where each JSON object holds the
      * <code>jobName</code>, <code>capabilityName</code> and <code>bandName</code>.
      * The length of the list is equivalent to the number of jobs in the table.
