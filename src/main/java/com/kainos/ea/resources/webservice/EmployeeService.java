@@ -132,16 +132,14 @@ public class EmployeeService extends WebService {
     @Timed
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getCapabilities")
-    public String getCapabilityNames(@CookieParam("sessionKey") Cookie sessionCookie) throws SQLException, IOException {
-        if (sessionCookie == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).build().toString();
-        } else if (!isSessionKeyValid(sessionCookie.getValue(), permissionLevels)){
-            return Response.status(Response.Status.FORBIDDEN).build().toString();
-        }
+    public Response.Status getCapabilityNames(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return response;
 
         logger.info("getCapabilityNames endpoint reached");
         JSONArray capabilities = DTO.getCapabilities();
-        return capabilities.toString();
+        return Response.ok(capabilities.toString()).build();
     }
 
     /**
