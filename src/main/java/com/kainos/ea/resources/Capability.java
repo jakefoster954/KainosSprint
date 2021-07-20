@@ -17,6 +17,7 @@ public class Capability {
         this.leadMessage = leadMessage;
         this.leadPhoto = leadPhoto;
     }
+
     public Capability(int capabilityID, String capabilityName, String leadName, String leadMessage, String leadPhoto, String capabilityJobFamilyName) {
         this.capabilityID = capabilityID;
         this.capabilityName = capabilityName;
@@ -77,5 +78,4 @@ public class Capability {
     public void setCapabilityJobFamilyName(String capabilityJobFamilyName) {
         this.capabilityJobFamilyName = capabilityJobFamilyName;
     }
-
 }
