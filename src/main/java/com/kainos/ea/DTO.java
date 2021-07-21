@@ -474,4 +474,21 @@ public abstract class DTO {
 
         return rs.next();
     }
+
+    public static Response.Status deleteSessionKey(String sessionKey) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT userSessionKey FROM KainosSprint.User WHERE userSessionKey = ?");
+        preparedStmt.setString(1, sessionKey);
+        ResultSet rs = preparedStmt.executeQuery();
+        if (!rs.next())
+            return Response.Status.INTERNAL_SERVER_ERROR;
+
+        preparedStmt = c.prepareStatement("UPDATE `KainosSprint`.`User` " +
+                        "SET `userSessionKey`= NULL " +
+                        "WHERE `userSessionKey`= ?;");
+        preparedStmt.setString(1, sessionKey);
+        preparedStmt.execute();
+        return Response.Status.OK;
+    }
 }

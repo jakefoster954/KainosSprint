@@ -279,4 +279,27 @@ public class EmployeeService extends WebService {
         }
         return Response.ok(capabilityLeadData.toString()).build();
     }
+
+    /**
+     * Delete the session key from the database.
+     * The user must be logged in to be able to log out successfully.
+     *
+     * @param sessionCookie The session key as a cookie.
+     * @return Response code 200 if successful. Response code 500 if something goes wrong with SQL query.
+     * @return Response code 401 if user is not logged in. Response code 403 if user is logged in with invalid cookie.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    @DELETE
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/logout")
+    public Response logout(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
+        logger.info("logout endpoint reached");
+        return Response.status(DTO.deleteSessionKey(sessionCookie)).build();
+    }
 }
