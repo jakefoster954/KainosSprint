@@ -129,8 +129,6 @@ public abstract class DTO {
         return null;
     }
 
-    // NEW ENDPOINTS
-
     /**
      * Get a list of json objects where each JSON object holds "name" as the key and the capability name as the value.
      * The length of the list is equivalent to the number of capabilities in the table.
@@ -356,6 +354,7 @@ public abstract class DTO {
     public static Response.Status addCapabilityToDB(Capability capability) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
+        // Check capabilityName doesn't exist.
         PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName FROM Capability " +
                 "WHERE capabilityName = ? ");
         preparedStmt.setString(1, capability.getCapabilityName());
@@ -363,27 +362,25 @@ public abstract class DTO {
         if (rs.next())
             return Response.Status.INTERNAL_SERVER_ERROR;
 
-        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadName`, `leadMessage`, `leadPhoto`) " +
-                "VALUES ( ?, ?, ?, ?)");
+        // Get id of lead name from database.
+        preparedStmt = c.prepareStatement("SELECT leadID from CapabilityLead WHERE leadName = ?;");
+        preparedStmt.setString(1, capability.getLeadName());
+        rs = preparedStmt.executeQuery();
+        while(rs.next()) {
+            int leadID = rs.getInt("leadID");
+            System.out.println("leadID" + leadID);
 
-        preparedStmt.setString(1, capability.getCapabilityName());
-        preparedStmt.setString(2, capability.getLeadName());
-        preparedStmt.setString(3, capability.getLeadMessage());
-        preparedStmt.setString(4, capability.getLeadPhoto());
-        preparedStmt.execute();
-
-        if(!capability.getCapabilityJobFamilyName().isEmpty()) {
-            preparedStmt = c.prepareStatement("SELECT capabilityID FROM Capability WHERE capabilityName = ? ");
+            // Insert leadName into database
+            preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadID`) " +
+                    "VALUES (?, ?)");
             preparedStmt.setString(1, capability.getCapabilityName());
-            rs = preparedStmt.executeQuery();
-            if (rs.next()) {
-                preparedStmt = c.prepareStatement("INSERT INTO JobFamily (`familyName`, `capabilityID`) VALUES ( ?, ?)");
-                preparedStmt.setString(1, capability.getCapabilityJobFamilyName());
-                preparedStmt.setString(2, rs.getString("capabilityID"));
-                preparedStmt.execute();
-            }
+            preparedStmt.setInt(2, leadID);
+            preparedStmt.execute();
+
+            return Response.Status.OK;
         }
-        return Response.Status.OK;
+
+        return Response.Status.INTERNAL_SERVER_ERROR;
     }
 
     /**
