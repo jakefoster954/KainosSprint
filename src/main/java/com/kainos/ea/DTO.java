@@ -449,4 +449,33 @@ public abstract class DTO {
         preparedStmt.execute();
         return Response.Status.OK;
     }
+
+    /**
+     * Get a list of json objects where each JSON object holds the <code>trainingName</code> and the <code>trainingLink</code>.
+     * @return A JSONArray of JSONObjects detailing training information for a specific band.
+     * @param bandName The band level for which you want to view training.
+     * @throws IOException  Create connection to database.
+     * @throws SQLException Invalid SQL syntax.
+     */
+    public static JSONArray getTrainingDataForBand(String bandName) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement st = c.prepareStatement(
+                "SELECT trainingName, trainingLink FROM KainosSprint.Training \n" +
+                        "INNER JOIN `BandLevel-Training` ON `BandLevel-Training`.trainingID = Training.trainingID\n" +
+                        "INNER JOIN `BandLevel` ON BandLevel.bandLevelID = `BandLevel-Training`.bandLevelID\n" +
+                        "WHERE bandName = ?;");
+        st.setString(1, bandName);
+        ResultSet rs = st.executeQuery();
+
+        JSONArray trainingData = new JSONArray();
+        while (rs.next()) {
+            JSONObject row = new JSONObject();
+            row.put("trainingName", rs.getString("trainingName"));
+            row.put("trainingLink", rs.getString("trainingLink"));
+            trainingData.put(row);
+        }
+
+        return trainingData;
+    }
 }
