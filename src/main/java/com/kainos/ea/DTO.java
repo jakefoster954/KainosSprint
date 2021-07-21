@@ -461,9 +461,9 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement st = c.prepareStatement(
-                "SELECT trainingName, trainingLink FROM KainosSprint.Training \n" +
-                        "INNER JOIN `BandLevel-Training` ON `BandLevel-Training`.trainingID = Training.trainingID\n" +
-                        "INNER JOIN `BandLevel` ON BandLevel.bandLevelID = `BandLevel-Training`.bandLevelID\n" +
+                "SELECT trainingName, trainingLink FROM KainosSprint.Training " +
+                        "INNER JOIN `BandLevel-Training` ON `BandLevel-Training`.trainingID = Training.trainingID " +
+                        "INNER JOIN `BandLevel` ON BandLevel.bandLevelID = `BandLevel-Training`.bandLevelID " +
                         "WHERE bandName = ?;");
         st.setString(1, bandName);
         ResultSet rs = st.executeQuery();
