@@ -37,6 +37,15 @@ public abstract class WebService {
         return Response.Status.OK;
     }
 
+    /**
+     * Checks to ensure the session key is valid.
+     * This entails ensuring it is in the database, ensuring it has not expired and ensuring the user has the required permissions.
+     * @param sessionKey The session key that authenticates a user.
+     * @param permissionLevels A list of supported permission levels.
+     * @return True if the session key is valid for the provided permission levels. False otherwise.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
     private boolean isSessionKeyValid(String sessionKey, List<PermissionLevel> permissionLevels) throws SQLException, IOException {
         // Verify session key exists
         if (!DTO.isSessionKeyInDB(sessionKey)) {

@@ -2,12 +2,9 @@ package com.kainos.ea.resources;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.util.Date;
-
 public class User {
     private String userEmail;
     private String userPassword;
-    private String userSessionKey;
 
     public User(){}
 
@@ -37,13 +34,5 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
-
-    public String getUserSessionKey() {
-        return userSessionKey;
-    }
-
-    public void setUserSessionKey(String userSessionKey) {
-        this.userSessionKey = userSessionKey;
     }
 }

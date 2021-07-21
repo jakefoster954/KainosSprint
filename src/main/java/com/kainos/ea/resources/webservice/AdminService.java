@@ -22,16 +22,23 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Contains all endpoints only an admin account can access.
+ */
 @Path("/api/admin")
 public class AdminService extends WebService {
+    /**
+     * Defines the permission levels for the /api/admin endpoint.
+     */
     private final List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.ADMIN);
 
     /**
-     * Delete a job from the database
+     * Delete a job from the database.
      *
      * @param jobRoleName The job you wish to delete
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @DELETE
@@ -52,8 +59,9 @@ public class AdminService extends WebService {
      * Add a job to the database.
      *
      * @param job An instance of the Job class containing all the data requested by the job class.
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @POST
@@ -73,8 +81,9 @@ public class AdminService extends WebService {
      * Edit a job from database
      *
      * @param job The job you wish to edit.
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return Status 200. OK if editing succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      * @deprecated This will not probably be implemented in fronted till the end of project
      */
@@ -95,8 +104,9 @@ public class AdminService extends WebService {
      * Add a capability to the database.
      *
      * @param capability An instance of the Capability class containing all the data requested by the capability class.
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @POST
@@ -116,8 +126,9 @@ public class AdminService extends WebService {
      * Gets capabilityName from path and deletes the corresponding record from database.
      *
      * @param capabilityName The capability you wish to delete
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return Status 200. OK if deleting succeeds. Status 500. Internal Server Error otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @DELETE
