@@ -34,62 +34,6 @@ public abstract class DTO {
     }
 
     /**
-     * @return A list of job objects.
-     * @throws SQLException           Invalid SQL syntax
-     * @throws IOException            Create connection to database.
-     * @deprecated Should use smaller method calls instead.
-     * Get all jobs from the data base.
-     * Returns jobID, jobName, jobSpec, jobUrl, bandLevelID, bandName, jobFamilyID for all jobs in the database.
-     */
-    public static List<Job> retrieveJobsFromDB() throws IOException, SQLException {
-        Connection c = DBConnector.getConnection();
-
-        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.FullData;");
-        ResultSet rs = preparedStmt.executeQuery();
-      
-        List<Job> jobs = new ArrayList<>();
-
-        while (rs.next()) {
-            jobs.add(new Job(rs.getInt("jobID"),
-                    rs.getString("jobName"),
-                    rs.getString("jobSpec"),
-                    rs.getString("jobUrl"),
-                    rs.getInt("bandLevelID"),
-                    rs.getString("capabilityName"),
-                    rs.getString("bandName"),
-                    rs.getInt("jobFamilyID")));
-        }
-        return jobs;
-    }
-
-    /**
-     * @return A list of capability objects.
-     * @throws SQLException           Invalid SQL syntax.
-     * @throws IOException            Create connection to database.
-     * @deprecated Should use smaller method calls instead.
-     * Get all capabilities from the database.
-     * Returns capabilityID, capabilityName, leadName, leadMessage, leadPhoto for all capabilities in the database.
-     */
-    public static List<Capability> retrieveCapabilitiesFromDB() throws IOException, SQLException {
-        Connection c = DBConnector.getConnection();
-
-        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.Capability;");
-        ResultSet rs = preparedStmt.executeQuery();
-
-        List<Capability> capabilities = new ArrayList<>();
-
-        while (rs.next()) {
-            capabilities.add(new Capability(rs.getInt("capabilityID"),
-                    rs.getString("capabilityName"),
-                    rs.getString("leadName"),
-                    rs.getString("leadMessage"),
-                    rs.getString("leadPhoto")));
-        }
-
-        return capabilities;
-    }
-
-    /**
      * Add a job to the database.
      * @param job An instance of the Job class containing all the data requested by the job class.
      * @return Status 200. OK if adding succeeds. Status 500. Internal Server Error otherwise.
@@ -247,7 +191,7 @@ public abstract class DTO {
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
-                "SELECT leadName FROM KainosSprint.Capability;");
+                "SELECT leadName FROM KainosSprint.CapabilityLead;");
 
         JSONArray capabilityLeadNames = new JSONArray();
         while (rs.next()) {
