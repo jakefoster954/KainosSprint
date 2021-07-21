@@ -1,6 +1,5 @@
 package com.kainos.ea.resources.webservice;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,8 +14,6 @@ import com.kainos.ea.resources.User;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 @Path("/api/login")
 public class PublicService extends WebService {
@@ -26,8 +23,7 @@ public class PublicService extends WebService {
      * If a valid username password pair is provided, the session key will be provided to log in.
      * This session key can be used to log into endpoints that have the required permissions.
      * @param user An object holding the username and a hash of the password.
-     * @return Status 200. OK if valid credentials and a cookie under the key "Session key".
-     * @return Status 401. Unauthorized otherwise.
+     * @return Status 200. OK if valid credentials and a cookie under the key "Session key". Status 401. Unauthorized otherwise.
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      */

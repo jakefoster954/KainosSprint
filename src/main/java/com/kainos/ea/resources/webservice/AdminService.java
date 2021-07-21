@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import com.kainos.ea.DTO;
 import com.kainos.ea.resources.Capability;
 import com.kainos.ea.resources.Job;
-import org.json.JSONObject;
 
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @Path("/api/admin")
 public class AdminService extends WebService {
-    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.ADMIN);
+    private final List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.ADMIN);
 
     /**
      * Delete a job from the database

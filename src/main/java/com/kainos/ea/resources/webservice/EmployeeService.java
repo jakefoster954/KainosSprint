@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Path("/api/employee")
 public class EmployeeService extends WebService {
-    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
+    private final List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
 
     /**
      * @deprecated Should only be used if database is unavailable.
