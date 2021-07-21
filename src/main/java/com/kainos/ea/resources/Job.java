@@ -55,14 +55,14 @@ public class Job {
      */
     public Job() {
         jobID = 0;
-        jobName = "Default job name";
-        jobSpec = "Default job Spec";
-        jobUrl = "Default job URL";
+        jobName = "DEFAULT";
+        jobSpec = "DEFAULT";
+        jobUrl = "http://DEFAULT";
         bandLevelID = 99;
-        bandLevelName = "Default job Band Level name";
-        capabilityName = "Default job Capability";
+        bandLevelName = "DEFAULT";
+        capabilityName = "DEFAULT";
         jobFamilyID = 11;
-        jobFamilyName = "Default job Job Family name";
+        jobFamilyName = "DEFAULT";
     }
 
     /**
