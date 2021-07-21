@@ -2,7 +2,7 @@ package com.kainos.ea;
 
 import com.kainos.ea.resources.webservice.AdminService;
 import com.kainos.ea.resources.webservice.EmployeeService;
-import com.kainos.ea.resources.webservice.LoginService;
+import com.kainos.ea.resources.webservice.PublicService;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -52,7 +52,7 @@ public class WebServiceApplication extends Application<WebServiceConfiguration> 
 
         // Add URL mapping
         cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-        environment.jersey().register(new LoginService());
+        environment.jersey().register(new PublicService());
         environment.jersey().register(new EmployeeService());
         environment.jersey().register(new AdminService());
 

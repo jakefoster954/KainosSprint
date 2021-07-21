@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Path("/api/login")
-public class LoginService extends WebService {
+public class PublicService extends WebService {
     /**
      * Authenticate yourself to gain access to pages on the site.
      * Access to pages is dependent on account permission level.
