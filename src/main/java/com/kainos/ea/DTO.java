@@ -465,7 +465,14 @@ public abstract class DTO {
         return Response.Status.OK;
     }
 
-    public static boolean getSessionKeyFromDB(String sessionKey) throws IOException, SQLException {
+    /**
+     * Will return true if the session Key is in the database. False otherwise.
+     * @param sessionKey The session key of the session that validates the user.
+     * @return true if key is in database. False otherwise.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    public static boolean isSessionKeyInDB(String sessionKey) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
         PreparedStatement preparedStmt = c.prepareStatement("SELECT userSessionKey FROM User WHERE userSessionKey = ?");
@@ -473,5 +480,29 @@ public abstract class DTO {
         ResultSet rs = preparedStmt.executeQuery();
 
         return rs.next();
+    }
+
+    /**
+     * Delete the session key provided from the database if the key provided is in the database.
+     * @param sessionKey The session key of the session that validates the user.
+     * @return 500 if SQL Query fails. 200 otherwise.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    public static Response.Status deleteSessionKey(String sessionKey) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        PreparedStatement preparedStmt = c.prepareStatement("SELECT userSessionKey FROM KainosSprint.User WHERE userSessionKey = ?");
+        preparedStmt.setString(1, sessionKey);
+        ResultSet rs = preparedStmt.executeQuery();
+        if (!rs.next())
+            return Response.Status.INTERNAL_SERVER_ERROR;
+
+        preparedStmt = c.prepareStatement("UPDATE `KainosSprint`.`User` " +
+                        "SET `userSessionKey`= NULL " +
+                        "WHERE `userSessionKey`= ?;");
+        preparedStmt.setString(1, sessionKey);
+        preparedStmt.execute();
+        return Response.Status.OK;
     }
 }

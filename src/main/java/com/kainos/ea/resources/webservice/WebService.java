@@ -23,7 +23,7 @@ public abstract class WebService {
 
     private boolean isSessionKeyValid(String sessionKey, List<PermissionLevel> permissionLevels) throws SQLException, IOException {
         // Verify session key exists
-        if (!DTO.getSessionKeyFromDB(sessionKey)) {
+        if (!DTO.isSessionKeyInDB(sessionKey)) {
             return false;
         }
 

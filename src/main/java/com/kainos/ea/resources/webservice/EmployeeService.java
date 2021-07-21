@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Path("/api/employee")
 public class EmployeeService extends WebService {
-    private List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
+    private final List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
 
     /**
      * @deprecated Should only be used if database is unavailable.
@@ -211,7 +211,7 @@ public class EmployeeService extends WebService {
      * The json object will contain the <code>jobName</code>, <code>jobSpec</code>, <code>jobUrl</code>,
      * <code>capabilityName</code> and <code>bandName</code>.
      * @param jobName The name of the job you want data on.
-     * @return A String representing a json object that contains all the info about a specific job.
+     * @return A String representing a json object that contains all the info about a specific job. 404 if not found.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
@@ -226,6 +226,9 @@ public class EmployeeService extends WebService {
 
         logger.info(String.format("getJobData endpoint reached. '%s' requested", jobName));
         JSONObject jobData = DTO.getJobData(jobName);
+        if (jobData.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         return Response.ok(jobData.toString()).build();
     }
 
@@ -256,7 +259,7 @@ public class EmployeeService extends WebService {
      * <code>leadMessage</code> and <code>leadPhoto</code>.
      * The <code>leadPhoto</code> is stored as a url in the database.
      * @param leadName The name of the capability lead you want data on.
-     * @return A String representing a json object that contains all the info about a specific job.
+     * @return A String representing a json object that contains all the info about a specific job. 404 if not found.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
@@ -271,6 +274,32 @@ public class EmployeeService extends WebService {
 
         logger.info(String.format("getJobData endpoint reached. '%s' requested", leadName));
         JSONObject capabilityLeadData = DTO.getCapabilityLeadData(leadName);
+        if (capabilityLeadData.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         return Response.ok(capabilityLeadData.toString()).build();
+    }
+
+    /**
+     * Delete the session key from the database.
+     * The user must be logged in to be able to log out successfully.
+     *
+     * @param sessionCookie The session key as a cookie.
+     * @return Response code 200 if successful. Response code 500 if something goes wrong with SQL query.
+     * @return Response code 401 if user is not logged in. Response code 403 if user is logged in with invalid cookie.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    @DELETE
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/logout")
+    public Response logout(@CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
+        logger.info("logout endpoint reached");
+        return Response.status(DTO.deleteSessionKey(sessionCookie)).build();
     }
 }
