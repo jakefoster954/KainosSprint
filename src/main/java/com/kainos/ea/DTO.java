@@ -224,6 +224,43 @@ public abstract class DTO {
     }
 
     /**
+     * json objects where each JSON object holds "name" as the key and all the job families for the provided capability as the value.
+     * The length of the list is equivalent to the number of job families for the provided capability.
+     * @param capabilityName The name of the capability you wish to get the job families for.
+     * @return A JSONArray of JSONObjects that hold all the capability lead names.
+     * @throws IOException  Create connection to database.
+     * @throws SQLException Invalid SQL syntax.
+     */
+    public static JSONArray getJobFamilyForCapabilityFromDB(String capabilityName) throws IOException, SQLException {
+        Connection c = DBConnector.getConnection();
+
+        // check to see if the capability name is in the database
+        PreparedStatement st = c.prepareStatement(
+                "SELECT capabilityName FROM Capability WHERE capabilityName = ?");
+        st.setString(1, capabilityName);
+        ResultSet rs = st.executeQuery();
+        if (!rs.next()) {
+            return null;
+        }
+
+        // Get the required data
+        st = c.prepareStatement(
+                "SELECT familyName FROM JobFamily " +
+                "INNER JOIN Capability ON JobFamily.capabilityID = Capability.capabilityID " +
+                "WHERE capabilityName = ?;");
+        st.setString(1, capabilityName);
+        rs = st.executeQuery();
+
+        JSONArray jobFamilyNames = new JSONArray();
+        while (rs.next()) {
+            JSONObject row = new JSONObject();
+            row.put("name", rs.getString("familyName"));
+            jobFamilyNames.put(row);
+        }
+        return jobFamilyNames;
+    }
+
+    /**
      * Get a list of json objects where each JSON object holds the
      * <code>jobName</code>, <code>capabilityName</code> and <code>bandName</code>.
      * The length of the list is equivalent to the number of jobs in the table.
@@ -391,7 +428,6 @@ public abstract class DTO {
         rs = preparedStmt.executeQuery();
         while(rs.next()) {
             int leadID = rs.getInt("leadID");
-            System.out.println("leadID" + leadID);
 
             // Insert leadName into database
             preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadID`) " +

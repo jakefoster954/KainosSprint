@@ -88,6 +88,23 @@ public class EmployeeService extends WebService {
         return Response.ok(capabilityLeadNames.toString()).build();
     }
 
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getJobFamily/{capabilityName}")
+    public Response getJobFamilyForCapability(@PathParam("capabilityName") String capabilityName, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
+        logger.info(String.format("getJobFamilyForCapability endpoint reached for capability %s", capabilityName));
+        JSONArray capabilityLeadNames = DTO.getJobFamilyForCapabilityFromDB(capabilityName);
+        if (capabilityLeadNames == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(capabilityLeadNames.toString()).build();
+    }
+
     /**
      * Get the data required to display the <code>job-roles</code> table.
      * Each JSON object returned will contain <code>jobName</code>,
