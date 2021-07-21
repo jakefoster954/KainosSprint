@@ -113,6 +113,7 @@ public class Job {
     }
 
     /**
+     * @deprecated
      * Get the <code>jobName</code> if the <code>jobName</code> exists.
      * All spaces in the jobName will be replaced with hyphens.
      * @return The name of the job.

@@ -13,7 +13,7 @@ SELECT jobName AS 'Job Role', BandLevel.bandName AS 'Band Level'
 FROM JobRole, BandLevel WHERE BandLevel.bandLevelID = JobRole.BandLevelID;
 
 CREATE VIEW FullData AS
-SELECT jobID, jobName, jobSpec, jobURL, capabilityName, bandName
+SELECT jobID, jobName, jobSpec, jobURL, capabilityName, familyName, bandName
 FROM (((JobRole
 INNER JOIN JobFamily ON JobFamily.jobFamilyID = JobRole.jobFamilyID)
 INNER JOIN Capability ON Capability.capabilityID = JobFamily.capabilityID)
