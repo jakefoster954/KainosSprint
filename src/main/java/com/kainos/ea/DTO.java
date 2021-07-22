@@ -241,7 +241,7 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM KainosSprint.JobNamesView ORDER BY bandjobName;");
+        ResultSet rs = st.executeQuery("SELECT * FROM KainosSprint.JobNamesView ORDER BY jobName;");
 
         JSONArray jobRolesTable = new JSONArray();
         while (rs.next()) {
