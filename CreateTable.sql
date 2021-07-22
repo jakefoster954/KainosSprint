@@ -161,3 +161,5 @@ ALTER TABLE Capability DROP COLUMN leadName, leadMessage, leadPhoto;
 UPDATE User SET userEmail = 'admin@kainos.com' WHERE userID = 2;
 
 UPDATE Capability SET leadID = 1 WHERE capabilityID = 2;
+
+ALTER TABLE JobFamily MODIFY familyName varchar(300);
