@@ -45,6 +45,21 @@ public class test extends FunctionalTest {
     }
 
     @Test
+    public void viewJobRole_EmployeeCannotAccessAdminView() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("employee@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickJobRoles();
+
+        JobRoles jobRoles = new JobRoles(driver);
+        expectedException.expect(TimeoutException.class);
+        jobRoles.getAdminView();
+    }
+
+    @Test
     public void viewCapabilityLead() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
@@ -193,6 +208,21 @@ public class test extends FunctionalTest {
         capabilities.clickSubmit();
 
         assertEquals(capabilities.getErrorMessageByElementText(errorMessage), errorMessage);
+    }
+
+    @Test
+    public void addCapability_EmployeeCannotAccessAdminView() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("employee@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        Capabilities capabilities = new Capabilities(driver);
+        expectedException.expect(TimeoutException.class);
+        capabilities.getAdminView();
     }
 
 }

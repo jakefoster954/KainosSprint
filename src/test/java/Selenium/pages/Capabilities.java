@@ -67,4 +67,10 @@ public class Capabilities extends PageObject {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[ text() = '"+text+"' ]")));
         return element.getText();
     }
+
+    public String getAdminView(){
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/main/div/div/div[2]/div[1]")));
+        return element.getText();
+    }
 }
