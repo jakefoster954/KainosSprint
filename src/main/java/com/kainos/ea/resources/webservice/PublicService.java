@@ -15,6 +15,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Handles all public endpoints.
+ */
 @Path("/api/login")
 public class PublicService extends WebService {
     /**
@@ -24,14 +27,14 @@ public class PublicService extends WebService {
      * This session key can be used to log into endpoints that have the required permissions.
      * @param user An object holding the username and a hash of the password.
      * @return Status 200. OK if valid credentials and a cookie under the key "Session key". Status 401. Unauthorized otherwise.
-     * @throws SQLException Invalid SQL syntax
+     * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/")
-    public Response login(User user, @Context HttpServletResponse response) throws SQLException, IOException {
+    public Response login(User user) throws SQLException, IOException {
         logger.info("login endpoint reached");
         String sessionKey = DTO.loginUser(user);
 

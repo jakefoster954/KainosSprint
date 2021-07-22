@@ -19,14 +19,19 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Handles all api calls from our front end application.
+ * Handles all endpoints only an employee or admin can access.
  */
 @Path("/api/employee")
 public class EmployeeService extends WebService {
+    /**
+     * Defines the permission levels for the /api/employee endpoint.
+     */
     private final List<PermissionLevel> permissionLevels = Arrays.asList(PermissionLevel.EMPLOYEE, PermissionLevel.ADMIN);
 
     /**
      * Get a list of all capability names in the Database.
+     *
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a list of JSON objects.
      * Each object contains "name" as the key and the capability name as the value.
      * @throws SQLException Invalid SQL syntax.
@@ -49,6 +54,8 @@ public class EmployeeService extends WebService {
     /**
      * Get a list of all band level names in the Database.
      * Each object contains "name" as the key and the band level name as the value.
+     *
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a list of JSON objects.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -70,6 +77,8 @@ public class EmployeeService extends WebService {
     /**
      * Get a list of all capability lead names in the Database.
      * Each object contains "name" as the key and the capability lead name as the value.
+     *
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a list of JSON objects.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -92,6 +101,8 @@ public class EmployeeService extends WebService {
      * Get the data required to display the <code>job-roles</code> table.
      * Each JSON object returned will contain <code>jobName</code>,
      * <code>capabilityName</code> and <code>bandName</code>.
+     *
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a list of JSON objects.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -114,7 +125,9 @@ public class EmployeeService extends WebService {
      * Get the data required to display a job info page.
      * The json object will contain the <code>jobName</code>, <code>jobSpec</code>, <code>jobUrl</code>,
      * <code>capabilityName</code> and <code>bandName</code>.
+     *
      * @param jobName The name of the job you want data on.
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a json object that contains all the info about a specific job. 404 if not found.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -139,6 +152,8 @@ public class EmployeeService extends WebService {
     /**
      * Get the data required to display the <code>capabilities</code> table.
      * Each JSON object returned will contain <code>capabilityName</code> and the <code>leadName</code>.
+     *
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return a String representing a list of JSON objects.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -162,7 +177,9 @@ public class EmployeeService extends WebService {
      * The json object will contain the <code>capabilityName</code>, <code>leadName</code>,
      * <code>leadMessage</code> and <code>leadPhoto</code>.
      * The <code>leadPhoto</code> is stored as a url in the database.
+     *
      * @param leadName The name of the capability lead you want data on.
+     * @param sessionCookie The session key contained in a cookie. Used to authenticate user at endpoint.
      * @return A String representing a json object that contains all the info about a specific job. 404 if not found.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
@@ -189,8 +206,7 @@ public class EmployeeService extends WebService {
      * The user must be logged in to be able to log out successfully.
      *
      * @param sessionCookie The session key as a cookie.
-     * @return Response code 200 if successful. Response code 500 if something goes wrong with SQL query.
-     * @return Response code 401 if user is not logged in. Response code 403 if user is logged in with invalid cookie.
+     * @return Response code 200 if successful. Response code 500 if something goes wrong with SQL query. Response code 401 if user is not logged in. Response code 403 if user is logged in with invalid cookie.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
      */
