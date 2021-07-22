@@ -1,6 +1,7 @@
 package Selenium;
 
 import Selenium.pages.*;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,19 +20,55 @@ public class test extends FunctionalTest {
 
     @Test
     public void viewJobRole() {
-        driver.get("http://localhost:3000/job-roles");
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickJobRoles();
+
         JobRoles jobRoles = new JobRoles(driver);
         String jobRoleTitle = jobRoles.getTestJobResult();
         jobRoles.clickTestJobResult();
+
         Job job = new Job(driver);
-        assertEquals(job.getJobRoleTitleByElementText(jobRoleTitle), jobRoleTitle);
+        assertEquals(job.getWebElementByElementText(jobRoleTitle), jobRoleTitle);
         assertTrue(job.getCapabilityName().contains("Engineering"));
         assertTrue(job.getBandLevelName().contains("TEST - DEFAULT"));
+        String trainingCourse1 = "Mindset Modules";
+        String trainingCourse2 = "Intro To Remote Working";
+        String trainingCourse3 = "Managing Your Career";
+        assertEquals(job.getWebElementByElementText(trainingCourse1), trainingCourse1);
+        assertEquals(job.getWebElementByElementText(trainingCourse2), trainingCourse2);
+        assertEquals(job.getWebElementByElementText(trainingCourse3), trainingCourse3);
+    }
+
+    @Test
+    public void viewJobRole_EmployeeCannotAccessAdminView() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("employee@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickJobRoles();
+
+        JobRoles jobRoles = new JobRoles(driver);
+        expectedException.expect(TimeoutException.class);
+        jobRoles.getAdminView();
     }
 
     @Test
     public void viewCapabilityLead() {
-        driver.get("http://localhost:3000/capabilities");
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
         Capabilities capability = new Capabilities(driver);
         String leadName = capability.getTestLeadResult();
         capability.clickTestLeadResult();
@@ -42,22 +79,21 @@ public class test extends FunctionalTest {
     }
 
     @Test
-    public void loginToSystem_ValidCredentials() {
+    public void loginToSystem_InvalidCredentials() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
-        login.setEmail("test@email.com");
+        login.setEmail("fail@kainos.com");
         login.setPassword("123pas");
         login.clickSubmit();
-        HomePage home = new HomePage(driver);
-        assertEquals(home.getHomeHeading(), "Home Page");
-        home.clickLogout();
+        String errorMessage = "Invalid Email or Password";
+        assertEquals(login.getErrorMessageByElementText(errorMessage), errorMessage);
     }
 
     @Test
     public void addThenDeleteJobRole() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
-        login.setEmail("test@email.com");
+        login.setEmail("admin@kainos.com");
         login.setPassword("123pas");
         login.clickSubmit();
         HomePage home = new HomePage(driver);
@@ -65,8 +101,8 @@ public class test extends FunctionalTest {
 
         String jobName = String.valueOf(System.currentTimeMillis());
         String jobSpec = "Test Job Spec";
-        String jobURL = "Test Job URL";
-        String capability = "Artificial Intelligence";
+        String jobURL = "http://www.google.com";
+        String capability = "Artificial Intelligence/ AI Engineering";
         String bandName = "Apprentice";
         JobRoles jobRoles = new JobRoles(driver);
         jobRoles.setJobName(jobName);
@@ -79,7 +115,7 @@ public class test extends FunctionalTest {
         jobRoles.clickSpecificJob(jobName);
 
         Job job = new Job(driver);
-        assertEquals(job.getJobRoleTitleByElementText(jobName), jobName);
+        assertEquals(job.getWebElementByElementText(jobName), jobName);
         assertTrue(job.getCapabilityName().contains(capability));
         assertTrue(job.getBandLevelName().contains(bandName));
         job.clickDelete();
@@ -92,7 +128,7 @@ public class test extends FunctionalTest {
     public void addJobRole_NoValuesInput() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
-        login.setEmail("test@email.com");
+        login.setEmail("admin@kainos.com");
         login.setPassword("123pas");
         login.clickSubmit();
         HomePage home = new HomePage(driver);
@@ -100,7 +136,7 @@ public class test extends FunctionalTest {
 
         String errorMessageName = "\"Job Name\" length must be at least 5 characters long";
         String errorMessageSpec = "\"Job Specification\" is not allowed to be empty";
-        String errorMessageLink = "\"Job URL\" is not allowed to be empty";
+        String errorMessageLink = "\"Job URL\" with value \"\" fails to match the required pattern: /^https?:\\/\\/(.*)/";
         String errorMessageCapabiity = "\"Capability\" is not allowed to be empty";
         String errorMessageBandLevel = "\"Band Level\" is not allowed to be empty";
         JobRoles jobRoles = new JobRoles(driver);
@@ -118,7 +154,7 @@ public class test extends FunctionalTest {
     public void addJobRole_JobNameInvalidLength() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
-        login.setEmail("test@email.com");
+        login.setEmail("admin@kainos.com");
         login.setPassword("123pas");
         login.clickSubmit();
         HomePage home = new HomePage(driver);
@@ -132,6 +168,61 @@ public class test extends FunctionalTest {
 
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageName), errorMessageName);
         jobRoles.clickLogout();
+    }
+
+    @Test
+    public void addThenDeleteCapability() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        String capabilityName = ".test" + String.valueOf(System.currentTimeMillis());
+        String capabilityLead = "Josh Kelso";
+
+        Capabilities capabilities = new Capabilities(driver);
+        capabilities.setCapabilityName(capabilityName);
+        capabilities.setCapabilityLead(capabilityLead);
+        capabilities.clickSubmit();
+        driver.navigate().refresh();
+        capabilities.clickDeleteButtonForFirstCapability();
+        expectedException.expect(TimeoutException.class);
+        capabilities.getCapabilityText(capabilityName);
+    }
+
+    @Test
+    public void addCapability_NoValuesInput() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        String errorMessage = "\"Capability Name\" length must be at least 4 characters long";
+        Capabilities capabilities = new Capabilities(driver);
+        capabilities.clickSubmit();
+
+        assertEquals(capabilities.getErrorMessageByElementText(errorMessage), errorMessage);
+    }
+
+    @Test
+    public void addCapability_EmployeeCannotAccessAdminView() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("employee@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        Capabilities capabilities = new Capabilities(driver);
+        expectedException.expect(TimeoutException.class);
+        capabilities.getAdminView();
     }
 
 }

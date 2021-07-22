@@ -42,7 +42,7 @@ public class Job extends PageObject {
         alert.accept();
     }
 
-    public String getJobRoleTitleByElementText(String text){
+    public String getWebElementByElementText(String text){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[ text() = '"+text+"' ]")));
         return element.getText();
