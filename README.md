@@ -40,7 +40,7 @@ The following routes are available for the application:
 * /api/admin/add-capability
 * /api/admin/delete-capability/{capabilityName}
 * /api/login
-* 
+
 ### Frontend
 
 The front end has been created using React in a separate repository.
