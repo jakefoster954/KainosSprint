@@ -117,3 +117,14 @@ INSERT INTO JobRole VALUES (15, 'Cloud Migration Architect', 'Later', 'Later', 6
 INSERT INTO JobRole VALUES (17, 'Test', 'Later', 'Later', 22,1);
 
 INSERT INTO User VALUES (3, 'employee@kainos.com', '7626b9cc0a536ce36ae8aa85fa278492a5053994c3857a1a1e71a96565ce5a9dee3ee421629c215d7cefb293ae4fd69a6adbdd00bd5f1ef6d89fcd5de8b9b3f1','EMPLOYEE');
+
+UPDATE CapabilityLead SET leadPhoto = 'https://tinyurl.com/uakmuaa6' WHERE leadID = 1;
+UPDATE CapabilityLead SET leadPhoto = 'https://tinyurl.com/yf8x7nhv' WHERE leadID = 3;
+UPDATE CapabilityLead SET leadPhoto = 'https://tinyurl.com/z97wbed8' WHERE leadID = 4;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 5;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 9;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 10;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 11;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 13;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 15;
+UPDATE CapabilityLead SET leadPhoto = '' WHERE leadID = 16;

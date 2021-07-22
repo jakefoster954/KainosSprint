@@ -38,13 +38,11 @@ INNER JOIN BandLevel ON BandLevel.bandLevelID = JobRole.bandLevelID);
 
 CREATE VIEW CapabilitiesView AS
 SELECT capabilityName, CapabilityLead.leadName
-FROM (Capability INNER JOIN CapabilityLead ON Capability.leadID = CapabilityLead.leadID);
+FROM (Capability LEFT JOIN CapabilityLead ON Capability.leadID = CapabilityLead.leadID);
 
 CREATE VIEW FullCapabilityDataView AS
 SELECT capabilityName, CapabilityLead.leadName, CapabilityLead.leadMessage, CapabilityLead.leadPhoto
 FROM (Capability INNER JOIN CapabilityLead ON Capability.leadID = CapabilityLead.leadID);
 
-"SELECT capabilityName, leadName, leadMessage, leadPhoto " +
-        "FROM Capability " +
-        "WHERE leadName = ?;");
-
+CREATE VIEW InnerJobFamilyCountView AS SELECT capabilityID, COUNT(capabilityID) as jobFamilyCount FROM JobFamily GROUP BY capabilityID;
+CREATE VIEW JobFamilyCountView AS SELECT Capability.capabilityID, IFNULL(jobFamilyCount, 0) AS jobFamilyCount FROM Capability LEFT JOIN InnerJobFamilyCountView ON Capability.CapabilityID = InnerJobFamilyCountView.capabilityID;
