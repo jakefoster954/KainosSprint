@@ -222,4 +222,26 @@ public class EmployeeService extends WebService {
         logger.info("logout endpoint reached");
         return Response.status(DTO.deleteSessionKey(sessionCookie)).build();
     }
+
+    /**
+     * Get the relevant training data for specific band.
+     * The json array will consist of objects containing the <code>trainingName</code> and <code>trainingLink</code>
+     * @param bandLevel The band level for which you want to view training.
+     * @return A String representing a json array that contains all the training about a specific band.
+     * @throws SQLException Invalid SQL syntax.
+     * @throws IOException Create connection to database.
+     */
+    @GET
+    @Timed
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getTrainingData/{bandLevel}")
+    public Response getTrainingData(@PathParam("bandLevel") String bandLevel, @CookieParam("sessionKey") String sessionCookie) throws SQLException, IOException {
+        // Validate session cookie
+        Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
+        if (response != Response.Status.OK) return Response.status(response).build();
+
+        logger.info(String.format("getTrainingData endpoint reached. '%s' requested", bandLevel));
+        JSONArray trainingData = DTO.getTrainingDataForBand(bandLevel);
+        return Response.ok(trainingData.toString()).build();
+    }
 }
