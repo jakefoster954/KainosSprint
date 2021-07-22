@@ -349,12 +349,13 @@ public abstract class DTO {
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      * Get CapabilityName from frontend and checks if it already exists.
-     * Get CapabilityName, leadName, leadMessage and leadPhoto from frontend and sends them to database.
+     * Get CapabilityName from frontend and sends them to database.
+     * Get familyName from frontend and connects Capability with JobFamily in database
+     * Checks if Lead sent from frontend exists and eventually adds LeadID it to Capability
      */
     public static Response.Status addCapabilityToDB(Capability capability) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        // Check capabilityName doesn't exist.
         PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName FROM Capability " +
                 "WHERE capabilityName = ? ");
         preparedStmt.setString(1, capability.getCapabilityName());
@@ -362,25 +363,33 @@ public abstract class DTO {
         if (rs.next())
             return Response.Status.INTERNAL_SERVER_ERROR;
 
-        // Get id of lead name from database.
+        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`) VALUES (?)");
+        preparedStmt.setString(1, capability.getCapabilityName());
+        preparedStmt.execute();
+
+        if(!capability.getCapabilityJobFamilyName().isEmpty()) {
+            preparedStmt = c.prepareStatement("SELECT capabilityID FROM Capability WHERE capabilityName = ? ");
+            preparedStmt.setString(1, capability.getCapabilityName());
+            rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                preparedStmt = c.prepareStatement("INSERT INTO JobFamily (`familyName`, `capabilityID`) VALUES ( ?, ?)");
+                preparedStmt.setString(1, capability.getCapabilityJobFamilyName());
+                preparedStmt.setString(2, rs.getString("capabilityID"));
+                preparedStmt.execute();
+            }
+        }
+
         preparedStmt = c.prepareStatement("SELECT leadID from CapabilityLead WHERE leadName = ?;");
         preparedStmt.setString(1, capability.getLeadName());
         rs = preparedStmt.executeQuery();
-        while(rs.next()) {
-            int leadID = rs.getInt("leadID");
-            System.out.println("leadID" + leadID);
-
-            // Insert leadName into database
-            preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadID`) " +
-                    "VALUES (?, ?)");
-            preparedStmt.setString(1, capability.getCapabilityName());
-            preparedStmt.setInt(2, leadID);
+        if (rs.next()) {
+            preparedStmt = c.prepareStatement("UPDATE Capability SET `leadID` = ? WHERE (`capabilityName` = ?);");
+            preparedStmt.setInt(1, rs.getInt("leadID"));
+            preparedStmt.setString(2, capability.getCapabilityName());
             preparedStmt.execute();
-
-            return Response.Status.OK;
         }
 
-        return Response.Status.INTERNAL_SERVER_ERROR;
+        return Response.Status.OK;
     }
 
     /**
