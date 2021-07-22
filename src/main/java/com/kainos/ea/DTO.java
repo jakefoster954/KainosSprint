@@ -241,7 +241,7 @@ public abstract class DTO {
         Connection c = DBConnector.getConnection();
 
         Statement st = c.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM KainosSprint.JobNamesView;");
+        ResultSet rs = st.executeQuery("SELECT * FROM KainosSprint.JobNamesView ORDER BY bandjobName;");
 
         JSONArray jobRolesTable = new JSONArray();
         while (rs.next()) {
@@ -299,7 +299,8 @@ public abstract class DTO {
                 "SELECT CapabilitiesView.capabilityName, leadName, jobFamilyCount " +
                         "FROM KainosSprint.CapabilitiesView " +
                         "INNER JOIN JobFamilyCountView " +
-                        "ON CapabilitiesView.capabilityName = JobFamilyCountView.capabilityName;");
+                        "ON CapabilitiesView.capabilityName = JobFamilyCountView.capabilityName " +
+                        "ORDER BY capabilityName");
         ResultSet rs = preparedStmt.executeQuery();
 
         JSONArray capabilities = new JSONArray();
@@ -503,7 +504,8 @@ public abstract class DTO {
                 "SELECT trainingName, trainingLink FROM KainosSprint.Training " +
                         "INNER JOIN `BandLevel-Training` ON `BandLevel-Training`.trainingID = Training.trainingID " +
                         "INNER JOIN `BandLevel` ON BandLevel.bandLevelID = `BandLevel-Training`.bandLevelID " +
-                        "WHERE bandName = ?;");
+                        "WHERE bandName = ? " +
+                        "ORDER BY trainingName;");
         st.setString(1, bandName);
         ResultSet rs = st.executeQuery();
 
