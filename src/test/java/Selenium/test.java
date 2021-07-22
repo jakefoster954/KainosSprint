@@ -174,6 +174,8 @@ public class test extends FunctionalTest {
         capabilities.clickSubmit();
         driver.navigate().refresh();
         capabilities.clickDeleteButtonForFirstCapability();
+        expectedException.expect(TimeoutException.class);
+        capabilities.getCapabilityText(capabilityName);
     }
 
 }

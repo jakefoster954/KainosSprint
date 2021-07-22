@@ -1,10 +1,13 @@
 package Selenium.pages;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -47,5 +50,15 @@ public class Capabilities extends PageObject {
 
     public void clickDeleteButtonForFirstCapability() {
         firstDeleteButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+    }
+
+    public String getCapabilityText(String capability){
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[ text() = '"+capability+"' ]")));
+        return element.getText();
     }
 }
