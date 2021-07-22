@@ -73,6 +73,10 @@ public class AdminService extends WebService {
         Response.Status response = isSessionCookieValid(sessionCookie, permissionLevels);
         if (response != Response.Status.OK) return Response.status(response).build();
 
+        //Hack to handle job family
+        job.splitCapabilityAndJobFamily();
+        logger.info(job.getCapabilityName() + "  " + job.getJobFamilyName());
+
         logger.info(String.format("add-job endpoint reached. Job name is %s", job.getJobName()));
         return Response.status(DTO.addJobToDB(job)).build();
     }

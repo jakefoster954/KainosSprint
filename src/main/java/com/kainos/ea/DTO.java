@@ -45,32 +45,59 @@ public abstract class DTO {
     public static Response.Status addJobToDB(Job job) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement preparedStmt = c.prepareStatement("SELECT capabilityName, jobFamilyID " +
-                "FROM FullData WHERE capabilityName = ? ");
+        //Check unique requirement of database is met
+        PreparedStatement preparedStmt = c.prepareStatement(
+                "SELECT jobName " +
+                        "FROM KainosSprint.FullData " +
+                        "WHERE capabilityName = ? AND " +
+                        "familyName = ? AND " +
+                        "bandName = ? AND " +
+                        "jobName = ?;");
         preparedStmt.setString(1, job.getCapabilityName());
+        preparedStmt.setString(2, job.getJobFamilyName());
+        preparedStmt.setString(3, job.getBandLevelName());
+        preparedStmt.setString(4, job.getJobName());
         ResultSet rs = preparedStmt.executeQuery();
-        if (rs.next()){
+        if (rs.next()) {
+            return Response.Status.CONFLICT;
+        }
+
+        //Get the job family ID
+        preparedStmt = c.prepareStatement("SELECT jobFamilyID " +
+                "FROM JobFamily " +
+                "WHERE familyName = ?;");
+        preparedStmt.setString(1, job.getJobFamilyName());
+        rs = preparedStmt.executeQuery();
+        if (rs.next()) {
             job.setJobFamilyID(rs.getInt("jobFamilyID"));
-            preparedStmt = c.prepareStatement("SELECT bandLevelID, bandName FROM FullData WHERE bandName = ? ;");
+
+            //Get the Band Level ID
+            preparedStmt = c.prepareStatement("SELECT bandLevelID " +
+                    "From KainosSprint.BandLevel " +
+                    "WHERE bandName = ?");
             preparedStmt.setString(1, job.getBandLevelName());
-            rs = preparedStmt.executeQuery();}
-        if (rs.next())
-            job.setBandLevelID(rs.getInt("bandLevelID"));
-        else
-            return Response.Status.INTERNAL_SERVER_ERROR;
+            rs = preparedStmt.executeQuery();
+            if (rs.next()) {
+                job.setBandLevelID(rs.getInt("bandLevelID"));
 
-        preparedStmt = c.prepareStatement("INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`)" +
-                "VALUES ( ?, ?, ?, ?, ?)");
+                // Complete the insertion
+                preparedStmt = c.prepareStatement("INSERT INTO JobRole (`jobName`, `jobSpec`, `jobURL`, `bandLevelID`, `jobFamilyID`) " +
+                        "VALUES ( ?, ?, ?, ?, ?);");
 
-        preparedStmt.setString(1, job.getJobName());
-        preparedStmt.setString(2, job.getJobSpec());
-        preparedStmt.setString(3, job.getJobUrl());
-        preparedStmt.setInt(4, job.getBandLevelID());
-        preparedStmt.setInt(5, job.getJobFamilyID());
-        preparedStmt.execute();
+                preparedStmt.setString(1, job.getJobName());
+                preparedStmt.setString(2, job.getJobSpec());
+                preparedStmt.setString(3, job.getJobUrl());
+                preparedStmt.setInt(4, job.getBandLevelID());
+                preparedStmt.setInt(5, job.getJobFamilyID());
+                preparedStmt.execute();
 
-        return Response.Status.OK;
+                return Response.Status.OK;
+            }
+        }
+
+        return Response.Status.INTERNAL_SERVER_ERROR;
     }
+
 
     /**
      * Delete a job from the database.
@@ -142,12 +169,13 @@ public abstract class DTO {
 
         Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(
-                "SELECT capabilityName FROM KainosSprint.Capability;");
+                "SELECT capabilityName, familyName FROM JobFamily " +
+                        "INNER JOIN Capability ON Capability.capabilityID = JobFamily.capabilityID;");
 
         JSONArray capabilities = new JSONArray();
         while (rs.next()) {
             JSONObject row = new JSONObject();
-            row.put("name", rs.getString("capabilityName"));
+            row.put("name", rs.getString("capabilityName") + "/ " + rs.getString("familyName"));
             capabilities.put(row);
         }
         return capabilities;
@@ -366,7 +394,7 @@ public abstract class DTO {
         preparedStmt.setString(1, capability.getCapabilityName());
         ResultSet rs = preparedStmt.executeQuery();
         if (rs.next())
-            return Response.Status.INTERNAL_SERVER_ERROR;
+            return Response.Status.CONFLICT;
 
         preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`) VALUES (?)");
         preparedStmt.setString(1, capability.getCapabilityName());
