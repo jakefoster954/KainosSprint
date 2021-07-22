@@ -31,4 +31,8 @@ public class HomePage extends PageObject {
     public void clickJobRoles() {
         jobRoles.click();
     }
+
+    public void clickCapabilities() {
+        capabilities.click();
+    }
 }

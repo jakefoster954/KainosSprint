@@ -1,6 +1,7 @@
 package Selenium;
 
 import Selenium.pages.*;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -17,21 +18,16 @@ public class test extends FunctionalTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    /*@Test
-    public void viewJobRole() {
-        driver.get("http://localhost:3000/job-roles");
-        JobRoles jobRoles = new JobRoles(driver);
-        String jobRoleTitle = jobRoles.getTestJobResult();
-        jobRoles.clickTestJobResult();
-        Job job = new Job(driver);
-        assertEquals(job.getJobRoleTitleByElementText(jobRoleTitle), jobRoleTitle);
-        assertTrue(job.getCapabilityName().contains("Engineering"));
-        assertTrue(job.getBandLevelName().contains("TEST - DEFAULT"));
-    }*/
-
     @Test
     public void viewCapabilityLead() {
-        driver.get("http://localhost:3000/capabilities");
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
         Capabilities capability = new Capabilities(driver);
         String leadName = capability.getTestLeadResult();
         capability.clickTestLeadResult();
@@ -42,15 +38,14 @@ public class test extends FunctionalTest {
     }
 
     @Test
-    public void loginToSystem_ValidCredentials() {
+    public void loginToSystem_InvalidCredentials() {
         driver.get("http://localhost:3000/login");
         Login login = new Login(driver);
-        login.setEmail("admin@kainos.com");
+        login.setEmail("fail@kainos.com");
         login.setPassword("123pas");
         login.clickSubmit();
-        HomePage home = new HomePage(driver);
-        assertEquals(home.getHomeHeading(), "Home Page");
-        home.clickLogout();
+        String errorMessage = "Invalid Email or Password";
+        assertEquals(login.getErrorMessageByElementText(errorMessage), errorMessage);
     }
 
     @Test
@@ -100,7 +95,7 @@ public class test extends FunctionalTest {
 
         String errorMessageName = "\"Job Name\" length must be at least 5 characters long";
         String errorMessageSpec = "\"Job Specification\" is not allowed to be empty";
-        String errorMessageLink = "\"Job URL\" is not allowed to be empty";
+        String errorMessageLink = "\"Job URL\" with value \"\" fails to match the required pattern: /^https?:\\/\\/(.*)/";
         String errorMessageCapabiity = "\"Capability\" is not allowed to be empty";
         String errorMessageBandLevel = "\"Band Level\" is not allowed to be empty";
         JobRoles jobRoles = new JobRoles(driver);
@@ -132,6 +127,22 @@ public class test extends FunctionalTest {
 
         assertEquals(jobRoles.getErrorMessageByElementText(errorMessageName), errorMessageName);
         jobRoles.clickLogout();
+    }
+
+    @Test
+    public void addThenDeleteCapability() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        String capabilityName = String.valueOf(System.currentTimeMillis());
+
+        Capabilities capabilities = new Capabilities(driver);
+        capabilities.setCapabilityName(capabilityName);
     }
 
 }
