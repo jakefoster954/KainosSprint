@@ -95,3 +95,69 @@ UPDATE Capability SET leadName ='Mack Magill', leadPhoto = 'R', leadMessage = 'H
 UPDATE Capability SET leadName ='Andrew Walker', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '15';
 
 ALTER TABLE Capability ADD leadPhoto VARCHAR(1000);
+
+CREATE TABLE CapabilityLead(
+    leadID INT PRIMARY KEY AUTO_INCREMENT,
+    leadName VARCHAR(100),
+    leadMessage text,
+    leadPhoto VARCHAR(1000)
+);
+
+UPDATE Capability SET leadName ='Josh Kelso', leadPhoto = 'https://tinyurl.com/5bdwfj42', leadMessage = 'Howdy Partner' WHERE capabilityID = '1';
+UPDATE Capability SET leadName ='Andrew Barker', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '2';
+UPDATE Capability SET leadName ='Marcus Gormley', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '3';
+UPDATE Capability SET leadName ='Simon Toothill', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '4';
+UPDATE Capability SET leadName ='Michal Gorski', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '5';
+UPDATE Capability SET leadName ='Chris Burns', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '6';
+UPDATE Capability SET leadName ='Aislinn McBride', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '7';
+UPDATE Capability SET leadName ='Joe McGrath', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '8';
+UPDATE Capability SET leadName ='Dougie Johnson', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '9';
+UPDATE Capability SET leadName ='Aislinn McBride', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '10';
+UPDATE Capability SET leadName ='Andy Burnage', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '11';
+UPDATE Capability SET leadName ='Eimear Rooney', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '12';
+UPDATE Capability SET leadName ='Peter Gallagher', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '13';
+UPDATE Capability SET leadName ='Mack Magill', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '14';
+UPDATE Capability SET leadName ='Andrew Walker', leadPhoto = 'R', leadMessage = 'Hello' WHERE capabilityID = '15';
+
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Josh Kelso', 'Howdy Partner', 'https://tinyurl.com/5bdwfj42');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Andrew Barker', 'Barking up the wrong tree', 'https://tinyurl.com/6shn3dym');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Marcus Gormley', 'Gormed', 'https://tinyurl.com/3yauxrd3');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Simon Toothill', 'hehe toot', 'https://tinyurl.com/3yauxrd3');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Michal Gorski', 'How about you go(r) ski', 'https://tinyurl.com/3xjtk7yt');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Chris Burns', 'Need some cold water on that burns', 'https://tinyurl.com/yvfcvdrm');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Aislinn McBride', 'Need no McGroom', 'https://tinyurl.com/e628djmd');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Joe McGrath', 'Joe of all trades', 'https://tinyurl.com/yuf9ysnw');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Dougie Johnson', 'Already half vaccinated', 'https://tinyurl.com/r7ptn6f3');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Aislie Rooney', 'Also not the football manager', 'https://tinyurl.com/s82ewujw');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Andy Burnage', 'Feel the Burnage', 'https://tinyurl.com/3rmpw43e');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Eimear Rooney', 'Not the football manager', 'https://tinyurl.com/mr8z3ypc');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Peter Gallagher', 'The Gall(agher) of some people', 'https://tinyurl.com/22c3mcfk');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Mack Magill', 'Return of the Mack', 'https://tinyurl.com/ybmf5x22');
+INSERT INTO CapabilityLead (leadName, leadMessage, leadPhoto) VALUES ('Andrew Walker', 'Better than the crisp', 'https://tinyurl.com/296kssk4');
+
+ALTER TABLE Capability ADD leadID INT;
+
+ALTER TABLE Capability ADD FOREIGN KEY (leadID) REFERENCES CapabilityLead(leadID);
+
+UPDATE Capability SET leadID = 1 WHERE capabilityID = '1';
+UPDATE Capability SET leadID = 2 WHERE capabilityID = '2';
+UPDATE Capability SET leadID = 3 WHERE capabilityID = '3';
+UPDATE Capability SET leadID = 4 WHERE capabilityID = '4';
+UPDATE Capability SET leadID = 5 WHERE capabilityID = '5';
+UPDATE Capability SET leadID = 6 WHERE capabilityID = '6';
+UPDATE Capability SET leadID = 7 WHERE capabilityID = '7';
+UPDATE Capability SET leadID = 8 WHERE capabilityID = '8';
+UPDATE Capability SET leadID = 9 WHERE capabilityID = '9';
+UPDATE Capability SET leadID = 10 WHERE capabilityID = '10';
+UPDATE Capability SET leadID = 11 WHERE capabilityID = '11';
+UPDATE Capability SET leadID = 12 WHERE capabilityID = '12';
+UPDATE Capability SET leadID = 13 WHERE capabilityID = '13';
+UPDATE Capability SET leadID = 14 WHERE capabilityID = '14';
+UPDATE Capability SET leadID = 15 WHERE capabilityID = '15';
+
+
+ALTER TABLE Capability DROP COLUMN leadName, leadMessage, leadPhoto;
+
+UPDATE User SET userEmail = 'admin@kainos.com' WHERE userID = 2;
+
+UPDATE Capability SET leadID = 1 WHERE capabilityID = 2;
