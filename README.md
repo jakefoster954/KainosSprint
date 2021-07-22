@@ -36,9 +36,11 @@ The following routes are available for the application:
 * /api/employee/getCapabilityLeadData/{leadName}
 * /api/admin/delete-job/{jobRoleName}
 * /api/admin/add-job
-* /api/login
 * /api/admin/edit-job
-
+* /api/admin/add-capability
+* /api/admin/delete-capability/{capabilityName}
+* /api/login
+* 
 ### Frontend
 
 The front end has been created using React in a separate repository.
