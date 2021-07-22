@@ -129,8 +129,6 @@ public abstract class DTO {
         return null;
     }
 
-    // NEW ENDPOINTS
-
     /**
      * Get a list of json objects where each JSON object holds "name" as the key and the capability name as the value.
      * The length of the list is equivalent to the number of capabilities in the table.
@@ -356,7 +354,9 @@ public abstract class DTO {
      * @throws SQLException Invalid SQL syntax
      * @throws IOException Create connection to database.
      * Get CapabilityName from frontend and checks if it already exists.
-     * Get CapabilityName, leadName, leadMessage and leadPhoto from frontend and sends them to database.
+     * Get CapabilityName from frontend and sends them to database.
+     * Get familyName from frontend and connects Capability with JobFamily in database
+     * Checks if Lead sent from frontend exists and eventually adds LeadID it to Capability
      */
     public static Response.Status addCapabilityToDB(Capability capability) throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
@@ -368,13 +368,8 @@ public abstract class DTO {
         if (rs.next())
             return Response.Status.INTERNAL_SERVER_ERROR;
 
-        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`, `leadName`, `leadMessage`, `leadPhoto`) " +
-                "VALUES ( ?, ?, ?, ?)");
-
+        preparedStmt = c.prepareStatement("INSERT INTO Capability (`capabilityName`) VALUES (?)");
         preparedStmt.setString(1, capability.getCapabilityName());
-        preparedStmt.setString(2, capability.getLeadName());
-        preparedStmt.setString(3, capability.getLeadMessage());
-        preparedStmt.setString(4, capability.getLeadPhoto());
         preparedStmt.execute();
 
         if(!capability.getCapabilityJobFamilyName().isEmpty()) {
@@ -388,6 +383,17 @@ public abstract class DTO {
                 preparedStmt.execute();
             }
         }
+
+        preparedStmt = c.prepareStatement("SELECT leadID from CapabilityLead WHERE leadName = ?;");
+        preparedStmt.setString(1, capability.getLeadName());
+        rs = preparedStmt.executeQuery();
+        if (rs.next()) {
+            preparedStmt = c.prepareStatement("UPDATE Capability SET `leadID` = ? WHERE (`capabilityName` = ?);");
+            preparedStmt.setInt(1, rs.getInt("leadID"));
+            preparedStmt.setString(2, capability.getCapabilityName());
+            preparedStmt.execute();
+        }
+
         return Response.Status.OK;
     }
 
