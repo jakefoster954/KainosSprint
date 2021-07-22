@@ -88,6 +88,11 @@ public class Job {
         this.setJobFamilyID(jobFamilyID);
     }
 
+    public void splitCapabilityAndJobFamily() {
+        jobFamilyName = capabilityName.split("/ ")[1];
+        capabilityName = capabilityName.split("/ ")[0];
+    }
+
     /**
      * Get the <code>jobID</code> if the <code>jobID</code> exists.
      * @return The ID of the job.
