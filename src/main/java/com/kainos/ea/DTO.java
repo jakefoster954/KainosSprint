@@ -269,7 +269,11 @@ public abstract class DTO {
     public static JSONArray getCapabilityLeads() throws IOException, SQLException {
         Connection c = DBConnector.getConnection();
 
-        PreparedStatement preparedStmt = c.prepareStatement("SELECT * FROM KainosSprint.CapabilitiesView;");
+        PreparedStatement preparedStmt = c.prepareStatement(
+                "SELECT CapabilitiesView.capabilityName, leadName, jobFamilyCount " +
+                        "FROM KainosSprint.CapabilitiesView " +
+                        "INNER JOIN JobFamilyCountView " +
+                        "ON CapabilitiesView.capabilityName = JobFamilyCountView.capabilityName;");
         ResultSet rs = preparedStmt.executeQuery();
 
         JSONArray capabilities = new JSONArray();
@@ -277,6 +281,7 @@ public abstract class DTO {
             JSONObject row = new JSONObject();
             row.put("capabilityName", rs.getString("capabilityName"));
             row.put("leadName", rs.getString("leadName"));
+            row.put("jobFamilyCount", rs.getInt("jobFamilyCount"));
             capabilities.put(row);
         }
         return capabilities;
