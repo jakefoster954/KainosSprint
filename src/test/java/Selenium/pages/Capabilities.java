@@ -61,4 +61,10 @@ public class Capabilities extends PageObject {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[ text() = '"+capability+"' ]")));
         return element.getText();
     }
+
+    public String getErrorMessageByElementText(String text){
+        WebDriverWait wait = new WebDriverWait(driver,5);
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[ text() = '"+text+"' ]")));
+        return element.getText();
+    }
 }

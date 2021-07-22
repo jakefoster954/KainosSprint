@@ -178,6 +178,23 @@ public class test extends FunctionalTest {
         capabilities.getCapabilityText(capabilityName);
     }
 
+    @Test
+    public void addCapability_NoValuesInput() {
+        driver.get("http://localhost:3000/login");
+        Login login = new Login(driver);
+        login.setEmail("admin@kainos.com");
+        login.setPassword("123pas");
+        login.clickSubmit();
+        HomePage home = new HomePage(driver);
+        home.clickCapabilities();
+
+        String errorMessage = "\"Capability Name\" length must be at least 4 characters long";
+        Capabilities capabilities = new Capabilities(driver);
+        capabilities.clickSubmit();
+
+        assertEquals(capabilities.getErrorMessageByElementText(errorMessage), errorMessage);
+    }
+
 }
 
 
