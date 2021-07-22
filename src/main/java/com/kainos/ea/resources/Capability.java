@@ -6,7 +6,7 @@ public class Capability {
     private String leadName;
     private String leadMessage;
     private String leadPhoto;
-    private String capabilityJobFamilyName;
+    private String capabilityJobFamilyName = "";
 
     public Capability() {}
 
