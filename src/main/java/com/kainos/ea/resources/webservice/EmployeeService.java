@@ -227,6 +227,7 @@ public class EmployeeService extends WebService {
      * Get the relevant training data for specific band.
      * The json array will consist of objects containing the <code>trainingName</code> and <code>trainingLink</code>
      * @param bandLevel The band level for which you want to view training.
+     * @param sessionCookie The session key as a cookie.
      * @return A String representing a json array that contains all the training about a specific band.
      * @throws SQLException Invalid SQL syntax.
      * @throws IOException Create connection to database.
