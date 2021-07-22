@@ -41,6 +41,9 @@ The following routes are available for the application:
 * /api/admin/delete-capability/{capabilityName}
 * /api/login
 
+#### Logging
+To change the logging level of the program, you can change the log4j2 yaml file located at `src/main/resources/log4j2.yml`.
+
 ### Frontend
 
 The front end has been created using React in a separate repository.
