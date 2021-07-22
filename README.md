@@ -41,9 +41,9 @@ The following routes are available for the application:
 
 ### Frontend
 
-The front end is handled by FreeMarker, a Java templating engine.
+The front end has been created using React in a separate repository.
 
-FreeMarker allows us to insert code in a similar way to Nunjucks. The HTML page is generated in the backend then sent to the front end to be rendered. This removes dependencies on JavaScript being enabled front end.
+This repository can be found at: https://github.com/jakefoster954/KainosSprintFrontend
 
 ## WebService
 
